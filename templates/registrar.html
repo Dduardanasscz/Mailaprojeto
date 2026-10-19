@@ -1,0 +1,2718 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Meus registros — Achados IFPI"
+    >
+
+    <title>Achados IFPI | Meus registros</title>
+
+
+    <!-- =========================
+         FONTES
+    ========================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================
+         FONT AWESOME
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+
+    <!-- =========================
+         CSS PRINCIPAL
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+
+    <!-- =================================================
+         CSS DO FORMULÁRIO / MODAL
+    ================================================== -->
+
+    <style>
+
+        /* =================================================
+           MODAL
+        ================================================== */
+
+        .register-modal-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(15, 23, 42, 0.58);
+
+            backdrop-filter: blur(6px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 99999;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+
+        }
+
+
+        .register-modal-overlay.active {
+
+            opacity: 1;
+
+            visibility: visible;
+
+        }
+
+
+        /* =================================================
+           CAIXA DO FORMULÁRIO
+        ================================================== */
+
+        .register-modal {
+
+            width: min(760px, 100%);
+
+            max-height: 92vh;
+
+            overflow-y: auto;
+
+            background: #ffffff;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.25);
+
+            transform:
+                translateY(25px)
+                scale(0.97);
+
+            transition:
+                transform 0.25s ease;
+
+            scrollbar-width: thin;
+
+        }
+
+
+        .register-modal-overlay.active .register-modal {
+
+            transform:
+                translateY(0)
+                scale(1);
+
+        }
+
+
+        /* =================================================
+           CABEÇALHO
+        ================================================== */
+
+        .register-modal-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 20px;
+
+            padding: 28px 30px 22px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+        }
+
+
+        .register-modal-header .modal-eyebrow {
+
+            display: block;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            color: #16834d;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .register-modal-header h2 {
+
+            margin: 0 0 7px;
+
+            font-size: 25px;
+
+            line-height: 1.2;
+
+            color: #111827;
+
+        }
+
+
+        .register-modal-header p {
+
+            margin: 0;
+
+            max-width: 570px;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .register-modal-close {
+
+            flex-shrink: 0;
+
+            width: 40px;
+
+            height: 40px;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background: #f3f4f6;
+
+            color: #6b7280;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .register-modal-close:hover {
+
+            background: #e5e7eb;
+
+            color: #111827;
+
+        }
+
+
+        /* =================================================
+           FORM
+        ================================================== */
+
+        .register-form {
+
+            padding: 27px 30px 30px;
+
+        }
+
+
+        .register-form-section {
+
+            margin-bottom: 27px;
+
+        }
+
+
+        .register-form-section:last-of-type {
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .register-form-section-title {
+
+            margin: 0 0 15px;
+
+            color: #111827;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =================================================
+           TIPO DE OCORRÊNCIA
+        ================================================== */
+
+        .occurrence-types {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 14px;
+
+        }
+
+
+        .occurrence-option {
+
+            position: relative;
+
+            cursor: pointer;
+
+        }
+
+
+        .occurrence-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        .occurrence-card {
+
+            min-height: 78px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 15px;
+
+            border: 1px solid #d9dee5;
+
+            border-radius: 13px;
+
+            background: #ffffff;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .occurrence-card:hover {
+
+            border-color: #16834d;
+
+            background: #f8fffb;
+
+        }
+
+
+        .occurrence-card-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            flex-shrink: 0;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #f0fdf4;
+
+            color: #16834d;
+
+            font-size: 17px;
+
+        }
+
+
+        .occurrence-card strong {
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-size: 14px;
+
+            color: #111827;
+
+        }
+
+
+        .occurrence-card span {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #6b7280;
+
+            line-height: 1.4;
+
+        }
+
+
+        .occurrence-option input:checked + .occurrence-card {
+
+            border-color: #16834d;
+
+            background: #f0fdf4;
+
+            box-shadow:
+                0 0 0 2px rgba(22, 131, 77, 0.08);
+
+        }
+
+
+        /* =================================================
+           CAMPOS
+        ================================================== */
+
+        .register-form-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 17px;
+
+        }
+
+
+        .register-form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+            margin-bottom: 17px;
+
+        }
+
+
+        .register-form-group:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .register-form-group label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+        }
+
+
+        .register-form-group input,
+
+        .register-form-group select,
+
+        .register-form-group textarea {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            padding: 12px 13px;
+
+            background: #ffffff;
+
+            color: #111827;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .register-form-group input,
+
+        .register-form-group select {
+
+            height: 44px;
+
+        }
+
+
+        .register-form-group textarea {
+
+            min-height: 105px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+
+        }
+
+
+        .register-form-group input::placeholder,
+
+        .register-form-group textarea::placeholder {
+
+            color: #9ca3af;
+
+        }
+
+
+        .register-form-group input:focus,
+
+        .register-form-group select:focus,
+
+        .register-form-group textarea:focus {
+
+            border-color: #16834d;
+
+            box-shadow:
+                0 0 0 3px rgba(22, 131, 77, 0.10);
+
+        }
+
+
+        /* =================================================
+           UPLOAD
+        ================================================== */
+
+        .register-upload {
+
+            position: relative;
+
+            min-height: 135px;
+
+            border: 1.5px dashed #cbd5e1;
+
+            border-radius: 14px;
+
+            background: #f8fafc;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .register-upload:hover {
+
+            border-color: #16834d;
+
+            background: #f0fdf4;
+
+        }
+
+
+        .register-upload-icon {
+
+            width: 46px;
+
+            height: 46px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #ffffff;
+
+            color: #16834d;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.06);
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .register-upload strong {
+
+            font-size: 13px;
+
+            color: #111827;
+
+        }
+
+
+        .register-upload span {
+
+            margin-top: 4px;
+
+            font-size: 11px;
+
+            color: #6b7280;
+
+        }
+
+
+        .register-upload input {
+
+            display: none;
+
+        }
+
+
+        /* =================================================
+           RODAPÉ
+        ================================================== */
+
+        .register-form-footer {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e5e7eb;
+
+        }
+
+
+        .register-form-footer button {
+
+            border: 0;
+
+            cursor: pointer;
+
+            font-family: inherit;
+
+        }
+
+
+        .register-cancel-button {
+
+            height: 43px;
+
+            padding: 0 18px;
+
+            border-radius: 10px;
+
+            background: #f3f4f6;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .register-cancel-button:hover {
+
+            background: #e5e7eb;
+
+        }
+
+
+        .register-submit-button {
+
+            height: 43px;
+
+            padding: 0 19px;
+
+            border-radius: 10px;
+
+            background: #16834d;
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .register-submit-button:hover {
+
+            background: #126b3e;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =================================================
+           RESPONSIVIDADE
+        ================================================== */
+
+        @media (max-width: 650px) {
+
+            .register-modal-overlay {
+
+                padding: 10px;
+
+            }
+
+
+            .register-modal {
+
+                max-height: 95vh;
+
+                border-radius: 17px;
+
+            }
+
+
+            .register-modal-header {
+
+                padding: 22px 20px 18px;
+
+            }
+
+
+            .register-modal-header h2 {
+
+                font-size: 21px;
+
+            }
+
+
+            .register-form {
+
+                padding: 22px 20px 20px;
+
+            }
+
+
+            .occurrence-types,
+
+            .register-form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .register-form-footer {
+
+                flex-direction: column-reverse;
+
+            }
+
+
+            .register-cancel-button,
+
+            .register-submit-button {
+
+                width: 100%;
+
+                justify-content: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <a
+                href="index.html"
+                style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;"
+            >
+
+                <div class="logo-icon">
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                </div>
+
+
+                <div class="logo-text">
+
+                    <strong>
+                        ACHADOS IFPI
+                    </strong>
+
+                    <span>
+                        Comunidade acadêmica
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- MENU PRINCIPAL -->
+
+        <div class="menu-title">
+            Principal
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="index.html">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Visão geral
+                </span>
+
+            </a>
+
+
+            <a href="objetos.html">
+
+                <i class="fa-solid fa-box-open"></i>
+
+                <span>
+                    Explorar objetos
+                </span>
+
+            </a>
+
+
+            <!-- ABRE O MODAL -->
+
+            <a
+                href="registrar.html"
+                id="sidebarRegisterLink"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>
+                    Registrar ocorrência
+                </span>
+
+            </a>
+
+
+            <a href="mapa.html">
+
+                <i class="fa-solid fa-map-location-dot"></i>
+
+                <span>
+                    Mapa do campus
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- MENU PESSOAL -->
+
+        <div class="menu-title">
+            Minha conta
+        </div>
+
+
+        <nav class="menu">
+
+            <a
+                href="registros.html"
+                class="active"
+            >
+
+                <i class="fa-solid fa-clipboard-list"></i>
+
+                <span>
+                    Meus registros
+                </span>
+
+            </a>
+
+
+            <a href="mensagens.html">
+
+                <i class="fa-regular fa-message"></i>
+
+                <span>
+                    Mensagens
+                </span>
+
+            </a>
+
+
+            <a href="configuracoes.html">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Configurações
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- RODAPÉ SIDEBAR -->
+
+        <div class="sidebar-bottom">
+
+            <div class="profile">
+
+                <div class="avatar">
+                    ED
+                </div>
+
+
+                <div class="profile-info">
+
+                    <strong>
+                        Eduarda
+                    </strong>
+
+                    <span>
+                        Conta verificada
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="logout-button"
+                    aria-label="Sair"
+                    type="button"
+                >
+
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =================================================
+         CONTEÚDO PRINCIPAL
+    ================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="header">
+
+            <div class="header-left">
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Abrir menu"
+                    type="button"
+                >
+
+                    <i class="fa-solid fa-bars"></i>
+
+                </button>
+
+
+                <div>
+
+                    <h2 class="header-title">
+                        Meus registros
+                    </h2>
+
+                    <p class="header-subtitle">
+                        Acompanhe os objetos que você registrou no sistema.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+
+                <!-- BUSCA -->
+
+                <div class="global-search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="search"
+                        id="globalSearch"
+                        placeholder="Buscar objetos..."
+                        aria-label="Buscar objetos"
+                    >
+
+                    <span class="search-shortcut">
+                        /
+                    </span>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="system-status">
+
+                    <span class="online-dot"></span>
+
+                    Sistema online
+
+                </div>
+
+
+                <!-- NOTIFICAÇÕES -->
+
+                <a
+                    href="mensagens.html"
+                    class="notification-button"
+                    aria-label="Notificações"
+                >
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span class="notification-count">
+                        3
+                    </span>
+
+                </a>
+
+
+                <!-- AVATAR -->
+
+                <a
+                    href="configuracoes.html"
+                    class="header-avatar"
+                    aria-label="Perfil de Eduarda"
+                >
+                    ED
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTEÚDO
+        ================================================== -->
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 CABEÇALHO
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            MINHA CONTA
+                        </span>
+
+                        <h2>
+                            Meus registros
+                        </h2>
+
+                        <p>
+                            Veja todos os objetos que você registrou,
+                            acompanhe os status e consulte os detalhes.
+                        </p>
+
+                    </div>
+
+
+                    <!-- NOVO REGISTRO -->
+
+                    <button
+                        class="btn btn-primary"
+                        id="openRegisterModal"
+                        type="button"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Novo registro
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     RESUMO
+                ================================================== -->
+
+                <div class="stats">
+
+
+                    <!-- TOTAL -->
+
+                    <article class="stat">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Meus registros
+                            </span>
+
+                            <div class="stat-icon">
+
+                                <i class="fa-solid fa-box"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-number">
+                            8
+                        </div>
+
+
+                        <div class="stat-bottom neutral">
+
+                            <i class="fa-solid fa-list"></i>
+
+                            registros cadastrados
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PERDIDOS -->
+
+                    <article class="stat">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Objetos perdidos
+                            </span>
+
+                            <div class="stat-icon">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-number">
+                            3
+                        </div>
+
+
+                        <div class="stat-bottom neutral">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                            aguardando localização
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- ENCONTRADOS -->
+
+                    <article class="stat">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Objetos encontrados
+                            </span>
+
+                            <div class="stat-icon">
+
+                                <i class="fa-solid fa-hand-holding"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-number">
+                            4
+                        </div>
+
+
+                        <div class="stat-bottom positive">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            registrados
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- RECUPERADOS -->
+
+                    <article class="stat">
+
+                        <div class="stat-top">
+
+                            <span class="stat-label">
+                                Recuperados
+                            </span>
+
+                            <div class="stat-icon">
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-number">
+                            1
+                        </div>
+
+
+                        <div class="stat-bottom positive">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            devolvido
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 LISTA DE REGISTROS
+            ================================================== -->
+
+            <section class="section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-eyebrow">
+                            HISTÓRICO
+                        </span>
+
+                        <h2>
+                            Seus registros
+                        </h2>
+
+                        <p>
+                            Acompanhe as ocorrências cadastradas pela sua conta.
+                        </p>
+
+                    </div>
+
+
+                    <div class="table-tools">
+
+                        <button
+                            class="filter-button"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-filter"></i>
+
+                            Filtrar
+
+                        </button>
+
+
+                        <button
+                            class="filter-button"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-download"></i>
+
+                            Exportar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TABELA -->
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Objeto
+                                </th>
+
+                                <th>
+                                    Tipo
+                                </th>
+
+                                <th>
+                                    Localização
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Data
+                                </th>
+
+                                <th>
+                                    Ação
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- REGISTRO 1 -->
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="table-object">
+
+                                        <div class="table-image">
+
+                                            <img
+                                                src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&fit=crop&w=150&q=80"
+                                                alt="iPhone 13"
+                                                loading="lazy"
+                                            >
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                iPhone 13
+                                            </strong>
+
+                                            <span>
+                                                Eletrônico
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    Perdido
+                                </td>
+
+
+                                <td>
+                                    Laboratório 03
+                                </td>
+
+
+                                <td>
+
+                                    <span class="table-status found">
+                                        Encontrado
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Hoje, 09:42
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="table-action"
+                                        aria-label="Ver iPhone 13"
+                                        type="button"
+                                    >
+
+                                        <i class="fa-solid fa-chevron-right"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- REGISTRO 2 -->
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="table-object">
+
+                                        <div class="table-image">
+
+                                            <img
+                                                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=150&q=80"
+                                                alt="Mochila"
+                                                loading="lazy"
+                                            >
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                Mochila Swisswin
+                                            </strong>
+
+                                            <span>
+                                                Mochila
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    Perdido
+                                </td>
+
+
+                                <td>
+                                    Bloco B
+                                </td>
+
+
+                                <td>
+
+                                    <span class="table-status waiting">
+                                        Aguardando
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    Ontem, 15:20
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="table-action"
+                                        aria-label="Ver mochila"
+                                        type="button"
+                                    >
+
+                                        <i class="fa-solid fa-chevron-right"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- REGISTRO 3 -->
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="table-object">
+
+                                        <div class="table-image">
+
+                                            <img
+                                                src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=150&q=80"
+                                                alt="Carteira preta"
+                                                loading="lazy"
+                                            >
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                Carteira preta
+                                            </strong>
+
+                                            <span>
+                                                Carteira
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    Perdido
+                                </td>
+
+
+                                <td>
+                                    Bloco A
+                                </td>
+
+
+                                <td>
+
+                                    <span class="table-status lost">
+                                        Perdido
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    18/09/2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="table-action"
+                                        aria-label="Ver carteira"
+                                        type="button"
+                                    >
+
+                                        <i class="fa-solid fa-chevron-right"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- REGISTRO 4 -->
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="table-object">
+
+                                        <div class="table-image">
+
+                                            <img
+                                                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=150&q=80"
+                                                alt="Fone JBL"
+                                                loading="lazy"
+                                            >
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                Fone JBL
+                                            </strong>
+
+                                            <span>
+                                                Eletrônico
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    Encontrado
+                                </td>
+
+
+                                <td>
+                                    Pátio
+                                </td>
+
+
+                                <td>
+
+                                    <span class="table-status recovered">
+                                        Recuperado
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    17/09/2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="table-action"
+                                        aria-label="Ver fone JBL"
+                                        type="button"
+                                    >
+
+                                        <i class="fa-solid fa-chevron-right"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- REGISTRO 5 -->
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="table-object">
+
+                                        <div class="table-image">
+
+                                            <img
+                                                src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=150&q=80"
+                                                alt="Chaves"
+                                                loading="lazy"
+                                            >
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                Chaves
+                                            </strong>
+
+                                            <span>
+                                                Outros
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+                                    Encontrado
+                                </td>
+
+
+                                <td>
+                                    Cantina
+                                </td>
+
+
+                                <td>
+
+                                    <span class="table-status found">
+                                        Encontrado
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+                                    16/09/2026
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        class="table-action"
+                                        aria-label="Ver chaves"
+                                        type="button"
+                                    >
+
+                                        <i class="fa-solid fa-chevron-right"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- PAGINAÇÃO -->
+
+                <div class="pagination">
+
+                    <span>
+                        Mostrando 1–5 de 8 registros
+                    </span>
+
+
+                    <div class="pagination-buttons">
+
+                        <button
+                            disabled
+                            aria-label="Página anterior"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-chevron-left"></i>
+
+                        </button>
+
+
+                        <button
+                            class="active"
+                            aria-label="Página 1"
+                            type="button"
+                        >
+                            1
+                        </button>
+
+
+                        <button
+                            aria-label="Página 2"
+                            type="button"
+                        >
+                            2
+                        </button>
+
+
+                        <button
+                            aria-label="Próxima página"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 NOVA OCORRÊNCIA
+            ================================================== -->
+
+            <section class="section">
+
+                <div class="welcome">
+
+
+                    <div class="welcome-content">
+
+                        <div class="welcome-label">
+                            NOVA OCORRÊNCIA
+                        </div>
+
+
+                        <h1>
+                            Perdeu ou encontrou alguma coisa?
+                        </h1>
+
+
+                        <p>
+                            Registre o objeto para que a comunidade do
+                            IFPI possa ajudar.
+                        </p>
+
+
+                        <div class="welcome-actions">
+
+
+                            <!-- ABRE O MODAL -->
+
+                            <button
+                                class="btn btn-primary"
+                                id="openRegisterModal2"
+                                type="button"
+                            >
+
+                                <i class="fa-solid fa-plus"></i>
+
+                                Registrar ocorrência
+
+                            </button>
+
+
+                            <a
+                                href="objetos.html"
+                                class="btn btn-light"
+                            >
+
+                                <i class="fa-solid fa-box-open"></i>
+
+                                Explorar objetos
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="welcome-visual">
+
+                        <div class="hero-circle hero-circle-one"></div>
+
+                        <div class="hero-circle hero-circle-two"></div>
+
+
+                        <div class="hero-location">
+
+                            <i class="fa-solid fa-clipboard-list"></i>
+
+                        </div>
+
+
+                        <div class="hero-location-card">
+
+                            <span>
+                                MEUS REGISTROS
+                            </span>
+
+                            <strong>
+                                8 ocorrências cadastradas
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RODAPÉ
+            ================================================== -->
+
+            <footer class="footer">
+
+                <div>
+
+                    <strong>
+                        ACHADOS IFPI
+                    </strong>
+
+                    <span>
+                        Plataforma em desenvolvimento · IFPI Campus Paulistana
+                    </span>
+
+                </div>
+
+
+                <div class="footer-right">
+
+                    <span>
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        Comunidade segura
+
+                    </span>
+
+
+                    <span>
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        Sistema online
+
+                    </span>
+
+                </div>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =================================================
+     MODAL — NOVO REGISTRO
+================================================== -->
+
+<div
+    class="register-modal-overlay"
+    id="registerModal"
+>
+
+
+    <div
+        class="register-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="registerModalTitle"
+    >
+
+
+        <!-- CABEÇALHO -->
+
+        <div class="register-modal-header">
+
+            <div>
+
+                <span class="modal-eyebrow">
+                    NOVA OCORRÊNCIA
+                </span>
+
+                <h2 id="registerModalTitle">
+                    Registrar objeto
+                </h2>
+
+                <p>
+                    Preencha as informações abaixo para registrar
+                    um objeto perdido ou encontrado no campus.
+                </p>
+
+            </div>
+
+
+            <button
+                class="register-modal-close"
+                id="closeRegisterModal"
+                type="button"
+                aria-label="Fechar formulário"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             FORMULÁRIO
+        ================================================== -->
+
+        <form
+            class="register-form"
+            id="registerForm"
+        >
+
+
+            <!-- =================================================
+                 TIPO
+            ================================================== -->
+
+            <div class="register-form-section">
+
+                <h3 class="register-form-section-title">
+                    Tipo de ocorrência
+                </h3>
+
+
+                <div class="occurrence-types">
+
+
+                    <!-- PERDIDO -->
+
+                    <label class="occurrence-option">
+
+                        <input
+                            type="radio"
+                            name="tipo"
+                            value="perdido"
+                            required
+                        >
+
+
+                        <div class="occurrence-card">
+
+                            <div class="occurrence-card-icon">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Objeto perdido
+                                </strong>
+
+                                <span>
+                                    Perdi este objeto no campus.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- ENCONTRADO -->
+
+                    <label class="occurrence-option">
+
+                        <input
+                            type="radio"
+                            name="tipo"
+                            value="encontrado"
+                        >
+
+
+                        <div class="occurrence-card">
+
+                            <div class="occurrence-card-icon">
+
+                                <i class="fa-solid fa-hand-holding"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Objeto encontrado
+                                </strong>
+
+                                <span>
+                                    Encontrei este objeto no campus.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 INFORMAÇÕES DO OBJETO
+            ================================================== -->
+
+            <div class="register-form-section">
+
+                <h3 class="register-form-section-title">
+                    Informações do objeto
+                </h3>
+
+
+                <div class="register-form-grid">
+
+
+                    <!-- NOME -->
+
+                    <div class="register-form-group">
+
+                        <label for="objectName">
+                            Nome do objeto
+                        </label>
+
+                        <input
+                            type="text"
+                            id="objectName"
+                            name="objeto"
+                            placeholder="Ex.: iPhone 13, mochila, carteira..."
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- CATEGORIA -->
+
+                    <div class="register-form-group">
+
+                        <label for="objectCategory">
+                            Categoria
+                        </label>
+
+                        <select
+                            id="objectCategory"
+                            name="categoria"
+                            required
+                        >
+
+                            <option value="">
+                                Selecione uma categoria
+                            </option>
+
+                            <option value="eletronico">
+                                Eletrônicos
+                            </option>
+
+                            <option value="material-escolar">
+                                Material escolar
+                            </option>
+
+                            <option value="documento">
+                                Documentos
+                            </option>
+
+                            <option value="acessorio">
+                                Acessórios
+                            </option>
+
+                            <option value="vestuario">
+                                Vestuário
+                            </option>
+
+                            <option value="mochila">
+                                Mochilas e bolsas
+                            </option>
+
+                            <option value="outros">
+                                Outros
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- LOCAL -->
+
+                    <div class="register-form-group">
+
+                        <label for="objectLocation">
+                            Local da ocorrência
+                        </label>
+
+                        <select
+                            id="objectLocation"
+                            name="local"
+                            required
+                        >
+
+                            <option value="">
+                                Selecione o local
+                            </option>
+
+                            <option value="bloco-a">
+                                Bloco A
+                            </option>
+
+                            <option value="bloco-b">
+                                Bloco B
+                            </option>
+
+                            <option value="laboratorio-01">
+                                Laboratório 01
+                            </option>
+
+                            <option value="laboratorio-02">
+                                Laboratório 02
+                            </option>
+
+                            <option value="laboratorio-03">
+                                Laboratório 03
+                            </option>
+
+                            <option value="biblioteca">
+                                Biblioteca
+                            </option>
+
+                            <option value="patio">
+                                Pátio
+                            </option>
+
+                            <option value="cantina">
+                                Cantina
+                            </option>
+
+                            <option value="outro">
+                                Outro local
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATA -->
+
+                    <div class="register-form-group">
+
+                        <label for="objectDate">
+                            Data da ocorrência
+                        </label>
+
+                        <input
+                            type="date"
+                            id="objectDate"
+                            name="data"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIÇÃO -->
+
+                <div class="register-form-group">
+
+                    <label for="objectDescription">
+                        Descrição do objeto
+                    </label>
+
+                    <textarea
+                        id="objectDescription"
+                        name="descricao"
+                        placeholder="Informe cor, marca, características ou outros detalhes que possam ajudar na identificação..."
+                        required
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOTO
+            ================================================== -->
+
+            <div class="register-form-section">
+
+                <h3 class="register-form-section-title">
+                    Foto do objeto
+                </h3>
+
+
+                <label
+                    class="register-upload"
+                    for="objectImage"
+                >
+
+                    <div class="register-upload-icon">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                    </div>
+
+
+                    <strong id="uploadTitle">
+                        Adicionar uma foto
+                    </strong>
+
+
+                    <span id="uploadDescription">
+                        Clique para selecionar uma imagem do objeto
+                    </span>
+
+
+                    <input
+                        type="file"
+                        id="objectImage"
+                        name="imagem"
+                        accept="image/*"
+                    >
+
+                </label>
+
+            </div>
+
+
+            <!-- =================================================
+                 BOTÕES
+            ================================================== -->
+
+            <div class="register-form-footer">
+
+
+                <button
+                    class="register-cancel-button"
+                    id="cancelRegister"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="register-submit-button"
+                    type="submit"
+                >
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Publicar registro
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     JAVASCRIPT EXISTENTE
+================================================== -->
+
+<script src="script.js"></script>
+
+
+<!-- =================================================
+     JAVASCRIPT DO NOVO REGISTRO
+================================================== -->
+
+<script>
+
+    /* =================================================
+       ELEMENTOS
+    ================================================== */
+
+    const registerModal =
+        document.getElementById("registerModal");
+
+    const openRegisterModal =
+        document.getElementById("openRegisterModal");
+
+    const openRegisterModal2 =
+        document.getElementById("openRegisterModal2");
+
+    const sidebarRegisterLink =
+        document.getElementById("sidebarRegisterLink");
+
+    const closeRegisterModal =
+        document.getElementById("closeRegisterModal");
+
+    const cancelRegister =
+        document.getElementById("cancelRegister");
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+
+    /* =================================================
+       ABRIR
+    ================================================== */
+
+    function openRegister() {
+
+        registerModal.classList.add("active");
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+
+    /* =================================================
+       FECHAR
+    ================================================== */
+
+    function closeRegister() {
+
+        registerModal.classList.remove("active");
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    /* =================================================
+       BOTÃO NOVO REGISTRO
+    ================================================== */
+
+    openRegisterModal.addEventListener(
+        "click",
+        openRegister
+    );
+
+
+    /* =================================================
+       BOTÃO REGISTRAR OCORRÊNCIA
+    ================================================== */
+
+    openRegisterModal2.addEventListener(
+        "click",
+        openRegister
+    );
+
+
+    /* =================================================
+       SIDEBAR
+    ================================================== */
+
+    sidebarRegisterLink.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            openRegister();
+
+        }
+    );
+
+
+    /* =================================================
+       FECHAR PELO X
+    ================================================== */
+
+    closeRegisterModal.addEventListener(
+        "click",
+        closeRegister
+    );
+
+
+    /* =================================================
+       FECHAR PELO CANCELAR
+    ================================================== */
+
+    cancelRegister.addEventListener(
+        "click",
+        closeRegister
+    );
+
+
+    /* =================================================
+       CLICAR FORA DA CAIXA
+    ================================================== */
+
+    registerModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (event.target === registerModal) {
+
+                closeRegister();
+
+            }
+
+        }
+    );
+
+
+    /* =================================================
+       TECLA ESC
+    ================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape" &&
+                registerModal.classList.contains("active")
+            ) {
+
+                closeRegister();
+
+            }
+
+        }
+    );
+
+
+    /* =================================================
+       FOTO
+    ================================================== */
+
+    const objectImage =
+        document.getElementById("objectImage");
+
+    const uploadTitle =
+        document.getElementById("uploadTitle");
+
+    const uploadDescription =
+        document.getElementById("uploadDescription");
+
+
+    objectImage.addEventListener(
+        "change",
+        function() {
+
+            if (this.files.length > 0) {
+
+                uploadTitle.textContent =
+                    this.files[0].name;
+
+                uploadDescription.textContent =
+                    "Imagem selecionada com sucesso.";
+
+            } else {
+
+                uploadTitle.textContent =
+                    "Adicionar uma foto";
+
+                uploadDescription.textContent =
+                    "Clique para selecionar uma imagem do objeto.";
+
+            }
+
+        }
+    );
+
+
+    /* =================================================
+       FORMULÁRIO
+    ================================================== */
+
+    registerForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            /* Validação */
+
+            if (!registerForm.checkValidity()) {
+
+                registerForm.reportValidity();
+
+                return;
+
+            }
+
+
+            /* Mensagem */
+
+            alert(
+                "Registro publicado com sucesso!"
+            );
+
+
+            /* Fecha */
+
+            closeRegister();
+
+
+            /* Limpa */
+
+            registerForm.reset();
+
+
+            /* Restaura texto da foto */
+
+            uploadTitle.textContent =
+                "Adicionar uma foto";
+
+            uploadDescription.textContent =
+                "Clique para selecionar uma imagem do objeto.";
+
+        }
+    );
+
+
+    /* =================================================
+       DATA PADRÃO
+    ================================================== */
+
+    const objectDate =
+        document.getElementById("objectDate");
+
+
+    if (objectDate) {
+
+        const today =
+            new Date();
+
+
+        const year =
+            today.getFullYear();
+
+
+        const month =
+            String(
+                today.getMonth() + 1
+            ).padStart(2, "0");
+
+
+        const day =
+            String(
+                today.getDate()
+            ).padStart(2, "0");
+
+
+        objectDate.value =
+            `${year}-${month}-${day}`;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+```

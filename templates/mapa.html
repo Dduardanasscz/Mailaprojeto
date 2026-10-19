@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Achados IFPI — Mapa do Campus Paulistana"
+    >
+
+    <title>Achados IFPI | Mapa do campus</title>
+
+    <!-- =========================
+         FONTES
+    ========================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================
+         FONT AWESOME
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- =========================
+         CSS
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         APP
+    ====================================================== -->
+
+    <div class="app">
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside
+            class="sidebar"
+            id="sidebar"
+        >
+
+            <!-- LOGO -->
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div class="logo-text">
+
+                    <strong>
+                        ACHADOS IFPI
+                    </strong>
+
+                    <span>
+                        Comunidade acadêmica
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MENU PRINCIPAL -->
+
+            <div class="menu-title">
+                Principal
+            </div>
+
+            <nav class="menu">
+
+                <a href="index.html">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>
+                        Visão geral
+                    </span>
+
+                </a>
+
+
+                <a href="index.html#objetos">
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <span>
+                        Explorar objetos
+                    </span>
+
+                </a>
+
+
+                <a href="registrar.html">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    <span>
+                        Registrar ocorrência
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="mapa.html"
+                    class="active"
+                >
+
+                    <i class="fa-solid fa-map-location-dot"></i>
+
+                    <span>
+                        Mapa do campus
+                    </span>
+
+                </a>
+
+            </nav>
+
+
+            <!-- MENU PESSOAL -->
+
+            <div class="menu-title">
+                Minha conta
+            </div>
+
+            <nav class="menu">
+
+                <a href="registros.html">
+
+                    <i class="fa-solid fa-clipboard-list"></i>
+
+                    <span>
+                        Meus registros
+                    </span>
+
+                </a>
+
+
+                <a href="#mensagens">
+
+                    <i class="fa-regular fa-message"></i>
+
+                    <span>
+                        Mensagens
+                    </span>
+
+                </a>
+
+
+                <a href="#configuracoes">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    <span>
+                        Configurações
+                    </span>
+
+                </a>
+
+            </nav>
+
+
+            <!-- RODAPÉ SIDEBAR -->
+
+            <div class="sidebar-bottom">
+
+                <div class="profile">
+
+                    <div class="avatar">
+                        ED
+                    </div>
+
+                    <div class="profile-info">
+
+                        <strong>
+                            Eduarda
+                        </strong>
+
+                        <span>
+                            Conta verificada
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="logout-button"
+                        aria-label="Sair"
+                    >
+
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             CONTEÚDO PRINCIPAL
+        ================================================== -->
+
+        <main class="main">
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <header class="header">
+
+                <div class="header-left">
+
+                    <button
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Abrir menu"
+                    >
+
+                        <i class="fa-solid fa-bars"></i>
+
+                    </button>
+
+
+                    <div>
+
+                        <h2 class="header-title">
+                            Mapa do campus
+                        </h2>
+
+                        <p class="header-subtitle">
+                            Veja onde estão concentradas as ocorrências do campus.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="header-right">
+
+
+                    <!-- BUSCA -->
+
+                    <div class="global-search">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="globalSearch"
+                            placeholder="Buscar objetos..."
+                            aria-label="Buscar objetos"
+                        >
+
+                        <span class="search-shortcut">
+                            /
+                        </span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="system-status">
+
+                        <span class="online-dot"></span>
+
+                        Sistema online
+
+                    </div>
+
+
+                    <!-- NOTIFICAÇÕES -->
+
+                    <button
+                        class="notification-button"
+                        aria-label="Notificações"
+                    >
+
+                        <i class="fa-regular fa-bell"></i>
+
+                        <span class="notification-count">
+                            3
+                        </span>
+
+                    </button>
+
+
+                    <!-- AVATAR -->
+
+                    <button
+                        class="header-avatar"
+                        aria-label="Perfil de Eduarda"
+                    >
+                        ED
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 CONTEÚDO
+            ================================================== -->
+
+            <div class="content">
+
+
+                <!-- =================================================
+                     MAPA + LOCAIS
+                ================================================== -->
+
+                <section
+                    class="section"
+                    id="mapa"
+                >
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <span class="section-eyebrow">
+                                LOCALIZAÇÃO
+                            </span>
+
+                            <h2>
+                                Onde as coisas acontecem
+                            </h2>
+
+                            <p>
+                                Veja os pontos com maior concentração de ocorrências.
+                            </p>
+
+                        </div>
+
+
+                        <a
+                            href="mapa.html"
+                            class="section-link"
+                        >
+
+                            Abrir mapa completo
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="campus-section">
+
+
+                        <!-- MAPA -->
+
+                        <div class="map-card">
+
+                            <div class="map-top">
+
+                                <div>
+
+                                    <strong>
+                                        Campus Paulistana
+                                    </strong>
+
+                                    <span>
+                                        Ocorrências por localização
+                                    </span>
+
+                                </div>
+
+
+                                <button
+                                    class="map-control"
+                                    aria-label="Expandir mapa"
+                                >
+
+                                    <i class="fa-solid fa-expand"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="map">
+
+
+                                <!-- RUAS -->
+
+                                <div class="road road-one"></div>
+
+                                <div class="road road-two"></div>
+
+                                <div class="road road-three"></div>
+
+
+                                <!-- BLOCOS -->
+
+                                <div class="building building-a">
+                                    Bloco A
+                                </div>
+
+
+                                <div class="building building-b">
+                                    Bloco B
+                                </div>
+
+
+                                <div class="building lab active">
+
+                                    Laboratório 03
+
+                                    <span class="map-count">
+                                        18
+                                    </span>
+
+                                </div>
+
+
+                                <div class="building library">
+                                    Biblioteca
+                                </div>
+
+
+                                <div class="building cafeteria">
+                                    Cantina
+                                </div>
+
+
+                                <div class="building patio">
+                                    Pátio
+                                </div>
+
+
+                                <!-- INDICADORES -->
+
+                                <div
+                                    class="map-marker marker-one"
+                                    title="Laboratório 03 — 18 ocorrências"
+                                >
+
+                                    <span></span>
+
+                                </div>
+
+
+                                <div
+                                    class="map-marker marker-two"
+                                    title="Biblioteca — 11 ocorrências"
+                                >
+
+                                    <span></span>
+
+                                </div>
+
+
+                                <div
+                                    class="map-marker marker-three"
+                                    title="Bloco A — 8 ocorrências"
+                                >
+
+                                    <span></span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LOCAIS -->
+
+                        <div class="locations-card">
+
+                            <div class="location-list">
+
+                                <div class="location-header">
+
+                                    <div>
+
+                                        <strong>
+                                            Locais em destaque
+                                        </strong>
+
+                                        <span>
+                                            Últimos 30 dias
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- LOCAL 1 -->
+
+                                <div
+                                    class="location selected"
+                                    data-location="laboratorio"
+                                >
+
+                                    <div class="location-dot"></div>
+
+
+                                    <div class="location-info">
+
+                                        <strong>
+                                            Laboratório 03
+                                        </strong>
+
+                                        <span>
+                                            11 encontrados · 7 perdidos
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="location-number">
+                                        18
+                                    </div>
+
+                                </div>
+
+
+                                <!-- LOCAL 2 -->
+
+                                <div
+                                    class="location"
+                                    data-location="biblioteca"
+                                >
+
+                                    <div class="location-dot"></div>
+
+
+                                    <div class="location-info">
+
+                                        <strong>
+                                            Biblioteca
+                                        </strong>
+
+                                        <span>
+                                            7 encontrados · 4 perdidos
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="location-number">
+                                        11
+                                    </div>
+
+                                </div>
+
+
+                                <!-- LOCAL 3 -->
+
+                                <div
+                                    class="location"
+                                    data-location="blocoa"
+                                >
+
+                                    <div class="location-dot"></div>
+
+
+                                    <div class="location-info">
+
+                                        <strong>
+                                            Bloco A
+                                        </strong>
+
+                                        <span>
+                                            5 encontrados · 3 perdidos
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="location-number">
+                                        8
+                                    </div>
+
+                                </div>
+
+
+                                <!-- LOCAL 4 -->
+
+                                <div
+                                    class="location"
+                                    data-location="cantina"
+                                >
+
+                                    <div class="location-dot"></div>
+
+
+                                    <div class="location-info">
+
+                                        <strong>
+                                            Cantina
+                                        </strong>
+
+                                        <span>
+                                            4 encontrados · 2 perdidos
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="location-number">
+                                        6
+                                    </div>
+
+                                </div>
+
+
+                                <!-- DETALHES -->
+
+                                <div class="location-detail">
+
+                                    <div class="location-detail-title">
+
+                                        <i class="fa-solid fa-location-dot"></i>
+
+                                        Laboratório 03
+
+                                    </div>
+
+
+                                    <div class="location-detail-grid">
+
+                                        <div>
+
+                                            <strong>
+                                                18
+                                            </strong>
+
+                                            <span>
+                                                ocorrências
+                                            </span>
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                11
+                                            </strong>
+
+                                            <span>
+                                                encontrados
+                                            </span>
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong>
+                                                7
+                                            </strong>
+
+                                            <span>
+                                                perdidos
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <button class="btn btn-outline">
+
+                                        Ver ocorrências
+
+                                        <i class="fa-solid fa-arrow-right"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     RODAPÉ
+                ================================================== -->
+
+                <footer class="footer">
+
+                    <div>
+
+                        <strong>
+                            ACHADOS IFPI
+                        </strong>
+
+                        <span>
+                            Plataforma em desenvolvimento · IFPI Campus Paulistana
+                        </span>
+
+                    </div>
+
+
+                    <div class="footer-right">
+
+                        <span>
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            Comunidade segura
+
+                        </span>
+
+
+                        <span>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Sistema online
+
+                        </span>
+
+                    </div>
+
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta — Achados & Perdidos IFPI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(22, 163, 74, 0.10), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(22, 163, 74, 0.08), transparent 35%),
+                #f4f7f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            color: #17221b;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 850px;
+            min-height: 500px;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
+            border: 1px solid #e5ebe7;
+        }
+
+        /* =========================
+           LADO VERDE
+        ========================= */
+
+        .brand-section {
+            background: linear-gradient(145deg, #166534, #15803d);
+            color: white;
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: "";
+            width: 230px;
+            height: 230px;
+            border: 45px solid rgba(255,255,255,0.05);
+            border-radius: 50%;
+            position: absolute;
+            top: -90px;
+            right: -100px;
+        }
+
+        .brand-section::after {
+            content: "";
+            width: 170px;
+            height: 170px;
+            border: 35px solid rgba(255,255,255,0.04);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -90px;
+            left: -70px;
+        }
+
+        .logo {
+            width: 54px;
+            height: 54px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-section h1 {
+            font-size: 25px;
+            line-height: 1.2;
+            margin-bottom: 9px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-section > p {
+            color: rgba(255,255,255,0.84);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .benefit i {
+            width: 29px;
+            height: 29px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            background: rgba(255,255,255,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* =========================
+           FORMULÁRIO
+        ========================= */
+
+        .form-section {
+            padding: 34px 38px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 23px;
+            color: #17221b;
+            margin-bottom: 6px;
+        }
+
+        .form-header p {
+            font-size: 12px;
+            color: #718078;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #33443a;
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8a9990;
+            font-size: 12px;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #dce4df;
+            border-radius: 9px;
+            padding: 0 12px 0 36px;
+            outline: none;
+            background: #fbfcfb;
+            color: #26352d;
+            font-family: inherit;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            border-color: #16a34a;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.08);
+        }
+
+        .password-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin: 14px 0 16px;
+        }
+
+        .terms input {
+            margin-top: 2px;
+            accent-color: #16a34a;
+            cursor: pointer;
+        }
+
+        .terms label {
+            font-size: 10px;
+            line-height: 1.5;
+            color: #718078;
+            cursor: pointer;
+        }
+
+        .terms a {
+            color: #15803d;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            height: 42px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 15px rgba(22, 163, 74, 0.20);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 11px;
+            color: #718078;
+        }
+
+        .login-link a {
+            color: #15803d;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            display: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            display: block;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 780px) {
+            body {
+                padding: 15px;
+            }
+
+            .auth-container {
+                max-width: 500px;
+                grid-template-columns: 1fr;
+            }
+
+            .brand-section {
+                padding: 25px;
+            }
+
+            .brand-section h1 {
+                font-size: 22px;
+            }
+
+            .benefits {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .form-section {
+                padding: 28px 25px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .password-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-section > p {
+                margin-bottom: 18px;
+            }
+
+            .form-section {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <!-- =========================
+             LADO ESQUERDO
+        ========================== -->
+
+        <section class="brand-section">
+
+            <div class="logo">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <h1>Achados &amp; Perdidos</h1>
+
+            <p>
+                Encontre objetos perdidos, registre ocorrências
+                e ajude a manter o campus organizado.
+            </p>
+
+            <div class="benefits">
+
+                <div class="benefit">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Cadastro rápido e simples</span>
+                </div>
+
+                <div class="benefit">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Registre objetos encontrados</span>
+                </div>
+
+                <div class="benefit">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Consulte onde foram encontrados</span>
+                </div>
+
+                <div class="benefit">
+                    <i class="fa-solid fa-handshake"></i>
+                    <span>Ajude a devolver pertences</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FORMULÁRIO
+        ========================== -->
+
+        <section class="form-section">
+
+            <div class="form-header">
+                <h2>Criar sua conta</h2>
+
+                <p>
+                    Cadastre-se para começar a utilizar o sistema
+                    de Achados &amp; Perdidos do IFPI.
+                </p>
+            </div>
+
+            <div id="message" class="message"></div>
+
+            <form id="cadastroForm">
+
+                <div class="form-group">
+                    <label for="nome">Nome completo</label>
+
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            placeholder="Digite seu nome completo"
+                            autocomplete="name"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="seuemail@exemplo.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="curso">Curso / vínculo com o IFPI</label>
+
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-graduation-cap"></i>
+
+                        <select id="curso" required>
+                            <option value="">Selecione uma opção</option>
+                            <option value="Estudante">Estudante</option>
+                            <option value="Professor(a)">Professor(a)</option>
+                            <option value="Servidor(a)">Servidor(a)</option>
+                            <option value="Funcionário(a)">Funcionário(a)</option>
+                            <option value="Visitante">Visitante</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="password-row">
+
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="senha"
+                                placeholder="Crie uma senha"
+                                autocomplete="new-password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="confirmarSenha">Confirmar senha</label>
+
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                id="confirmarSenha"
+                                placeholder="Repita a senha"
+                                autocomplete="new-password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="termos"
+                        required
+                    >
+
+                    <label for="termos">
+                        Concordo com os
+                        <a href="#">termos de uso</a>
+                        e com a utilização dos meus dados
+                        para funcionamento do sistema.
+                    </label>
+
+                </div>
+
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-user-plus"></i>
+                    &nbsp; Criar conta
+                </button>
+
+            </form>
+
+
+            <div class="login-link">
+                Já possui uma conta?
+                <a href="login.html">Entrar</a>
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script>
+        const cadastroForm = document.getElementById("cadastroForm");
+        const message = document.getElementById("message");
+
+        function mostrarMensagem(texto, tipo) {
+            message.textContent = texto;
+            message.className = "message " + tipo;
+        }
+
+
+        cadastroForm.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const nome = document.getElementById("nome").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const curso = document.getElementById("curso").value;
+            const senha = document.getElementById("senha").value;
+            const confirmarSenha = document.getElementById("confirmarSenha").value;
+            const termos = document.getElementById("termos").checked;
+
+
+            /* =========================
+               VALIDAÇÕES
+            ========================== */
+
+            if (!nome || !email || !curso || !senha || !confirmarSenha) {
+                mostrarMensagem(
+                    "Preencha todos os campos.",
+                    "error"
+                );
+                return;
+            }
+
+
+            if (senha.length < 6) {
+                mostrarMensagem(
+                    "A senha precisa ter pelo menos 6 caracteres.",
+                    "error"
+                );
+                return;
+            }
+
+
+            if (senha !== confirmarSenha) {
+                mostrarMensagem(
+                    "As senhas não coincidem.",
+                    "error"
+                );
+                return;
+            }
+
+
+            if (!termos) {
+                mostrarMensagem(
+                    "Você precisa aceitar os termos de uso.",
+                    "error"
+                );
+                return;
+            }
+
+
+            /* =========================
+               VERIFICAR CONTA EXISTENTE
+            ========================== */
+
+            const usuarioExistente = JSON.parse(
+                localStorage.getItem("achadosIFPIUser")
+            );
+
+
+            if (
+                usuarioExistente &&
+                usuarioExistente.email === email
+            ) {
+
+                mostrarMensagem(
+                    "Este e-mail já possui uma conta. Redirecionando para o login...",
+                    "error"
+                );
+
+                setTimeout(function() {
+                    window.location.replace("login.html");
+                }, 900);
+
+                return;
+            }
+
+
+            /* =========================
+               DADOS DO USUÁRIO
+            ========================== */
+
+            const usuario = {
+                nome: nome,
+                email: email,
+                curso: curso,
+                criadoEm: new Date().toISOString()
+            };
+
+
+            /*
+             * Dados usados pelo login.
+             * Como este é um projeto em HTML/CSS/JS,
+             * os dados ficam apenas no navegador.
+             */
+
+            const autenticacao = {
+                email: email,
+                senha: senha
+            };
+
+
+            /* =========================
+               SALVAR CONTA
+            ========================== */
+
+            localStorage.setItem(
+                "achadosIFPIUser",
+                JSON.stringify(usuario)
+            );
+
+            localStorage.setItem(
+                "achadosIFPIAuth",
+                JSON.stringify(autenticacao)
+            );
+
+
+            /* =========================
+               CRIAR SESSÃO AUTOMATICAMENTE
+               APÓS O CADASTRO
+            ========================== */
+
+            const sessao = {
+                email: email,
+                loginAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(
+                "achadosIFPISession",
+                JSON.stringify(sessao)
+            );
+
+
+            /* =========================
+               USUÁRIO ATUAL
+            ========================== */
+
+            const usuarioAtual = {
+                nome: nome,
+                email: email,
+                curso: curso,
+                loggedIn: true
+            };
+
+            localStorage.setItem(
+                "achadosIFPICurrentUser",
+                JSON.stringify(usuarioAtual)
+            );
+
+
+            /* =========================
+               SUCESSO
+            ========================== */
+
+            mostrarMensagem(
+                "Conta criada com sucesso! Entrando no sistema...",
+                "success"
+            );
+
+
+            /*
+             * AQUI ESTÁ O QUE VOCÊ QUER:
+             *
+             * NÃO vai para login.html.
+             * O usuário já está autenticado,
+             * então entra diretamente no index.html.
+             */
+
+            setTimeout(function() {
+                window.location.replace("index.html");
+            }, 600);
+
+        });
+    </script>
+
+</body>
+</html>
