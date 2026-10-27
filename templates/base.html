@@ -1,0 +1,122 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Achados IFPI{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div class="logo-text">
+                <strong>ACHADOS IFPI</strong>
+                <span>Comunidade acadêmica</span>
+            </div>
+        </div>
+
+        <div class="menu-title">Principal</div>
+
+        <nav class="menu">
+            <a href="{% url 'index' %}"
+               class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                <i class="fa-solid fa-house"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a href="{% url 'objetos' %}"
+               class="{% if request.resolver_match.url_name == 'objetos' %}active{% endif %}">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Explorar objetos</span>
+            </a>
+
+            <a href="{% url 'registrar' %}"
+               class="{% if request.resolver_match.url_name == 'registrar' %}active{% endif %}">
+                <i class="fa-solid fa-plus"></i>
+                <span>Registrar ocorrência</span>
+            </a>
+
+            <a href="{% url 'mapa' %}"
+               class="{% if request.resolver_match.url_name == 'mapa' %}active{% endif %}">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>Mapa do campus</span>
+            </a>
+        </nav>
+
+        <div class="menu-title">Minha conta</div>
+
+        <nav class="menu">
+            <a href="{% url 'registrar' %}">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span>Meus registros</span>
+            </a>
+
+            <a href="{% url 'mensagens' %}"
+               class="{% if request.resolver_match.url_name == 'mensagens' %}active{% endif %}">
+                <i class="fa-regular fa-message"></i>
+                <span>Mensagens</span>
+            </a>
+
+            <a href="{% url 'configuracoes' %}"
+               class="{% if request.resolver_match.url_name == 'configuracoes' %}active{% endif %}">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configurações</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="profile">
+                <div class="avatar">ED</div>
+
+                <div class="profile-info">
+                    <strong>Eduarda</strong>
+                    <span>Conta verificada</span>
+                </div>
+
+                <a href="{% url 'login' %}"
+                   class="logout-button"
+                   aria-label="Sair">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+
+    </aside>
+
+    <main class="main">
+        <button class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Abrir menu"
+                type="button">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        {% block page_content %}
+        {% endblock %}
+    </main>
+
+</div>
+
+<script src="{% static 'script.js' %}"></script>
+</body>
+</html>

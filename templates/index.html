@@ -1,1839 +1,927 @@
-```html
-<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
+{% extends "base.html" %}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Achados IFPI | Visão geral{% endblock %}
 
-    <meta
-        name="description"
-        content="Achados IFPI — Sistema de Achados e Perdidos da Comunidade IFPI Campus Paulistana"
-    >
+{% block page_content %}
 
-    <title>Achados IFPI | Visão geral</title>
+<!-- HEADER -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<header class="header">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    <div class="header-left">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+        <div>
+            <h2 class="header-title">Visão geral</h2>
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
+            <p class="header-subtitle">
+                Tudo o que está acontecendo no Achados IFPI.
+            </p>
+        </div>
 
-    <link rel="stylesheet" href="style.css">
-</head>
+    </div>
 
-<body>
+    <div class="header-right">
 
-<div class="app">
+        <!-- BUSCA -->
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+        <form class="global-search" action="{% url 'objetos' %}" method="get">
+            <i class="fa-solid fa-magnifying-glass"></i>
 
-    <aside class="sidebar" id="sidebar">
+            <input
+                type="search"
+                id="globalSearch"
+                name="q"
+                placeholder="Buscar objetos..."
+                aria-label="Buscar objetos"
+            >
 
-        <div class="logo">
+            <span class="search-shortcut">/</span>
+        </form>
 
-            <div class="logo-icon">
+        <!-- STATUS -->
+
+        <div class="system-status">
+            <span class="online-dot"></span>
+            Sistema online
+        </div>
+
+        <!-- NOTIFICAÇÕES -->
+
+        <a
+            href="{% url 'mensagens' %}"
+            class="notification-button"
+            aria-label="Notificações"
+        >
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-count">3</span>
+        </a>
+
+        <!-- AVATAR -->
+
+        <a
+            href="{% url 'configuracoes' %}"
+            class="header-avatar"
+            aria-label="Perfil de Eduarda"
+        >
+            ED
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- CONTEÚDO PRINCIPAL -->
+
+<div class="content">
+
+    <!-- HERO -->
+
+    <section class="welcome">
+
+        <div class="welcome-content">
+
+            <div class="welcome-label">
+                PAINEL DO CAMPUS
+            </div>
+
+            <h1>Bom dia, Eduarda.</h1>
+
+            <p>
+                Aqui está o que aconteceu no campus hoje.
+            </p>
+
+            <div class="welcome-badge">
+                <span class="pulse"></span>
+                18 novos registros desde ontem.
+            </div>
+
+            <div class="welcome-actions">
+
+                <a
+                    href="{% url 'registrar' %}?tipo=perdido"
+                    class="btn btn-primary"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Registrar ocorrência
+                </a>
+
+                <a
+                    href="{% url 'mapa' %}"
+                    class="btn btn-light"
+                >
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    Ver mapa
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="welcome-visual">
+
+            <div class="hero-circle hero-circle-one"></div>
+            <div class="hero-circle hero-circle-two"></div>
+
+            <div class="hero-location">
                 <i class="fa-solid fa-location-dot"></i>
             </div>
 
-            <div class="logo-text">
+            <div class="hero-location-card">
+                <span>CAMPUS PAULISTANA</span>
+                <strong>18 ocorrências hoje</strong>
+            </div>
 
-                <strong>
-                    ACHADOS IFPI
-                </strong>
+        </div>
 
-                <span>
-                    Comunidade acadêmica
-                </span>
+    </section>
+
+
+    <!-- INDICADORES -->
+
+    <section class="stats">
+
+        <article class="stat">
+
+            <div class="stat-top">
+                <span class="stat-label">Registros ativos</span>
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+            </div>
+
+            <div class="stat-number">1.284</div>
+
+            <div class="stat-bottom positive">
+                <i class="fa-solid fa-arrow-up"></i>
+                12,4%
+                <span>este mês</span>
+            </div>
+
+        </article>
+
+        <article class="stat">
+
+            <div class="stat-top">
+                <span class="stat-label">Encontrados</span>
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-hand-holding"></i>
+                </div>
+            </div>
+
+            <div class="stat-number">742</div>
+
+            <div class="stat-bottom positive">
+                <i class="fa-solid fa-arrow-up"></i>
+                8,7%
+                <span>este mês</span>
+            </div>
+
+        </article>
+
+        <article class="stat">
+
+            <div class="stat-top">
+                <span class="stat-label">Recuperados</span>
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <div class="stat-number">386</div>
+
+            <div class="stat-bottom positive">
+                <i class="fa-solid fa-arrow-up"></i>
+                15,2%
+                <span>este mês</span>
+            </div>
+
+        </article>
+
+        <article class="stat">
+
+            <div class="stat-top">
+                <span class="stat-label">Aguardando análise</span>
+
+                <div class="stat-icon yellow">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+            </div>
+
+            <div class="stat-number">11</div>
+
+            <div class="stat-bottom neutral">
+                <i class="fa-solid fa-plus"></i>
+                3 novos hoje
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- PULSO DO CAMPUS -->
+
+    <section class="section">
+
+        <div class="section-header">
+            <div>
+                <span class="section-eyebrow">VISÃO DO CAMPUS</span>
+                <h2>Pulso do campus</h2>
+                <p>Os principais sinais das ocorrências recentes.</p>
+            </div>
+        </div>
+
+        <div class="pulse-grid">
+
+            <article class="pulse-card">
+
+                <div class="pulse-card-icon green">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <div class="pulse-card-content">
+                    <span>Local mais movimentado</span>
+                    <strong>Laboratório 03</strong>
+                    <small>18 ocorrências</small>
+                </div>
+
+                <div class="mini-bars">
+                    <i style="height: 35%"></i>
+                    <i style="height: 50%"></i>
+                    <i style="height: 45%"></i>
+                    <i style="height: 70%"></i>
+                    <i style="height: 90%"></i>
+                </div>
+
+            </article>
+
+            <article class="pulse-card">
+
+                <div class="pulse-card-icon blue">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+
+                <div class="pulse-card-content">
+                    <span>Categoria mais registrada</span>
+                    <strong>Eletrônicos</strong>
+                    <small>34% dos registros</small>
+                </div>
+
+                <div class="percentage-circle">
+                    <span>34%</span>
+                </div>
+
+            </article>
+
+            <article class="pulse-card">
+
+                <div class="pulse-card-icon yellow">
+                    <i class="fa-regular fa-clock"></i>
+                </div>
+
+                <div class="pulse-card-content">
+                    <span>Tempo médio de recuperação</span>
+                    <strong>3,4 dias</strong>
+                    <small>↓ 0,8 dia este mês</small>
+                </div>
+
+            </article>
+
+            <article class="pulse-card">
+
+                <div class="pulse-card-icon purple">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+
+                <div class="pulse-card-content">
+                    <span>Taxa de devolução</span>
+                    <strong>68%</strong>
+                    <small>↑ 5,2% este mês</small>
+                </div>
+
+                <div class="progress-ring">
+                    <div class="progress-ring-inner">68%</div>
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- OBJETOS RECENTES -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div>
+                <span class="section-eyebrow">ÚLTIMOS REGISTROS</span>
+                <h2>Objetos recentes</h2>
+                <p>Achados e perdidos registrados recentemente.</p>
+            </div>
+
+            <a href="{% url 'objetos' %}" class="section-link">
+                Explorar todos
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <div class="items-grid">
+
+            <!-- ITEM 1 -->
+
+            <article class="item-card">
+
+                <div class="item-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&fit=crop&w=1000&q=85"
+                        alt="Celular iPhone encontrado"
+                        loading="lazy"
+                    >
+                    <span class="item-status found">Encontrado</span>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-category">Eletrônicos</div>
+                    <h3>iPhone 13</h3>
+
+                    <div class="item-info">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Laboratório 03
+                        </span>
+                        <span>Hoje</span>
+                    </div>
+
+                    <div class="item-footer">
+                        <span class="verified">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Responsável verificado
+                        </span>
+
+                        <a
+                            href="{% url 'objetos' %}"
+                            class="item-action"
+                            aria-label="Ver iPhone 13"
+                        >
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+
+            <!-- ITEM 2 -->
+
+            <article class="item-card">
+
+                <div class="item-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=85"
+                        alt="Mochila preta encontrada"
+                        loading="lazy"
+                    >
+                    <span class="item-status found">Encontrado</span>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-category">Mochilas</div>
+                    <h3>Mochila Swisswin</h3>
+
+                    <div class="item-info">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Biblioteca
+                        </span>
+                        <span>Hoje</span>
+                    </div>
+
+                    <div class="item-footer">
+                        <span class="verified">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Responsável verificado
+                        </span>
+
+                        <a
+                            href="{% url 'objetos' %}"
+                            class="item-action"
+                            aria-label="Ver mochila"
+                        >
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+
+            <!-- ITEM 3 -->
+
+            <article class="item-card">
+
+                <div class="item-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1000&q=85"
+                        alt="Carteira preta"
+                        loading="lazy"
+                    >
+                    <span class="item-status lost">Perdido</span>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-category">Carteiras</div>
+                    <h3>Carteira preta</h3>
+
+                    <div class="item-info">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Bloco A
+                        </span>
+                        <span>Ontem</span>
+                    </div>
+
+                    <div class="item-footer">
+                        <span class="verified">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Registro verificado
+                        </span>
+
+                        <a
+                            href="{% url 'objetos' %}"
+                            class="item-action"
+                            aria-label="Ver carteira"
+                        >
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+
+            <!-- ITEM 4 -->
+
+            <article class="item-card">
+
+                <div class="item-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85"
+                        alt="Fone de ouvido JBL"
+                        loading="lazy"
+                    >
+                    <span class="item-status found">Encontrado</span>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-category">Eletrônicos</div>
+                    <h3>Fone JBL</h3>
+
+                    <div class="item-info">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Pátio
+                        </span>
+                        <span>Ontem</span>
+                    </div>
+
+                    <div class="item-footer">
+                        <span class="verified">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Responsável verificado
+                        </span>
+
+                        <a
+                            href="{% url 'objetos' %}"
+                            class="item-action"
+                            aria-label="Ver fone JBL"
+                        >
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+
+            <!-- ITEM 5 -->
+
+            <article class="item-card">
+
+                <div class="item-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1000&q=85"
+                        alt="Chaves encontradas"
+                        loading="lazy"
+                    >
+                    <span class="item-status found">Encontrado</span>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-category">Outros</div>
+                    <h3>Chaves</h3>
+
+                    <div class="item-info">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Cantina
+                        </span>
+                        <span>2 dias</span>
+                    </div>
+
+                    <div class="item-footer">
+                        <span class="verified">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Responsável verificado
+                        </span>
+
+                        <a
+                            href="{% url 'objetos' %}"
+                            class="item-action"
+                            aria-label="Ver chaves"
+                        >
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+
+            <!-- ITEM 6 -->
+
+            <article class="item-card">
+
+                <div class="item-image">
+                    <img
+                        src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=1000&q=85"
+                        alt="Caderno encontrado"
+                        loading="lazy"
+                    >
+                    <span class="item-status found">Encontrado</span>
+                </div>
+
+                <div class="item-content">
+                    <div class="item-category">Materiais</div>
+                    <h3>Caderno</h3>
+
+                    <div class="item-info">
+                        <span>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Bloco B
+                        </span>
+                        <span>2 dias</span>
+                    </div>
+
+                    <div class="item-footer">
+                        <span class="verified">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Registro verificado
+                        </span>
+
+                        <a
+                            href="{% url 'objetos' %}"
+                            class="item-action"
+                            aria-label="Ver caderno"
+                        >
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- ATIVIDADE RECENTE -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div>
+                <span class="section-eyebrow">HISTÓRICO</span>
+                <h2>Atividade recente</h2>
+                <p>Acompanhe as movimentações mais recentes.</p>
+            </div>
+
+            <a href="{% url 'registrar' %}" class="section-link">
+                Ver meus registros
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Objeto</th>
+                        <th>Tipo</th>
+                        <th>Localização</th>
+                        <th>Responsável</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <div class="table-object">
+                                <div class="table-image">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&fit=crop&w=150&q=80"
+                                        alt="iPhone 13"
+                                    >
+                                </div>
+
+                                <div>
+                                    <strong>iPhone 13</strong>
+                                    <span>Eletrônico</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>Perdido</td>
+                        <td>Laboratório 03</td>
+                        <td>Conta verificada</td>
+
+                        <td>
+                            <span class="table-status found">Encontrado</span>
+                        </td>
+
+                        <td>Hoje, 09:42</td>
+
+                        <td>
+                            <a href="{% url 'objetos' %}" class="table-action" aria-label="Ver iPhone 13">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="table-object">
+                                <div class="table-image">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=150&q=80"
+                                        alt="Mochila"
+                                    >
+                                </div>
+
+                                <div>
+                                    <strong>Mochila Swisswin</strong>
+                                    <span>Mochila</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>Encontrado</td>
+                        <td>Biblioteca</td>
+                        <td>Conta verificada</td>
+
+                        <td>
+                            <span class="table-status waiting">Aguardando</span>
+                        </td>
+
+                        <td>Hoje, 08:31</td>
+
+                        <td>
+                            <a href="{% url 'objetos' %}" class="table-action" aria-label="Ver mochila">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="table-object">
+                                <div class="table-image">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=150&q=80"
+                                        alt="Fone JBL"
+                                    >
+                                </div>
+
+                                <div>
+                                    <strong>Fone JBL</strong>
+                                    <span>Eletrônico</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>Encontrado</td>
+                        <td>Pátio</td>
+                        <td>Conta verificada</td>
+
+                        <td>
+                            <span class="table-status recovered">Recuperado</span>
+                        </td>
+
+                        <td>Ontem, 16:20</td>
+
+                        <td>
+                            <a href="{% url 'objetos' %}" class="table-action" aria-label="Ver fone JBL">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="table-object">
+                                <div class="table-image">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=150&q=80"
+                                        alt="Chaves"
+                                    >
+                                </div>
+
+                                <div>
+                                    <strong>Chaves</strong>
+                                    <span>Outros</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>Encontrado</td>
+                        <td>Cantina</td>
+                        <td>Conta verificada</td>
+
+                        <td>
+                            <span class="table-status found">Encontrado</span>
+                        </td>
+
+                        <td>Ontem, 14:08</td>
+
+                        <td>
+                            <a href="{% url 'objetos' %}" class="table-action" aria-label="Ver chaves">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="pagination">
+
+            <span>Mostrando 1–4 de 1.284 registros</span>
+
+            <div class="pagination-buttons">
+
+                <button disabled type="button" aria-label="Página anterior">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <button class="active" type="button">1</button>
+                <button type="button">2</button>
+                <button type="button">3</button>
+
+                <span>...</span>
+
+                <button type="button">321</button>
+
+                <button type="button" aria-label="Próxima página">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
 
             </div>
 
         </div>
 
+    </section>
 
-        <!-- MENU PRINCIPAL -->
 
-        <div class="menu-title">
-            Principal
+    <!-- AÇÕES RÁPIDAS -->
+
+    <section class="section">
+
+        <div class="section-header">
+            <div>
+                <span class="section-eyebrow">ACESSO RÁPIDO</span>
+                <h2>O que você precisa fazer?</h2>
+            </div>
         </div>
 
-        <nav class="menu">
+        <div class="quick-actions">
 
             <a
-                href="index.html"
-                class="active"
+                href="{% url 'registrar' %}?tipo=perdido"
+                class="quick-action"
             >
-                <i class="fa-solid fa-house"></i>
-
-                <span>
-                    Visão geral
-                </span>
-            </a>
-
-
-            <a href="objetos.html">
-
-                <i class="fa-solid fa-box-open"></i>
-
-                <span>
-                    Explorar objetos
-                </span>
-
-            </a>
-
-
-            <a href="registrar.html">
-
-                <i class="fa-solid fa-plus"></i>
-
-                <span>
-                    Registrar ocorrência
-                </span>
-
-            </a>
-
-
-            <a href="mapa.html">
-
-                <i class="fa-solid fa-map-location-dot"></i>
-
-                <span>
-                    Mapa do campus
-                </span>
-
-            </a>
-
-        </nav>
-
-
-        <!-- MINHA CONTA -->
-
-        <div class="menu-title">
-            Minha conta
-        </div>
-
-        <nav class="menu">
-
-            <a href="registrar.html">
-
-                <i class="fa-solid fa-clipboard-list"></i>
-
-                <span>
-                    Meus registros
-                </span>
-
-            </a>
-
-
-            <a href="mensagens.html">
-
-                <i class="fa-regular fa-message"></i>
-
-                <span>
-                    Mensagens
-                </span>
-
-            </a>
-
-
-            <a href="configuracoes.html">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Configurações
-                </span>
-
-            </a>
-
-        </nav>
-
-
-        <!-- RODAPÉ SIDEBAR -->
-
-        <div class="sidebar-bottom">
-
-            <div class="profile">
-
-                <div class="avatar">
-                    ED
-                </div>
-
-                <div class="profile-info">
-
-                    <strong>
-                        Eduarda
-                    </strong>
-
-                    <span>
-                        Conta verificada
-                    </span>
-
-                </div>
-
-                <button
-                    class="logout-button"
-                    aria-label="Sair"
-                    type="button"
-                >
-
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =====================================================
-         CONTEÚDO PRINCIPAL
-    ====================================================== -->
-
-    <main class="main">
-
-        <!-- HEADER -->
-
-        <header class="header">
-
-            <div class="header-left">
-
-                <button
-                    class="mobile-menu-button"
-                    id="mobileMenuButton"
-                    aria-label="Abrir menu"
-                    type="button"
-                >
-
-                    <i class="fa-solid fa-bars"></i>
-
-                </button>
-
-
-                <div>
-
-                    <h2 class="header-title">
-                        Visão geral
-                    </h2>
-
-                    <p class="header-subtitle">
-                        Tudo o que está acontecendo no Achados IFPI.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="header-right">
-
-                <!-- BUSCA -->
-
-                <div class="global-search">
-
+                <div class="quick-action-icon">
                     <i class="fa-solid fa-magnifying-glass"></i>
-
-                    <input
-                        type="search"
-                        id="globalSearch"
-                        placeholder="Buscar objetos..."
-                        aria-label="Buscar objetos"
-                    >
-
-                    <span class="search-shortcut">
-                        /
-                    </span>
-
                 </div>
-
-
-                <!-- STATUS -->
-
-                <div class="system-status">
-
-                    <span class="online-dot"></span>
-
-                    Sistema online
-
-                </div>
-
-
-                <!-- NOTIFICAÇÕES -->
-
-                <a
-                    href="mensagens.html"
-                    class="notification-button"
-                    aria-label="Notificações"
-                >
-
-                    <i class="fa-regular fa-bell"></i>
-
-                    <span class="notification-count">
-                        3
-                    </span>
-
-                </a>
-
-
-                <!-- AVATAR -->
-
-                <a
-                    href="configuracoes.html"
-                    class="header-avatar"
-                    aria-label="Perfil de Eduarda"
-                >
-                    ED
-                </a>
-
-            </div>
-
-        </header>
-
-
-        <!-- =====================================================
-             CONTEÚDO
-        ====================================================== -->
-
-        <div class="content">
-
-
-            <!-- =================================================
-                 HERO
-            ================================================== -->
-
-            <section class="welcome">
-
-                <div class="welcome-content">
-
-                    <div class="welcome-label">
-                        PAINEL DO CAMPUS
-                    </div>
-
-                    <h1>
-                        Bom dia, Eduarda.
-                    </h1>
-
-                    <p>
-                        Aqui está o que aconteceu no campus hoje.
-                    </p>
-
-                    <div class="welcome-badge">
-
-                        <span class="pulse"></span>
-
-                        18 novos registros desde ontem.
-
-                    </div>
-
-
-                    <div class="welcome-actions">
-
-                        <a
-                            href="registrar.html"
-                            class="btn btn-primary"
-                        >
-
-                            <i class="fa-solid fa-plus"></i>
-
-                            Registrar ocorrência
-
-                        </a>
-
-
-                        <a
-                            href="mapa.html"
-                            class="btn btn-light"
-                        >
-
-                            <i class="fa-solid fa-map-location-dot"></i>
-
-                            Ver mapa
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="welcome-visual">
-
-                    <div class="hero-circle hero-circle-one"></div>
-
-                    <div class="hero-circle hero-circle-two"></div>
-
-                    <div class="hero-location">
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                    </div>
-
-
-                    <div class="hero-location-card">
-
-                        <span>
-                            CAMPUS PAULISTANA
-                        </span>
-
-                        <strong>
-                            18 ocorrências hoje
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 INDICADORES
-            ================================================== -->
-
-            <section class="stats">
-
-                <article class="stat">
-
-                    <div class="stat-top">
-
-                        <span class="stat-label">
-                            Registros ativos
-                        </span>
-
-                        <div class="stat-icon">
-                            <i class="fa-solid fa-box"></i>
-                        </div>
-
-                    </div>
-
-                    <div class="stat-number">
-                        1.284
-                    </div>
-
-                    <div class="stat-bottom positive">
-
-                        <i class="fa-solid fa-arrow-up"></i>
-
-                        12,4%
-
-                        <span>
-                            este mês
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-                <article class="stat">
-
-                    <div class="stat-top">
-
-                        <span class="stat-label">
-                            Encontrados
-                        </span>
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-hand-holding"></i>
-
-                        </div>
-
-                    </div>
-
-                    <div class="stat-number">
-                        742
-                    </div>
-
-                    <div class="stat-bottom positive">
-
-                        <i class="fa-solid fa-arrow-up"></i>
-
-                        8,7%
-
-                        <span>
-                            este mês
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-                <article class="stat">
-
-                    <div class="stat-top">
-
-                        <span class="stat-label">
-                            Recuperados
-                        </span>
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-check"></i>
-
-                        </div>
-
-                    </div>
-
-                    <div class="stat-number">
-                        386
-                    </div>
-
-                    <div class="stat-bottom positive">
-
-                        <i class="fa-solid fa-arrow-up"></i>
-
-                        15,2%
-
-                        <span>
-                            este mês
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-                <article class="stat">
-
-                    <div class="stat-top">
-
-                        <span class="stat-label">
-                            Aguardando análise
-                        </span>
-
-                        <div class="stat-icon yellow">
-
-                            <i class="fa-solid fa-clock"></i>
-
-                        </div>
-
-                    </div>
-
-                    <div class="stat-number">
-                        11
-                    </div>
-
-                    <div class="stat-bottom neutral">
-
-                        <i class="fa-solid fa-plus"></i>
-
-                        3 novos hoje
-
-                    </div>
-
-                </article>
-
-            </section>
-
-
-            <!-- =================================================
-                 PULSO DO CAMPUS
-            ================================================== -->
-
-            <section class="section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <span class="section-eyebrow">
-                            VISÃO DO CAMPUS
-                        </span>
-
-                        <h2>
-                            Pulso do campus
-                        </h2>
-
-                        <p>
-                            Os principais sinais das ocorrências recentes.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="pulse-grid">
-
-
-                    <article class="pulse-card">
-
-                        <div class="pulse-card-icon green">
-
-                            <i class="fa-solid fa-location-dot"></i>
-
-                        </div>
-
-
-                        <div class="pulse-card-content">
-
-                            <span>
-                                Local mais movimentado
-                            </span>
-
-                            <strong>
-                                Laboratório 03
-                            </strong>
-
-                            <small>
-                                18 ocorrências
-                            </small>
-
-                        </div>
-
-
-                        <div class="mini-bars">
-
-                            <i style="height: 35%"></i>
-                            <i style="height: 50%"></i>
-                            <i style="height: 45%"></i>
-                            <i style="height: 70%"></i>
-                            <i style="height: 90%"></i>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="pulse-card">
-
-                        <div class="pulse-card-icon blue">
-
-                            <i class="fa-solid fa-mobile-screen-button"></i>
-
-                        </div>
-
-
-                        <div class="pulse-card-content">
-
-                            <span>
-                                Categoria mais registrada
-                            </span>
-
-                            <strong>
-                                Eletrônicos
-                            </strong>
-
-                            <small>
-                                34% dos registros
-                            </small>
-
-                        </div>
-
-
-                        <div class="percentage-circle">
-
-                            <span>
-                                34%
-                            </span>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="pulse-card">
-
-                        <div class="pulse-card-icon yellow">
-
-                            <i class="fa-regular fa-clock"></i>
-
-                        </div>
-
-
-                        <div class="pulse-card-content">
-
-                            <span>
-                                Tempo médio de recuperação
-                            </span>
-
-                            <strong>
-                                3,4 dias
-                            </strong>
-
-                            <small>
-                                ↓ 0,8 dia este mês
-                            </small>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="pulse-card">
-
-                        <div class="pulse-card-icon purple">
-
-                            <i class="fa-solid fa-arrows-rotate"></i>
-
-                        </div>
-
-
-                        <div class="pulse-card-content">
-
-                            <span>
-                                Taxa de devolução
-                            </span>
-
-                            <strong>
-                                68%
-                            </strong>
-
-                            <small>
-                                ↑ 5,2% este mês
-                            </small>
-
-                        </div>
-
-
-                        <div class="progress-ring">
-
-                            <div class="progress-ring-inner">
-                                68%
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 OBJETOS RECENTES
-            ================================================== -->
-
-            <section class="section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <span class="section-eyebrow">
-                            ÚLTIMOS REGISTROS
-                        </span>
-
-                        <h2>
-                            Objetos recentes
-                        </h2>
-
-                        <p>
-                            Achados e perdidos registrados recentemente.
-                        </p>
-
-                    </div>
-
-
-                    <a
-                        href="objetos.html"
-                        class="section-link"
-                    >
-
-                        Explorar todos
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="items-grid">
-
-
-                    <!-- ITEM 1 -->
-
-                    <article class="item-card">
-
-                        <div class="item-image">
-
-                            <img
-                                src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&fit=crop&w=1000&q=85"
-                                alt="Celular iPhone encontrado"
-                                loading="lazy"
-                            >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
-                        </div>
-
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Eletrônicos
-                            </div>
-
-                            <h3>
-                                iPhone 13
-                            </h3>
-
-
-                            <div class="item-info">
-
-                                <span>
-
-                                    <i class="fa-solid fa-location-dot"></i>
-
-                                    Laboratório 03
-
-                                </span>
-
-                                <span>
-                                    Hoje
-                                </span>
-
-                            </div>
-
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check"></i>
-
-                                    Responsável verificado
-
-                                </span>
-
-
-                                <button
-                                    class="item-action"
-                                    aria-label="Ver iPhone 13"
-                                    type="button"
-                                >
-
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- ITEM 2 -->
-
-                    <article class="item-card">
-
-                        <div class="item-image">
-
-                            <img
-                                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=85"
-                                alt="Mochila preta encontrada"
-                                loading="lazy"
-                            >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
-                        </div>
-
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Mochilas
-                            </div>
-
-                            <h3>
-                                Mochila Swisswin
-                            </h3>
-
-
-                            <div class="item-info">
-
-                                <span>
-
-                                    <i class="fa-solid fa-location-dot"></i>
-
-                                    Biblioteca
-
-                                </span>
-
-                                <span>
-                                    Hoje
-                                </span>
-
-                            </div>
-
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check"></i>
-
-                                    Responsável verificado
-
-                                </span>
-
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver mochila"
-                                >
-
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- ITEM 3 -->
-
-                    <article class="item-card">
-
-                        <div class="item-image">
-
-                            <img
-                                src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1000&q=85"
-                                alt="Carteira preta"
-                                loading="lazy"
-                            >
-
-                            <span class="item-status lost">
-                                Perdido
-                            </span>
-
-                        </div>
-
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Carteiras
-                            </div>
-
-                            <h3>
-                                Carteira preta
-                            </h3>
-
-
-                            <div class="item-info">
-
-                                <span>
-
-                                    <i class="fa-solid fa-location-dot"></i>
-
-                                    Bloco A
-
-                                </span>
-
-                                <span>
-                                    Ontem
-                                </span>
-
-                            </div>
-
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check"></i>
-
-                                    Registro verificado
-
-                                </span>
-
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver carteira"
-                                >
-
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- ITEM 4 -->
-
-                    <article class="item-card">
-
-                        <div class="item-image">
-
-                            <img
-                                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85"
-                                alt="Fone de ouvido JBL"
-                                loading="lazy"
-                            >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
-                        </div>
-
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Eletrônicos
-                            </div>
-
-                            <h3>
-                                Fone JBL
-                            </h3>
-
-
-                            <div class="item-info">
-
-                                <span>
-
-                                    <i class="fa-solid fa-location-dot"></i>
-
-                                    Pátio
-
-                                </span>
-
-                                <span>
-                                    Ontem
-                                </span>
-
-                            </div>
-
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check"></i>
-
-                                    Responsável verificado
-
-                                </span>
-
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver fone JBL"
-                                >
-
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- ITEM 5 -->
-
-                    <article class="item-card">
-
-                        <div class="item-image">
-
-                            <img
-                                src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1000&q=85"
-                                alt="Chaves encontradas"
-                                loading="lazy"
-                            >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
-                        </div>
-
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Outros
-                            </div>
-
-                            <h3>
-                                Chaves
-                            </h3>
-
-
-                            <div class="item-info">
-
-                                <span>
-
-                                    <i class="fa-solid fa-location-dot"></i>
-
-                                    Cantina
-
-                                </span>
-
-                                <span>
-                                    2 dias
-                                </span>
-
-                            </div>
-
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check"></i>
-
-                                    Responsável verificado
-
-                                </span>
-
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver chaves"
-                                >
-
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- ITEM 6 -->
-
-                    <article class="item-card">
-
-                        <div class="item-image">
-
-                            <img
-                                src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=1000&q=85"
-                                alt="Caderno encontrado"
-                                loading="lazy"
-                            >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
-                        </div>
-
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Materiais
-                            </div>
-
-                            <h3>
-                                Caderno
-                            </h3>
-
-
-                            <div class="item-info">
-
-                                <span>
-
-                                    <i class="fa-solid fa-location-dot"></i>
-
-                                    Bloco B
-
-                                </span>
-
-                                <span>
-                                    2 dias
-                                </span>
-
-                            </div>
-
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check"></i>
-
-                                    Registro verificado
-
-                                </span>
-
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver caderno"
-                                >
-
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 ATIVIDADE RECENTE
-            ================================================== -->
-
-            <section class="section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <span class="section-eyebrow">
-                            HISTÓRICO
-                        </span>
-
-                        <h2>
-                            Atividade recente
-                        </h2>
-
-                        <p>
-                            Acompanhe as movimentações mais recentes.
-                        </p>
-
-                    </div>
-
-
-                    <a
-                        href="registros.html"
-                        class="section-link"
-                    >
-
-                        Ver meus registros
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="table-wrapper">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Objeto
-                                </th>
-
-                                <th>
-                                    Tipo
-                                </th>
-
-                                <th>
-                                    Localização
-                                </th>
-
-                                <th>
-                                    Responsável
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                                <th>
-                                    Data
-                                </th>
-
-                                <th>
-                                    Ação
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="table-object">
-
-                                        <div class="table-image">
-
-                                            <img
-                                                src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&fit=crop&w=150&q=80"
-                                                alt="iPhone 13"
-                                            >
-
-                                        </div>
-
-                                        <div>
-
-                                            <strong>
-                                                iPhone 13
-                                            </strong>
-
-                                            <span>
-                                                Eletrônico
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    Perdido
-                                </td>
-
-                                <td>
-                                    Laboratório 03
-                                </td>
-
-                                <td>
-                                    Conta verificada
-                                </td>
-
-                                <td>
-
-                                    <span class="table-status found">
-                                        Encontrado
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    Hoje, 09:42
-                                </td>
-
-                                <td>
-
-                                    <button
-                                        class="table-action"
-                                        type="button"
-                                    >
-
-                                        <i class="fa-solid fa-chevron-right"></i>
-
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="table-object">
-
-                                        <div class="table-image">
-
-                                            <img
-                                                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=150&q=80"
-                                                alt="Mochila"
-                                            >
-
-                                        </div>
-
-                                        <div>
-
-                                            <strong>
-                                                Mochila Swisswin
-                                            </strong>
-
-                                            <span>
-                                                Mochila
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    Encontrado
-                                </td>
-
-                                <td>
-                                    Biblioteca
-                                </td>
-
-                                <td>
-                                    Conta verificada
-                                </td>
-
-                                <td>
-
-                                    <span class="table-status waiting">
-                                        Aguardando
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    Hoje, 08:31
-                                </td>
-
-                                <td>
-
-                                    <button
-                                        class="table-action"
-                                        type="button"
-                                    >
-
-                                        <i class="fa-solid fa-chevron-right"></i>
-
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="table-object">
-
-                                        <div class="table-image">
-
-                                            <img
-                                                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=150&q=80"
-                                                alt="Fone JBL"
-                                            >
-
-                                        </div>
-
-                                        <div>
-
-                                            <strong>
-                                                Fone JBL
-                                            </strong>
-
-                                            <span>
-                                                Eletrônico
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    Encontrado
-                                </td>
-
-                                <td>
-                                    Pátio
-                                </td>
-
-                                <td>
-                                    Conta verificada
-                                </td>
-
-                                <td>
-
-                                    <span class="table-status recovered">
-                                        Recuperado
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    Ontem, 16:20
-                                </td>
-
-                                <td>
-
-                                    <button
-                                        class="table-action"
-                                        type="button"
-                                    >
-
-                                        <i class="fa-solid fa-chevron-right"></i>
-
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="table-object">
-
-                                        <div class="table-image">
-
-                                            <img
-                                                src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=150&q=80"
-                                                alt="Chaves"
-                                            >
-
-                                        </div>
-
-                                        <div>
-
-                                            <strong>
-                                                Chaves
-                                            </strong>
-
-                                            <span>
-                                                Outros
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    Encontrado
-                                </td>
-
-                                <td>
-                                    Cantina
-                                </td>
-
-                                <td>
-                                    Conta verificada
-                                </td>
-
-                                <td>
-
-                                    <span class="table-status found">
-                                        Encontrado
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    Ontem, 14:08
-                                </td>
-
-                                <td>
-
-                                    <button
-                                        class="table-action"
-                                        type="button"
-                                    >
-
-                                        <i class="fa-solid fa-chevron-right"></i>
-
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-
-                <div class="pagination">
-
-                    <span>
-                        Mostrando 1–4 de 1.284 registros
-                    </span>
-
-
-                    <div class="pagination-buttons">
-
-                        <button disabled type="button">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-
-                        <button class="active" type="button">
-                            1
-                        </button>
-
-                        <button type="button">
-                            2
-                        </button>
-
-                        <button type="button">
-                            3
-                        </button>
-
-                        <span>
-                            ...
-                        </span>
-
-                        <button type="button">
-                            321
-                        </button>
-
-                        <button type="button">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 AÇÕES RÁPIDAS
-            ================================================== -->
-
-            <section class="section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <span class="section-eyebrow">
-                            ACESSO RÁPIDO
-                        </span>
-
-                        <h2>
-                            O que você precisa fazer?
-                        </h2>
-
-                    </div>
-
-                </div>
-
-
-                <div class="quick-actions">
-
-
-                    <a
-                        href="registrar.html?tipo=perdido"
-                        class="quick-action"
-                    >
-
-                        <div class="quick-action-icon">
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Registrar objeto perdido
-                            </strong>
-
-                            <span>
-                                Informe o que você perdeu.
-                            </span>
-
-                        </div>
-
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-
-                    <a
-                        href="registrar.html?tipo=encontrado"
-                        class="quick-action"
-                    >
-
-                        <div class="quick-action-icon">
-
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Registrar objeto encontrado
-                            </strong>
-
-                            <span>
-                                Ajude alguém a encontrar.
-                            </span>
-
-                        </div>
-
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-
-                    <a
-                        href="registros.html"
-                        class="quick-action"
-                    >
-
-                        <div class="quick-action-icon">
-
-                            <i class="fa-solid fa-user-check"></i>
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Ver solicitações
-                            </strong>
-
-                            <span>
-                                Confira solicitações pendentes.
-                            </span>
-
-                        </div>
-
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-
-                    <a
-                        href="mapa.html"
-                        class="quick-action"
-                    >
-
-                        <div class="quick-action-icon">
-
-                            <i class="fa-solid fa-map"></i>
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Abrir mapa
-                            </strong>
-
-                            <span>
-                                Explore as ocorrências no campus.
-                            </span>
-
-                        </div>
-
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 RODAPÉ
-            ================================================== -->
-
-            <footer class="footer">
 
                 <div>
-
-                    <strong>
-                        ACHADOS IFPI
-                    </strong>
-
-                    <span>
-                        Plataforma em desenvolvimento · IFPI Campus Paulistana
-                    </span>
-
+                    <strong>Registrar objeto perdido</strong>
+                    <span>Informe o que você perdeu.</span>
                 </div>
 
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
-                <div class="footer-right">
-
-                    <span>
-
-                        <i class="fa-solid fa-shield-halved"></i>
-
-                        Comunidade segura
-
-                    </span>
-
-
-                    <span>
-
-                        <i class="fa-solid fa-circle-check"></i>
-
-                        Sistema online
-
-                    </span>
-
+            <a
+                href="{% url 'registrar' %}?tipo=encontrado"
+                class="quick-action"
+            >
+                <div class="quick-action-icon">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
                 </div>
 
-            </footer>
+                <div>
+                    <strong>Registrar objeto encontrado</strong>
+                    <span>Ajude alguém a encontrar.</span>
+                </div>
+
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a
+                href="{% url 'registrar' %}"
+                class="quick-action"
+            >
+                <div class="quick-action-icon">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+
+                <div>
+                    <strong>Ver solicitações</strong>
+                    <span>Confira solicitações pendentes.</span>
+                </div>
+
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a
+                href="{% url 'mapa' %}"
+                class="quick-action"
+            >
+                <div class="quick-action-icon">
+                    <i class="fa-solid fa-map"></i>
+                </div>
+
+                <div>
+                    <strong>Abrir mapa</strong>
+                    <span>Explore as ocorrências no campus.</span>
+                </div>
+
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
         </div>
 
-    </main>
+    </section>
+
+
+    <!-- RODAPÉ -->
+
+    <footer class="footer">
+
+        <div>
+            <strong>ACHADOS IFPI</strong>
+
+            <span>
+                Plataforma em desenvolvimento · IFPI Campus Paulistana
+            </span>
+        </div>
+
+        <div class="footer-right">
+
+            <span>
+                <i class="fa-solid fa-shield-halved"></i>
+                Comunidade segura
+            </span>
+
+            <span>
+                <i class="fa-solid fa-circle-check"></i>
+                Sistema online
+            </span>
+
+        </div>
+
+    </footer>
 
 </div>
 
-
-<script src="script.js"></script>
-
-</body>
-
-</html>
-```
+{% endblock %}

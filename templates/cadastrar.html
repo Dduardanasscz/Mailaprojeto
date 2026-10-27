@@ -555,7 +555,7 @@
 
             <div class="login-link">
                 Já possui uma conta?
-                <a href="login.html">Entrar</a>
+                <a href="{% url 'login' %}">Entrar</a>
             </div>
 
         </section>
@@ -743,9 +743,12 @@
              */
 
             setTimeout(function() {
-                window.location.replace("index.html");
-            }, 600);
+                window.location.replace("/login/");
+            }, 900);
 
+            setTimeout(function() {
+                window.location.replace("/index/");
+            }, 600);
         });
     </script>
 

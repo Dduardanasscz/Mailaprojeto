@@ -1,4299 +1,1986 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Achados IFPI — Explore objetos encontrados e perdidos no Campus Paulistana"
-    >
-
-    <title>Achados IFPI | Explorar objetos</title>
-
-
-    <!-- =====================================================
-         FONTES
-    ====================================================== -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- =====================================================
-         FONT AWESOME
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-
-    <!-- =====================================================
-         CSS ORIGINAL
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-
-    <!-- =====================================================
-         ESTILO EXCLUSIVO DA PÁGINA OBJETOS
-    ====================================================== -->
-
-    <style>
-
-        /* =====================================================
-           AJUSTES GERAIS
-        ====================================================== */
-
-        .page-intro {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 4px;
-        }
-
-        .page-intro::after {
-            content: "";
-            position: absolute;
-            width: 250px;
-            height: 250px;
-            right: -100px;
-            top: -130px;
-            border-radius: 50%;
-            background: rgba(22, 131, 77, 0.055);
-            pointer-events: none;
-        }
-
-        .page-intro .section-header {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Remove o espaço exagerado caso o CSS original tenha botão aqui */
-        .page-intro .section-header {
-            align-items: center;
-        }
-
-
-        /* =====================================================
-           PAINEL DE PESQUISA — NOVO LAYOUT
-        ====================================================== */
-
-        .objects-search-area {
-            margin-top: 4px;
-        }
-
-        .search-panel {
-            width: 100%;
-            box-sizing: border-box;
-
-            background: #ffffff;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 20px;
-
-            padding: 20px;
-
-            box-shadow:
-                0 8px 30px rgba(15, 23, 42, 0.045);
-
-            transition:
-                border-color .25s ease,
-                box-shadow .25s ease;
-        }
-
-        .search-panel:focus-within {
-            border-color: rgba(22, 131, 77, .32);
-
-            box-shadow:
-                0 12px 38px rgba(22, 131, 77, .075);
-        }
-
-        .search-main-row {
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1fr)
-                180px
-                180px;
-
-            gap: 12px;
-
-            align-items: end;
-        }
-
-        .search-panel-main {
-            height: 50px;
-
-            min-width: 0;
-
-            display: flex;
-            align-items: center;
-
-            gap: 11px;
-
-            padding: 0 15px;
-
-            box-sizing: border-box;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 13px;
-
-            background: #f8fafc;
-
-            transition: .2s;
-        }
-
-        .search-panel-main:focus-within {
-            background: #ffffff;
-
-            border-color: #16834d;
-
-            box-shadow:
-                0 0 0 3px rgba(22, 131, 77, .08);
-        }
-
-        .search-panel-main i {
-            flex-shrink: 0;
-
-            color: #9ca3af;
-
-            font-size: 14px;
-        }
-
-        .search-panel-main input {
-            width: 100%;
-            min-width: 0;
-
-            border: 0;
-            outline: 0;
-
-            background: transparent;
-
-            font-family: inherit;
-
-            font-size: 13px;
-
-            color: #111827;
-        }
-
-        .search-panel-main input::placeholder {
-            color: #9ca3af;
-        }
-
-        .filter-group {
-            min-width: 0;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 6px;
-        }
-
-        .filter-group label {
-            color: #6b7280;
-
-            font-size: 11px;
-
-            font-weight: 700;
-        }
-
-        .filter-group select {
-            width: 100%;
-            height: 50px;
-
-            box-sizing: border-box;
-
-            padding: 0 13px;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 13px;
-
-            background: #f8fafc;
-
-            color: #374151;
-
-            font-family: inherit;
-
-            font-size: 13px;
-
-            outline: none;
-
-            cursor: pointer;
-
-            transition: .2s;
-        }
-
-        .filter-group select:hover {
-            border-color: #cbd5e1;
-        }
-
-        .filter-group select:focus {
-            background: #ffffff;
-
-            border-color: #16834d;
-
-            box-shadow:
-                0 0 0 3px rgba(22, 131, 77, .08);
-        }
-
-
-        /* =====================================================
-           SEGUNDA LINHA DO PAINEL
-        ====================================================== */
-
-        .search-bottom-row {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 15px;
-
-            margin-top: 16px;
-
-            padding-top: 15px;
-
-            border-top: 1px solid #f0f2f5;
-        }
-
-        .quick-filters {
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-            flex-wrap: wrap;
-        }
-
-        .quick-filter-label {
-            color: #9ca3af;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            margin-right: 2px;
-        }
-
-        .quick-filter {
-            height: 32px;
-
-            padding: 0 11px;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 20px;
-
-            background: #ffffff;
-
-            color: #6b7280;
-
-            font-family: inherit;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-            transition: .2s;
-        }
-
-        .quick-filter:hover {
-            border-color: #a7d8bc;
-
-            color: #16834d;
-
-            background: #f0fdf4;
-        }
-
-        .quick-filter.active {
-            border-color: #16834d;
-
-            background: #16834d;
-
-            color: #ffffff;
-
-            box-shadow:
-                0 4px 12px rgba(22, 131, 77, .18);
-        }
-
-        .filter-button {
-            height: 38px;
-
-            flex-shrink: 0;
-
-            padding: 0 14px;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 10px;
-
-            background: #ffffff;
-
-            color: #6b7280;
-
-            font-family: inherit;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 7px;
-
-            transition: .2s;
-        }
-
-        .filter-button:hover {
-            border-color: #fecaca;
-
-            background: #fef2f2;
-
-            color: #dc2626;
-        }
-
-
-        /* =====================================================
-           FILTROS ATIVOS
-        ====================================================== */
-
-        .active-filters {
-            display: none;
-
-            align-items: center;
-
-            flex-wrap: wrap;
-
-            gap: 7px;
-
-            margin-top: 12px;
-
-            padding: 0 3px;
-        }
-
-        .active-filters.show {
-            display: flex;
-        }
-
-        .active-filter-title {
-            color: #9ca3af;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: .04em;
-        }
-
-        .active-filter {
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            padding: 5px 9px;
-
-            border-radius: 20px;
-
-            background: #f0fdf4;
-
-            color: #16834d;
-
-            font-size: 10px;
-
-            font-weight: 600;
-        }
-
-
-        /* =====================================================
-           RESUMO DO CATÁLOGO
-        ====================================================== */
-
-        .catalog-summary {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 12px;
-
-            margin-bottom: 22px;
-        }
-
-        .catalog-stat {
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
-            min-width: 0;
-
-            padding: 14px 16px;
-
-            border: 1px solid #edf0f3;
-
-            border-radius: 15px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 5px 20px rgba(15, 23, 42, .035);
-        }
-
-        .catalog-stat-icon {
-            width: 38px;
-            height: 38px;
-
-            flex-shrink: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 11px;
-
-            background: #f0fdf4;
-
-            color: #16834d;
-
-            font-size: 13px;
-        }
-
-        .catalog-stat:nth-child(2) .catalog-stat-icon {
-            background: #eff6ff;
-
-            color: #2563eb;
-        }
-
-        .catalog-stat:nth-child(3) .catalog-stat-icon {
-            background: #fff7ed;
-
-            color: #ea580c;
-        }
-
-        .catalog-stat-info {
-            min-width: 0;
-        }
-
-        .catalog-stat-info strong {
-            display: block;
-
-            color: #111827;
-
-            font-size: 16px;
-
-            line-height: 1.2;
-        }
-
-        .catalog-stat-info span {
-            display: block;
-
-            margin-top: 2px;
-
-            color: #9ca3af;
-
-            font-size: 10px;
-        }
-
-
-        /* =====================================================
-           RESULTADOS
-        ====================================================== */
-
-        .results-header {
-            align-items: flex-end;
-
-            gap: 20px;
-        }
-
-        .results-header > div:first-child {
-            min-width: 0;
-        }
-
-        #resultCount {
-            margin-top: 5px;
-        }
-
-        .result-highlight {
-            color: #16834d;
-
-            font-weight: 700;
-        }
-
-        .sort-box {
-            min-width: 210px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-        }
-
-        .sort-box label {
-            flex-shrink: 0;
-
-            color: #6b7280;
-
-            font-size: 11px;
-
-            white-space: nowrap;
-        }
-
-        .sort-box select {
-            width: 100%;
-
-            height: 42px;
-
-            padding: 0 11px;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 10px;
-
-            background: #ffffff;
-
-            color: #374151;
-
-            font-family: inherit;
-
-            font-size: 11px;
-
-            outline: none;
-
-            cursor: pointer;
-        }
-
-        .sort-box select:focus {
-            border-color: #16834d;
-
-            box-shadow:
-                0 0 0 3px rgba(22, 131, 77, .07);
-        }
-
-
-        /* =====================================================
-           GRID DOS OBJETOS
-        ====================================================== */
-
-        .items-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 18px;
-
-            margin-top: 18px;
-        }
-
-        .item-card {
-            min-width: 0;
-
-            overflow: hidden;
-
-            border: 1px solid #e8ebef;
-
-            border-radius: 17px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 5px 20px rgba(15, 23, 42, .035);
-
-            cursor: pointer;
-
-            transition:
-                transform .25s ease,
-                box-shadow .25s ease,
-                border-color .25s ease;
-        }
-
-        .item-card:hover {
-            transform: translateY(-5px);
-
-            border-color: #d5e9dc;
-
-            box-shadow:
-                0 18px 40px rgba(15, 23, 42, .09);
-        }
-
-        .item-card:focus-visible {
-            outline: 3px solid rgba(22, 131, 77, .2);
-
-            outline-offset: 2px;
-        }
-
-        .item-image {
-            position: relative;
-
-            width: 100%;
-
-            height: 190px;
-
-            overflow: hidden;
-
-            background: #f3f4f6;
-        }
-
-        .item-image img {
-            display: block;
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-
-            transition:
-                transform .55s ease;
-        }
-
-        .item-card:hover .item-image img {
-            transform: scale(1.06);
-        }
-
-        .item-image::after {
-            content: "";
-
-            position: absolute;
-
-            inset: 0;
-
-            background:
-                linear-gradient(
-                    to bottom,
-                    rgba(15, 23, 42, .02),
-                    transparent 55%,
-                    rgba(15, 23, 42, .18)
-                );
-
-            pointer-events: none;
-        }
-
-        .item-status {
-            position: absolute;
-
-            z-index: 3;
-
-            top: 13px;
-            left: 13px;
-
-            padding: 6px 9px;
-
-            border-radius: 20px;
-
-            background: #ffffff;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            box-shadow:
-                0 5px 15px rgba(15, 23, 42, .12);
-        }
-
-        .item-status.found {
-            color: #16834d;
-        }
-
-        .item-status.lost {
-            color: #dc2626;
-        }
-
-        .item-content {
-            padding: 16px;
-
-            min-width: 0;
-        }
-
-        .item-category {
-            margin-bottom: 5px;
-
-            color: #16834d;
-
-            font-size: 9px;
-
-            font-weight: 700;
-
-            letter-spacing: .08em;
-
-            text-transform: uppercase;
-        }
-
-        .item-content h3 {
-            overflow: hidden;
-
-            margin: 0;
-
-            color: #111827;
-
-            font-size: 15px;
-
-            white-space: nowrap;
-
-            text-overflow: ellipsis;
-
-            transition: color .2s;
-        }
-
-        .item-card:hover .item-content h3 {
-            color: #16834d;
-        }
-
-        .item-info {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 8px;
-
-            margin-top: 13px;
-
-            color: #6b7280;
-
-            font-size: 10px;
-        }
-
-        .item-info span {
-            min-width: 0;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 5px;
-        }
-
-        .item-info span:first-child {
-            overflow: hidden;
-
-            max-width: 72%;
-
-            white-space: nowrap;
-
-            text-overflow: ellipsis;
-        }
-
-        .item-info i {
-            flex-shrink: 0;
-
-            color: #16834d;
-
-            font-size: 10px;
-        }
-
-        .item-footer {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            margin-top: 15px;
-
-            padding-top: 13px;
-
-            border-top: 1px solid #f0f2f5;
-        }
-
-        .verified {
-            min-width: 0;
-
-            overflow: hidden;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 5px;
-
-            color: #9ca3af;
-
-            font-size: 9px;
-
-            white-space: nowrap;
-
-            text-overflow: ellipsis;
-
-            transition: color .2s;
-        }
-
-        .verified i {
-            flex-shrink: 0;
-
-            color: #16834d;
-        }
-
-        .item-card:hover .verified {
-            color: #6b7280;
-        }
-
-        .item-action {
-            width: 34px;
-            height: 34px;
-
-            flex-shrink: 0;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 9px;
-
-            background: #ffffff;
-
-            color: #6b7280;
-
-            cursor: pointer;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            transition: .2s;
-        }
-
-        .item-action:hover {
-            border-color: #16834d;
-
-            background: #16834d;
-
-            color: #ffffff;
-
-            transform: translateY(-2px);
-        }
-
-
-        /* =====================================================
-           EMPTY STATE
-        ====================================================== */
-
-        .empty-state {
-            display: none;
-
-            margin-top: 20px;
-
-            padding: 55px 20px;
-
-            text-align: center;
-
-            border: 1px dashed #d5dbe2;
-
-            border-radius: 18px;
-
-            background: #ffffff;
-        }
-
-        .empty-state.show {
-            display: block;
-
-            animation: fadeUp .3s ease;
-        }
-
-        .empty-state > i {
-            width: 62px;
-            height: 62px;
-
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 15px;
-
-            border-radius: 18px;
-
-            background: #f0fdf4;
-
-            color: #16834d;
-
-            font-size: 24px;
-        }
-
-        .empty-state h3 {
-            margin: 0 0 7px;
-
-            color: #111827;
-
-            font-size: 17px;
-        }
-
-        .empty-state p {
-            margin: 0;
-
-            color: #6b7280;
-
-            font-size: 12px;
-        }
-
-        .empty-reset {
-            margin-top: 17px;
-
-            height: 38px;
-
-            padding: 0 14px;
-
-            border: 0;
-
-            border-radius: 10px;
-
-            background: #16834d;
-
-            color: #ffffff;
-
-            font-family: inherit;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-        }
-
-
-        /* =====================================================
-           MODAL
-        ====================================================== */
-
-        .object-modal {
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 9999;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            background: rgba(15, 23, 42, .68);
-
-            backdrop-filter: blur(7px);
-            -webkit-backdrop-filter: blur(7px);
-        }
-
-        .object-modal.show {
-            display: flex;
-
-            animation: modalFade .2s ease;
-        }
-
-        .object-modal-box {
-            width: 100%;
-
-            max-width: 800px;
-
-            max-height: 92vh;
-
-            overflow: hidden;
-
-            display: grid;
-
-            grid-template-columns: .95fr 1.05fr;
-
-            border-radius: 22px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 30px 80px rgba(15, 23, 42, .28);
-
-            animation: modalOpen .28s ease;
-        }
-
-        .object-modal-image {
-            position: relative;
-
-            min-height: 440px;
-
-            background: #f3f4f6;
-        }
-
-        .object-modal-image img {
-            display: block;
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-        }
-
-        .object-modal-image::after {
-            content: "";
-
-            position: absolute;
-
-            inset: 0;
-
-            background:
-                linear-gradient(
-                    to top,
-                    rgba(15, 23, 42, .35),
-                    transparent 50%
-                );
-
-            pointer-events: none;
-        }
-
-        .modal-status {
-            position: absolute;
-
-            z-index: 4;
-
-            top: 18px;
-            left: 18px;
-
-            padding: 7px 11px;
-
-            border-radius: 20px;
-
-            background: #ffffff;
-
-            color: #16834d;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            box-shadow:
-                0 5px 15px rgba(15, 23, 42, .14);
-        }
-
-        .modal-status.lost-modal {
-            color: #dc2626;
-        }
-
-        .object-modal-info {
-            position: relative;
-
-            padding: 30px;
-
-            overflow-y: auto;
-        }
-
-        .modal-close {
-            position: absolute;
-
-            top: 17px;
-            right: 17px;
-
-            width: 38px;
-            height: 38px;
-
-            border: 0;
-
-            border-radius: 10px;
-
-            background: #f3f4f6;
-
-            color: #6b7280;
-
-            cursor: pointer;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            transition: .2s;
-        }
-
-        .modal-close:hover {
-            background: #fee2e2;
-
-            color: #dc2626;
-        }
-
-        .modal-category {
-            margin-bottom: 7px;
-
-            color: #16834d;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            letter-spacing: .08em;
-
-            text-transform: uppercase;
-        }
-
-        .object-modal-info h2 {
-            margin: 0 50px 9px 0;
-
-            color: #111827;
-
-            font-size: 25px;
-
-            line-height: 1.2;
-        }
-
-        .modal-description {
-            margin: 0 0 22px;
-
-            color: #6b7280;
-
-            font-size: 12px;
-
-            line-height: 1.7;
-        }
-
-        .modal-detail-list {
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 9px;
-
-            padding: 15px;
-
-            border: 1px solid #edf0f3;
-
-            border-radius: 15px;
-
-            background: #f8fafc;
-        }
-
-        .modal-detail {
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-        }
-
-        .modal-detail-icon {
-            width: 35px;
-            height: 35px;
-
-            flex-shrink: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 10px;
-
-            background: #dcfce7;
-
-            color: #16834d;
-
-            font-size: 12px;
-        }
-
-        .modal-detail div {
-            min-width: 0;
-        }
-
-        .modal-detail span {
-            display: block;
-
-            margin-bottom: 2px;
-
-            color: #9ca3af;
-
-            font-size: 9px;
-        }
-
-        .modal-detail strong {
-            display: block;
-
-            color: #374151;
-
-            font-size: 11px;
-        }
-
-        .modal-footer {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            margin-top: 20px;
-
-            padding-top: 18px;
-
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .modal-footer-actions {
-            display: flex;
-
-            align-items: center;
-
-            gap: 7px;
-        }
-
-        .modal-verified {
-            display: flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            color: #16834d;
-
-            font-size: 10px;
-
-            font-weight: 600;
-        }
-
-        .modal-copy-button {
-            width: 40px;
-            height: 40px;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 10px;
-
-            background: #ffffff;
-
-            color: #6b7280;
-
-            cursor: pointer;
-
-            transition: .2s;
-        }
-
-        .modal-copy-button:hover {
-            border-color: #16834d;
-
-            color: #16834d;
-
-            background: #f0fdf4;
-        }
-
-        .modal-contact-button {
-            height: 40px;
-
-            padding: 0 14px;
-
-            border: 0;
-
-            border-radius: 10px;
-
-            background: #16834d;
-
-            color: #ffffff;
-
-            font-family: inherit;
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 7px;
-
-            transition: .2s;
-        }
-
-        .modal-contact-button:hover {
-            background: #126b3f;
-
-            transform: translateY(-1px);
-        }
-
-
-        /* =====================================================
-           TOAST
-        ====================================================== */
-
-        .toast {
-            position: fixed;
-
-            z-index: 10000;
-
-            right: 24px;
-            bottom: 24px;
-
-            min-width: 280px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-            padding: 13px 15px;
-
-            border: 1px solid #dcfce7;
-
-            border-radius: 13px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 15px 35px rgba(15, 23, 42, .16);
-
-            opacity: 0;
-
-            visibility: hidden;
-
-            transform: translateY(15px);
-
-            transition: .25s;
-        }
-
-        .toast.show {
-            opacity: 1;
-
-            visibility: visible;
-
-            transform: translateY(0);
-        }
-
-        .toast-icon {
-            width: 35px;
-            height: 35px;
-
-            flex-shrink: 0;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: #dcfce7;
-
-            color: #16834d;
-        }
-
-        .toast strong {
-            display: block;
-
-            color: #111827;
-
-            font-size: 11px;
-        }
-
-        .toast span {
-            display: block;
-
-            margin-top: 2px;
-
-            color: #6b7280;
-
-            font-size: 10px;
-        }
-
-
-        /* =====================================================
-           ANIMAÇÕES
-        ====================================================== */
-
-        @keyframes fadeUp {
-
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-        }
-
-        @keyframes modalFade {
-
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-
-        }
-
-        @keyframes modalOpen {
-
-            from {
-                opacity: 0;
-
-                transform:
-                    translateY(20px)
-                    scale(.97);
-            }
-
-            to {
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-            }
-
-        }
-
-
-        /* =====================================================
-           RESPONSIVIDADE
-        ====================================================== */
-
-        @media (max-width: 1100px) {
-
-            .items-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-            .search-main-row {
-                grid-template-columns:
-                    minmax(0, 1fr)
-                    160px
-                    160px;
-            }
-
-        }
-
-
-        @media (max-width: 900px) {
-
-            .search-main-row {
-                grid-template-columns:
-                    1fr 1fr;
-            }
-
-            .search-panel-main {
-                grid-column: 1 / -1;
-            }
-
-            .catalog-summary {
-                grid-template-columns:
-                    repeat(3, minmax(0, 1fr));
-            }
-
-        }
-
-
-        @media (max-width: 760px) {
-
-            .object-modal-box {
-                grid-template-columns: 1fr;
-
-                max-width: 540px;
-
-                max-height: 90vh;
-
-                overflow-y: auto;
-            }
-
-            .object-modal-image {
-                min-height: 260px;
-
-                max-height: 280px;
-            }
-
-            .object-modal-info {
-                padding: 24px;
-            }
-
-            .catalog-summary {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-
-        @media (max-width: 650px) {
-
-            .search-main-row {
-                grid-template-columns: 1fr;
-            }
-
-            .search-panel-main {
-                grid-column: auto;
-            }
-
-            .search-bottom-row {
-                align-items: flex-start;
-
-                flex-direction: column;
-            }
-
-            .filter-button {
-                width: 100%;
-            }
-
-            .items-grid {
-                grid-template-columns: 1fr;
-
-                gap: 14px;
-            }
-
-            .item-image {
-                height: 210px;
-            }
-
-            .results-header {
-                align-items: stretch;
-
-                flex-direction: column;
-            }
-
-            .sort-box {
-                width: 100%;
-
-                min-width: 0;
-            }
-
-            .sort-box select {
-                width: 100%;
-            }
-
-            .toast {
-                left: 15px;
-                right: 15px;
-
-                bottom: 15px;
-
-                min-width: 0;
-            }
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            .search-panel {
-                padding: 14px;
-
-                border-radius: 16px;
-            }
-
-            .quick-filters {
-                width: 100%;
-            }
-
-            .quick-filter {
-                flex: 1;
-            }
-
-            .object-modal {
-                padding: 10px;
-            }
-
-            .object-modal-box {
-                border-radius: 17px;
-            }
-
-            .object-modal-image {
-                min-height: 210px;
-            }
-
-            .object-modal-info {
-                padding: 20px;
-            }
-
-            .object-modal-info h2 {
-                font-size: 21px;
-            }
-
-            .modal-footer {
-                align-items: stretch;
-
-                flex-direction: column;
-            }
-
-            .modal-footer-actions {
-                width: 100%;
-            }
-
-            .modal-contact-button {
-                flex: 1;
-
-                justify-content: center;
-            }
-
-            .modal-copy-button {
-                flex-shrink: 0;
-            }
-
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-<div class="app">
-
-
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
-
-    <aside
-        class="sidebar"
-        id="sidebar"
-    >
-
-        <div class="logo">
-
-            <a
-                href="index.html"
-                style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:12px;"
-            >
-
-                <div class="logo-icon">
-
-                    <i class="fa-solid fa-location-dot"></i>
-
-                </div>
-
-                <div class="logo-text">
-
-                    <strong>
-                        ACHADOS IFPI
-                    </strong>
-
-                    <span>
-                        Comunidade acadêmica
-                    </span>
-
-                </div>
-
-            </a>
-
-        </div>
-
-
-        <div class="menu-title">
-            Principal
-        </div>
-
-
-        <nav class="menu">
-
-            <a href="index.html">
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>
-                    Visão geral
-                </span>
-
-            </a>
-
-
-            <a
-                href="objetos.html"
-                class="active"
-            >
-
-                <i class="fa-solid fa-box-open"></i>
-
-                <span>
-                    Explorar objetos
-                </span>
-
-            </a>
-
-
-            <a href="registrar.html">
-
-                <i class="fa-solid fa-plus"></i>
-
-                <span>
-                    Registrar ocorrência
-                </span>
-
-            </a>
-
-
-            <a href="mapa.html">
-
-                <i class="fa-solid fa-map-location-dot"></i>
-
-                <span>
-                    Mapa do campus
-                </span>
-
-            </a>
-
-        </nav>
-
-
-        <div class="menu-title">
-            Minha conta
-        </div>
-
-
-        <nav class="menu">
-
-            <a href="registros.html">
-
-                <i class="fa-solid fa-clipboard-list"></i>
-
-                <span>
-                    Meus registros
-                </span>
-
-            </a>
-
-
-            <a href="mensagens.html">
-
-                <i class="fa-regular fa-message"></i>
-
-                <span>
-                    Mensagens
-                </span>
-
-            </a>
-
-
-            <a href="configuracoes.html">
-
-                <i class="fa-solid fa-gear"></i>
-
-                <span>
-                    Configurações
-                </span>
-
-            </a>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-            <div class="profile">
-
-                <div class="avatar">
-                    ED
-                </div>
-
-                <div class="profile-info">
-
-                    <strong>
-                        Eduarda
-                    </strong>
-
-                    <span>
-                        Conta verificada
-                    </span>
-
-                </div>
-
-                <button
-                    class="logout-button"
-                    type="button"
-                    aria-label="Sair"
-                >
-
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
-    <main class="main">
-
-
-        <!-- =================================================
-             HEADER
-        ================================================== -->
-
-        <header class="header">
-
-            <div class="header-left">
-
-                <button
-                    class="mobile-menu-button"
-                    id="mobileMenuButton"
-                    type="button"
-                    aria-label="Abrir menu"
-                >
-
-                    <i class="fa-solid fa-bars"></i>
-
-                </button>
-
-
-                <div>
-
-                    <h2 class="header-title">
-                        Explorar objetos
-                    </h2>
-
-                    <p class="header-subtitle">
-                        Encontre objetos perdidos e encontrados no campus.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="header-right">
-
-                <div class="global-search">
-
-                    <i class="fa-solid fa-magnifying-glass"></i>
-
-                    <input
-                        type="search"
-                        id="globalSearch"
-                        placeholder="Buscar objetos..."
-                        aria-label="Buscar objetos"
-                    >
-
-                    <span class="search-shortcut">
-                        /
-                    </span>
-
-                </div>
-
-
-                <div class="system-status">
-
-                    <span class="online-dot"></span>
-
-                    Sistema online
-
-                </div>
-
-
-                <a
-                    href="mensagens.html"
-                    class="notification-button"
-                    aria-label="Notificações"
-                >
-
-                    <i class="fa-regular fa-bell"></i>
-
-                    <span class="notification-count">
-                        3
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="configuracoes.html"
-                    class="header-avatar"
-                    aria-label="Perfil de Eduarda"
-                >
-                    ED
-                </a>
-
-            </div>
-
-        </header>
-
-
-        <!-- =================================================
-             CONTENT
-        ================================================== -->
-
-        <div class="content">
-
-
-            <!-- =================================================
-                 INTRODUÇÃO
-            ================================================== -->
-
-            <section class="section page-intro">
-
-                <div class="section-header">
-
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Achados IFPI | Catálogo de objetos{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --catalog-green: #16834d;
+    --catalog-green-dark: #10663b;
+    --catalog-green-light: #eaf6ee;
+    --catalog-bg: #f5f7f6;
+    --catalog-surface: #ffffff;
+    --catalog-text: #17251d;
+    --catalog-muted: #738078;
+    --catalog-border: #e4ebe6;
+    --catalog-red: #d74747;
+    --catalog-shadow: 0 8px 28px rgba(23, 53, 35, .06);
+    --catalog-radius: 18px;
+}
+
+.catalog-page,
+.catalog-page * {
+    box-sizing: border-box;
+}
+
+.catalog-page {
+    width: 100%;
+    min-width: 0;
+    color: var(--catalog-text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+}
+
+.catalog-page button,
+.catalog-page input,
+.catalog-page select {
+    font: inherit;
+}
+
+.catalog-page button,
+.catalog-page a,
+.catalog-page input,
+.catalog-page select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.catalog-page button:focus-visible,
+.catalog-page a:focus-visible,
+.catalog-page input:focus-visible,
+.catalog-page select:focus-visible {
+    outline: 3px solid rgba(22, 131, 77, .23);
+    outline-offset: 2px;
+}
+
+.catalog-page a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.catalog-layout {
+    display: grid;
+    grid-template-columns: minmax(225px, 265px) minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.catalog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+}
+
+.catalog-panel {
+    min-width: 0;
+    padding: 21px;
+    background: var(--catalog-surface);
+    border: 1px solid var(--catalog-border);
+    border-radius: var(--catalog-radius);
+    box-shadow: var(--catalog-shadow);
+}
+
+.catalog-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 23px;
+}
+
+.catalog-brand-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    color: white;
+    background: var(--catalog-green);
+    border-radius: 14px;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.catalog-brand-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -.3px;
+}
+
+.catalog-brand-caption {
+    margin: 4px 0 0;
+    color: var(--catalog-muted);
+    font-size: 12px;
+}
+
+.catalog-sidebar-title {
+    margin: 0 0 15px;
+    color: var(--catalog-text);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.catalog-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.catalog-filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.catalog-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #58675e;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.catalog-select,
+.catalog-search-input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 45px;
+    padding: 0 13px;
+    color: var(--catalog-text);
+    background: #fff;
+    border: 1px solid #dce5de;
+    border-radius: 11px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.catalog-select {
+    cursor: pointer;
+}
+
+.catalog-select:focus,
+.catalog-search-input:focus {
+    border-color: var(--catalog-green);
+    box-shadow: 0 0 0 3px rgba(22, 131, 77, .09);
+    outline: none;
+}
+
+.catalog-quick-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.catalog-quick-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    color: #506057;
+    text-align: left;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
+}
+
+.catalog-quick-filter:hover {
+    color: var(--catalog-green-dark);
+    background: #f4f9f5;
+}
+
+.catalog-quick-filter.is-active {
+    color: var(--catalog-green-dark);
+    background: var(--catalog-green-light);
+    border-color: #d4ebda;
+    font-weight: 750;
+}
+
+.catalog-quick-icon {
+    display: grid;
+    place-items: center;
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    background: rgba(22, 131, 77, .09);
+    border-radius: 8px;
+}
+
+.catalog-quick-count {
+    margin-left: auto;
+    color: var(--catalog-muted);
+    font-size: 12px;
+}
+
+.catalog-reset-button {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    color: var(--catalog-green-dark);
+    background: white;
+    border: 1px solid #cfe3d4;
+    border-radius: 10px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.catalog-reset-button:hover {
+    background: var(--catalog-green-light);
+}
+
+.catalog-sidebar-note {
+    padding: 17px;
+    color: #42624c;
+    background: #edf7ef;
+    border: 1px solid #d8ecdc;
+    border-radius: 15px;
+    line-height: 1.6;
+}
+
+.catalog-sidebar-note strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #215d36;
+}
+
+.catalog-sidebar-note p {
+    margin: 0;
+    font-size: 12px;
+}
+
+.catalog-main {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+}
+
+.catalog-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
+}
+
+.catalog-eyebrow {
+    margin: 0 0 8px;
+    color: var(--catalog-green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.catalog-title {
+    margin: 0;
+    font-size: clamp(25px, 3vw, 35px);
+    font-weight: 850;
+    letter-spacing: -1.2px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.catalog-subtitle {
+    max-width: 620px;
+    margin: 10px 0 0;
+    color: var(--catalog-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.catalog-heading-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    flex: 0 0 auto;
+}
+
+.catalog-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 11px 15px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: transform .2s, background .2s, box-shadow .2s;
+}
+
+.catalog-button:hover {
+    transform: translateY(-1px);
+}
+
+.catalog-button-primary {
+    color: white;
+    background: var(--catalog-green);
+    box-shadow: 0 5px 14px rgba(22, 131, 77, .15);
+}
+
+.catalog-button-primary:hover {
+    background: var(--catalog-green-dark);
+}
+
+.catalog-button-secondary {
+    color: #405348;
+    background: white;
+    border-color: var(--catalog-border);
+}
+
+.catalog-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.catalog-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    min-height: 105px;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--catalog-border);
+    border-radius: 16px;
+    box-shadow: var(--catalog-shadow);
+}
+
+.catalog-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 47px;
+    height: 47px;
+    flex: 0 0 47px;
+    border-radius: 14px;
+    font-size: 21px;
+}
+
+.catalog-stat-icon.total {
+    color: #197348;
+    background: #e8f5ed;
+}
+
+.catalog-stat-icon.found {
+    color: #2474bc;
+    background: #eaf3fc;
+}
+
+.catalog-stat-icon.lost {
+    color: #bd4949;
+    background: #fceeee;
+}
+
+.catalog-stat-info {
+    min-width: 0;
+}
+
+.catalog-stat-number {
+    display: block;
+    margin-bottom: 5px;
+    font-size: clamp(22px, 2vw, 29px);
+    font-weight: 850;
+    line-height: 1;
+    letter-spacing: -.7px;
+    font-variant-numeric: tabular-nums;
+}
+
+.catalog-stat-label {
+    display: block;
+    color: var(--catalog-muted);
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.catalog-search-panel {
+    padding: 19px;
+    background: white;
+    border: 1px solid var(--catalog-border);
+    border-radius: 16px;
+    box-shadow: var(--catalog-shadow);
+}
+
+.catalog-search-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(155px, 190px) auto;
+    align-items: end;
+    gap: 12px;
+}
+
+.catalog-search-field {
+    min-width: 0;
+}
+
+.catalog-search-field .catalog-label {
+    margin-bottom: 8px;
+}
+
+.catalog-search-wrap {
+    position: relative;
+    min-width: 0;
+}
+
+.catalog-search-symbol {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    z-index: 1;
+    color: #78877d;
+    font-size: 17px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.catalog-search-input {
+    min-height: 48px;
+    padding: 0 14px 0 42px;
+    font-size: 13px;
+}
+
+.catalog-search-input::placeholder {
+    color: #929e96;
+    opacity: 1;
+}
+
+.catalog-search-submit {
+    min-height: 48px;
+    padding: 0 19px;
+    white-space: nowrap;
+}
+
+.catalog-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.catalog-results-title {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 850;
+    letter-spacing: -.4px;
+}
+
+.catalog-results-count {
+    margin: 6px 0 0;
+    color: var(--catalog-muted);
+    font-size: 12px;
+}
+
+.catalog-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 13px;
+}
+
+.catalog-active-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    color: #215d36;
+    background: #edf7ef;
+    border: 1px solid #d8ecdc;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+.catalog-active-chip button {
+    padding: 0;
+    color: inherit;
+    background: none;
+    border: 0;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+    min-width: 0;
+}
+
+.catalog-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    background: white;
+    border: 1px solid var(--catalog-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(23, 53, 35, .035);
+    transition: transform .22s, box-shadow .22s, border-color .22s;
+}
+
+.catalog-card:hover {
+    transform: translateY(-4px);
+    border-color: #cfe3d4;
+    box-shadow: 0 13px 30px rgba(23, 53, 35, .09);
+}
+
+.catalog-card[hidden] {
+    display: none !important;
+}
+
+.catalog-card-image-wrap {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    background: #eef3ef;
+}
+
+.catalog-card-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s;
+}
+
+.catalog-card:hover .catalog-card-image {
+    transform: scale(1.045);
+}
+
+.catalog-status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: calc(100% - 24px);
+    padding: 7px 10px;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.catalog-status.found {
+    color: #187344;
+}
+
+.catalog-status.lost {
+    color: #b83939;
+}
+
+.catalog-status-dot {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    background: currentColor;
+    border-radius: 50%;
+}
+
+.catalog-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+    min-width: 0;
+    padding: 16px;
+}
+
+.catalog-card-category {
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 6px 9px;
+    color: #37704b;
+    background: #edf7ef;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.catalog-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 850;
+    letter-spacing: -.3px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.catalog-card-description {
+    display: -webkit-box;
+    min-height: 38px;
+    margin: 0;
+    overflow: hidden;
+    color: var(--catalog-muted);
+    font-size: 12px;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.catalog-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding-top: 12px;
+    border-top: 1px solid #edf1ee;
+}
+
+.catalog-card-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #66746a;
+    font-size: 11px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.catalog-card-detail-icon {
+    flex: 0 0 16px;
+    color: var(--catalog-green);
+    text-align: center;
+}
+
+.catalog-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #edf1ee;
+}
+
+.catalog-card-date {
+    color: var(--catalog-muted);
+    font-size: 10px;
+}
+
+.catalog-card-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 34px;
+    padding: 8px 10px;
+    color: var(--catalog-green-dark);
+    background: var(--catalog-green-light);
+    border: 1px solid #dcefe1;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.catalog-card-view:hover {
+    background: #dcefe1;
+}
+
+.catalog-empty {
+    display: none;
+    padding: 55px 20px;
+    text-align: center;
+    background: white;
+    border: 1px dashed #cddbd0;
+    border-radius: 16px;
+}
+
+.catalog-empty.is-visible {
+    display: block;
+}
+
+.catalog-empty-icon {
+    display: grid;
+    place-items: center;
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 16px;
+    color: var(--catalog-green);
+    background: var(--catalog-green-light);
+    border-radius: 20px;
+    font-size: 28px;
+}
+
+.catalog-empty h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.catalog-empty p {
+    margin: 0 0 18px;
+    color: var(--catalog-muted);
+    line-height: 1.6;
+}
+
+.catalog-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    padding: 25px;
+    color: white;
+    background: linear-gradient(120deg, #126c3d, #209457);
+    border-radius: 18px;
+    box-shadow: 0 12px 26px rgba(22, 131, 77, .13);
+}
+
+.catalog-cta h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 850;
+    letter-spacing: -.4px;
+}
+
+.catalog-cta p {
+    max-width: 500px;
+    margin: 0;
+    color: rgba(255, 255, 255, .83);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.catalog-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    flex: 0 0 auto;
+}
+
+.catalog-cta .catalog-button-primary {
+    color: #17663b;
+    background: white;
+    box-shadow: none;
+}
+
+.catalog-cta .catalog-button-primary:hover {
+    background: #edf7ef;
+}
+
+.catalog-cta .catalog-button-secondary {
+    color: white;
+    background: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .4);
+}
+
+.catalog-footer {
+    padding: 7px 0 2px;
+    color: var(--catalog-muted);
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.catalog-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(13, 27, 18, .6);
+    backdrop-filter: blur(5px);
+}
+
+.catalog-modal.is-open {
+    display: flex;
+}
+
+.catalog-modal-dialog {
+    position: relative;
+    width: min(100%, 560px);
+    max-height: min(90vh, 760px);
+    overflow-y: auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, .25);
+    animation: catalogModalEnter .2s ease-out;
+}
+
+@keyframes catalogModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.99);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.catalog-modal-image {
+    display: block;
+    width: 100%;
+    height: 245px;
+    object-fit: cover;
+    background: #edf3ee;
+}
+
+.catalog-modal-content {
+    padding: 24px;
+}
+
+.catalog-modal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.catalog-modal-close {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    color: #526258;
+    background: #f1f5f2;
+    border: 0;
+    border-radius: 11px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.catalog-modal-title {
+    margin: 0 0 12px;
+    font-size: 25px;
+    font-weight: 850;
+    letter-spacing: -.7px;
+    overflow-wrap: anywhere;
+}
+
+.catalog-modal-description {
+    margin: 0 0 20px;
+    color: #68766d;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.catalog-modal-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.catalog-modal-detail {
+    min-width: 0;
+    padding: 13px;
+    background: #f6f9f6;
+    border: 1px solid #e8eee9;
+    border-radius: 12px;
+}
+
+.catalog-modal-detail span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--catalog-muted);
+    font-size: 10px;
+}
+
+.catalog-modal-detail strong {
+    display: block;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.catalog-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.catalog-modal-actions .catalog-button {
+    flex: 1 1 150px;
+}
+
+.catalog-toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 10001;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: min(360px, calc(100vw - 32px));
+    padding: 16px;
+    background: white;
+    border: 1px solid var(--catalog-border);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity .2s, transform .2s, visibility .2s;
+}
+
+.catalog-toast.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.catalog-toast-icon {
+    display: grid;
+    place-items: center;
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    color: var(--catalog-green);
+    background: var(--catalog-green-light);
+    border-radius: 10px;
+    font-size: 17px;
+}
+
+.catalog-toast strong {
+    display: block;
+    margin: 1px 0 4px;
+    font-size: 13px;
+}
+
+.catalog-toast p {
+    margin: 0;
+    color: var(--catalog-muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 1250px) {
+    .catalog-layout {
+        grid-template-columns: 225px minmax(0, 1fr);
+        gap: 17px;
+        padding: 18px;
+    }
+
+    .catalog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalog-heading {
+        flex-direction: column;
+    }
+
+    .catalog-stat {
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .catalog-stat-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+}
+
+@media (max-width: 850px) {
+    .catalog-layout {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 16px;
+    }
+
+    .catalog-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
+
+    .catalog-brand-panel {
+        grid-column: 1 / -1;
+    }
+
+    .catalog-sidebar-note {
+        grid-column: 1 / -1;
+    }
+
+    .catalog-search-row {
+        grid-template-columns: minmax(0, 1fr) minmax(150px, .7fr);
+    }
+
+    .catalog-search-submit {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .catalog-cta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 560px) {
+    .catalog-layout {
+        gap: 16px;
+        padding: 12px;
+    }
+
+    .catalog-sidebar {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .catalog-brand-panel,
+    .catalog-sidebar-note {
+        grid-column: auto;
+    }
+
+    .catalog-panel {
+        padding: 17px;
+    }
+
+    .catalog-heading-actions {
+        width: 100%;
+    }
+
+    .catalog-heading-actions .catalog-button {
+        flex: 1;
+    }
+
+    .catalog-stats {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 9px;
+    }
+
+    .catalog-stat {
+        min-height: 82px;
+        padding: 15px;
+    }
+
+    .catalog-stat-number {
+        font-size: 25px;
+    }
+
+    .catalog-search-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .catalog-search-submit {
+        grid-column: auto;
+    }
+
+    .catalog-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .catalog-card-image-wrap {
+        height: 215px;
+    }
+
+    .catalog-cta {
+        padding: 20px;
+    }
+
+    .catalog-cta-actions {
+        width: 100%;
+    }
+
+    .catalog-cta-actions .catalog-button {
+        flex: 1 1 100%;
+    }
+
+    .catalog-results-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .catalog-modal {
+        padding: 10px;
+    }
+
+    .catalog-modal-image {
+        height: 190px;
+    }
+
+    .catalog-modal-content {
+        padding: 17px;
+    }
+
+    .catalog-modal-title {
+        font-size: 21px;
+    }
+
+    .catalog-modal-details {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .catalog-toast {
+        right: 12px;
+        bottom: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .catalog-page *,
+    .catalog-modal,
+    .catalog-toast {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="catalog-page">
+    <div class="catalog-layout">
+        <aside class="catalog-sidebar" aria-label="Filtros do catálogo">
+            <section class="catalog-panel catalog-brand-panel">
+                <div class="catalog-brand">
+                    <div class="catalog-brand-icon" aria-hidden="true">A</div>
                     <div>
-
-                        <span class="section-eyebrow">
-                            CATÁLOGO DO CAMPUS
-                        </span>
-
-                        <h1>
-                            Encontre um objeto
-                        </h1>
-
-                        <p>
-                            Explore os objetos registrados pela comunidade acadêmica.
-                        </p>
-
+                        <p class="catalog-brand-name">Achados IFPI</p>
+                        <p class="catalog-brand-caption">Campus Paulistana</p>
                     </div>
-
                 </div>
 
+                <h2 class="catalog-sidebar-title">Navegação rápida</h2>
+
+                <nav class="catalog-quick-filters" aria-label="Filtros rápidos">
+                    <button class="catalog-quick-filter is-active" type="button" data-quick="all" aria-pressed="true">
+                        <span class="catalog-quick-icon" aria-hidden="true">▦</span>
+                        <span>Todos os objetos</span>
+                        <span class="catalog-quick-count" id="quickTotal">6</span>
+                    </button>
+
+                    <button class="catalog-quick-filter" type="button" data-quick="encontrado" aria-pressed="false">
+                        <span class="catalog-quick-icon" aria-hidden="true">✓</span>
+                        <span>Encontrados</span>
+                        <span class="catalog-quick-count" id="quickFound">5</span>
+                    </button>
+
+                    <button class="catalog-quick-filter" type="button" data-quick="perdido" aria-pressed="false">
+                        <span class="catalog-quick-icon" aria-hidden="true">⌕</span>
+                        <span>Perdidos</span>
+                        <span class="catalog-quick-count" id="quickLost">1</span>
+                    </button>
+                </nav>
             </section>
 
+            <section class="catalog-panel">
+                <h2 class="catalog-sidebar-title">Filtrar catálogo</h2>
 
-            <!-- =================================================
-                 BUSCA E FILTROS
-            ================================================== -->
+                <div class="catalog-filter-group">
+                    <label class="catalog-label" for="statusFilter">Situação do objeto</label>
+                    <select class="catalog-select" id="statusFilter">
+                        <option value="">Todas as situações</option>
+                        <option value="encontrado">Encontrado</option>
+                        <option value="perdido">Perdido</option>
+                    </select>
+                </div>
 
-            <section class="section objects-search-area">
+                <div class="catalog-filter-group">
+                    <label class="catalog-label" for="categoryFilter">Categoria</label>
+                    <select class="catalog-select" id="categoryFilter">
+                        <option value="">Todas as categorias</option>
+                        <option value="eletronicos">Eletrônicos</option>
+                        <option value="mochilas">Mochilas e bolsas</option>
+                        <option value="carteiras">Carteiras</option>
+                        <option value="materiais">Materiais escolares</option>
+                        <option value="outros">Outros objetos</option>
+                    </select>
+                </div>
 
-                <div class="search-panel">
+                <button class="catalog-reset-button" type="button" id="clearFilters">
+                    Limpar todos os filtros
+                </button>
+            </section>
 
+            <section class="catalog-sidebar-note">
+                <strong>Encontrou ou perdeu algo?</strong>
+                <p>Registre as informações do objeto para ajudar a comunidade do campus a encontrá-lo.</p>
+            </section>
+        </aside>
 
-                    <div class="search-main-row">
+        <main class="catalog-main">
+            <header class="catalog-heading">
+                <div>
+                    <p class="catalog-eyebrow">Comunidade acadêmica</p>
+                    <h1 class="catalog-title">Catálogo de objetos</h1>
+                    <p class="catalog-subtitle">
+                        Encontre objetos perdidos ou consulte itens entregues no IFPI Campus Paulistana.
+                    </p>
+                </div>
 
+                <div class="catalog-heading-actions">
+                    <a class="catalog-button catalog-button-secondary" href="/mensagens/">
+                        <span aria-hidden="true">✉</span> Mensagens
+                    </a>
+                    <a class="catalog-button catalog-button-primary" href="/registrar/?tipo=perdido">
+                        <span aria-hidden="true">＋</span> Registrar objeto
+                    </a>
+                </div>
+            </header>
 
-                        <!-- BUSCA -->
+            <section class="catalog-stats" aria-label="Estatísticas do catálogo">
+                <article class="catalog-stat">
+                    <div class="catalog-stat-icon total" aria-hidden="true">▦</div>
+                    <div class="catalog-stat-info">
+                        <strong class="catalog-stat-number" id="totalObjects">6</strong>
+                        <span class="catalog-stat-label">Objetos no catálogo</span>
+                    </div>
+                </article>
 
-                        <div class="search-panel-main">
+                <article class="catalog-stat">
+                    <div class="catalog-stat-icon found" aria-hidden="true">✓</div>
+                    <div class="catalog-stat-info">
+                        <strong class="catalog-stat-number" id="foundObjects">5</strong>
+                        <span class="catalog-stat-label">Objetos encontrados</span>
+                    </div>
+                </article>
 
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                <article class="catalog-stat">
+                    <div class="catalog-stat-icon lost" aria-hidden="true">⌕</div>
+                    <div class="catalog-stat-info">
+                        <strong class="catalog-stat-number" id="lostObjects">1</strong>
+                        <span class="catalog-stat-label">Objetos perdidos</span>
+                    </div>
+                </article>
+            </section>
 
+            <section class="catalog-search-panel" aria-label="Pesquisar objetos">
+                <div class="catalog-search-row">
+                    <div class="catalog-search-field">
+                        <label class="catalog-label" for="objectSearch">Pesquisar no catálogo</label>
+                        <div class="catalog-search-wrap">
+                            <span class="catalog-search-symbol" aria-hidden="true">⌕</span>
                             <input
+                                class="catalog-search-input"
                                 type="search"
                                 id="objectSearch"
-                                placeholder="Busque por nome, categoria ou localização..."
+                                placeholder="Nome, categoria ou local..."
                                 autocomplete="off"
-                                aria-label="Pesquisar objetos"
                             >
-
                         </div>
-
-
-                        <!-- STATUS -->
-
-                        <div class="filter-group">
-
-                            <label for="statusFilter">
-                                Status
-                            </label>
-
-                            <select id="statusFilter">
-
-                                <option value="todos">
-                                    Todos
-                                </option>
-
-                                <option value="encontrado">
-                                    Encontrados
-                                </option>
-
-                                <option value="perdido">
-                                    Perdidos
-                                </option>
-
-                                <option value="recuperado">
-                                    Recuperados
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <!-- CATEGORIA -->
-
-                        <div class="filter-group">
-
-                            <label for="categoryFilter">
-                                Categoria
-                            </label>
-
-                            <select id="categoryFilter">
-
-                                <option value="todas">
-                                    Todas
-                                </option>
-
-                                <option value="eletronicos">
-                                    Eletrônicos
-                                </option>
-
-                                <option value="mochilas">
-                                    Mochilas
-                                </option>
-
-                                <option value="carteiras">
-                                    Carteiras
-                                </option>
-
-                                <option value="materiais">
-                                    Materiais
-                                </option>
-
-                                <option value="outros">
-                                    Outros
-                                </option>
-
-                            </select>
-
-                        </div>
-
                     </div>
 
-
-                    <!-- FILTROS RÁPIDOS -->
-
-                    <div class="search-bottom-row">
-
-                        <div class="quick-filters">
-
-                            <span class="quick-filter-label">
-                                Acesso rápido:
-                            </span>
-
-                            <button
-                                type="button"
-                                class="quick-filter active"
-                                data-quick="todos"
-                            >
-                                Todos
-                            </button>
-
-                            <button
-                                type="button"
-                                class="quick-filter"
-                                data-quick="encontrado"
-                            >
-                                Encontrados
-                            </button>
-
-                            <button
-                                type="button"
-                                class="quick-filter"
-                                data-quick="perdido"
-                            >
-                                Perdidos
-                            </button>
-
-                            <button
-                                type="button"
-                                class="quick-filter"
-                                data-quick="eletronicos"
-                            >
-                                Eletrônicos
-                            </button>
-
-                        </div>
-
-
-                        <button
-                            class="filter-button"
-                            id="clearFilters"
-                            type="button"
-                        >
-
-                            <i class="fa-solid fa-rotate-left"></i>
-
-                            Limpar filtros
-
-                        </button>
-
+                    <div class="catalog-search-field">
+                        <label class="catalog-label" for="sortFilter">Ordenar por</label>
+                        <select class="catalog-select" id="sortFilter">
+                            <option value="recent">Mais recentes</option>
+                            <option value="oldest">Mais antigos</option>
+                            <option value="name">Nome: A–Z</option>
+                        </select>
                     </div>
 
-
-                    <!-- FILTROS ATIVOS -->
-
-                    <div
-                        class="active-filters"
-                        id="activeFilters"
-                    ></div>
-
+                    <button class="catalog-button catalog-button-primary catalog-search-submit" type="button" id="searchButton">
+                        Pesquisar
+                    </button>
                 </div>
-
             </section>
 
-
-            <!-- =================================================
-                 RESULTADOS
-            ================================================== -->
-
-            <section class="section">
-
-
-                <!-- RESUMO -->
-
-                <div class="catalog-summary">
-
-                    <div class="catalog-stat">
-
-                        <div class="catalog-stat-icon">
-
-                            <i class="fa-solid fa-boxes-stacked"></i>
-
-                        </div>
-
-                        <div class="catalog-stat-info">
-
-                            <strong id="totalObjects">
-                                6
-                            </strong>
-
-                            <span>
-                                objetos no catálogo
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="catalog-stat">
-
-                        <div class="catalog-stat-icon">
-
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-
-                        </div>
-
-                        <div class="catalog-stat-info">
-
-                            <strong id="foundObjects">
-                                5
-                            </strong>
-
-                            <span>
-                                objetos encontrados
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="catalog-stat">
-
-                        <div class="catalog-stat-icon">
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                        </div>
-
-                        <div class="catalog-stat-info">
-
-                            <strong id="lostObjects">
-                                1
-                            </strong>
-
-                            <span>
-                                objetos perdidos
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="section-header results-header">
-
+            <section aria-labelledby="catalogResultsTitle">
+                <div class="catalog-results-header">
                     <div>
-
-                        <span class="section-eyebrow">
-                            RESULTADOS
-                        </span>
-
-                        <h2>
-                            Objetos registrados
-                        </h2>
-
-                        <p id="resultCount">
-                            6 objetos encontrados no catálogo.
-                        </p>
-
+                        <h2 class="catalog-results-title" id="catalogResultsTitle">Objetos disponíveis</h2>
+                        <p class="catalog-results-count" id="resultsCount" aria-live="polite">Exibindo 6 objetos</p>
                     </div>
-
-
-                    <div class="sort-box">
-
-                        <label for="sortFilter">
-                            Ordenar por
-                        </label>
-
-                        <select id="sortFilter">
-
-                            <option value="recentes">
-                                Mais recentes
-                            </option>
-
-                            <option value="antigos">
-                                Mais antigos
-                            </option>
-
-                            <option value="nome">
-                                Nome
-                            </option>
-
-                        </select>
-
-                    </div>
-
                 </div>
 
+                <div class="catalog-active-filters" id="activeFilters" aria-live="polite"></div>
 
-                <!-- =================================================
-                     GRID
-                ================================================== -->
-
-                <div
-                    class="items-grid"
-                    id="itemsGrid"
-                >
-
-
-                    <!-- ITEM 1 -->
-
+                <div class="catalog-grid" id="itemsGrid">
                     <article
-                        class="item-card"
-                        tabindex="0"
-                        data-name="iphone 13"
+                        class="catalog-card"
+                        data-name="iPhone 13"
                         data-category="eletronicos"
                         data-status="encontrado"
                         data-location="laboratório 03"
                         data-date="2026-09-22"
-                        data-description="iPhone 13 encontrado no Laboratório 03. O aparelho foi registrado para que seu responsável possa identificá-lo e entrar em contato."
+                        data-description="iPhone 13 encontrado nas proximidades do Laboratório 03. O aparelho está guardado para que o proprietário possa recuperá-lo."
                     >
-
-                        <div class="item-image">
-
+                        <div class="catalog-card-image-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&fit=crop&w=1000&q=85"
-                                alt="Celular iPhone encontrado"
+                                class="catalog-card-image"
+                                src="https://images.unsplash.com/photo-1592286927505-2fd6f5c2c5b0?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                                alt="Imagem ilustrativa de um celular"
                                 loading="lazy"
                             >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
+                            <span class="catalog-status found"><span class="catalog-status-dot"></span> Encontrado</span>
                         </div>
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Eletrônicos
+                        <div class="catalog-card-body">
+                            <span class="catalog-card-category">Eletrônicos</span>
+                            <h3 class="catalog-card-title">iPhone 13</h3>
+                            <p class="catalog-card-description">Celular encontrado nas proximidades do Laboratório 03.</p>
+                            <div class="catalog-card-details">
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">⌖</span><span>Laboratório 03</span></div>
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">◷</span><span>22 set. 2026</span></div>
                             </div>
-
-                            <h3>
-                                iPhone 13
-                            </h3>
-
-                            <div class="item-info">
-
-                                <span>
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    Laboratório 03
-                                </span>
-
-                                <span>
-                                    Hoje
-                                </span>
-
+                            <div class="catalog-card-footer">
+                                <span class="catalog-card-date">Registro de demonstração</span>
+                                <button class="catalog-card-view" type="button" data-open-object>Ver detalhes <span aria-hidden="true">→</span></button>
                             </div>
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Responsável verificado
-                                </span>
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver iPhone 13"
-                                    data-view-object
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </article>
 
-
-                    <!-- ITEM 2 -->
-
                     <article
-                        class="item-card"
-                        tabindex="0"
-                        data-name="mochila swisswin"
+                        class="catalog-card"
+                        data-name="Mochila Swisswin"
                         data-category="mochilas"
                         data-status="encontrado"
                         data-location="biblioteca"
                         data-date="2026-09-22"
-                        data-description="Mochila Swisswin encontrada na biblioteca do campus. O registro contém a localização para facilitar a identificação pelo responsável."
+                        data-description="Mochila encontrada na biblioteca do campus. Entre em contato com a equipe responsável para conferir os detalhes antes de retirá-la."
                     >
-
-                        <div class="item-image">
-
+                        <div class="catalog-card-image-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=85"
-                                alt="Mochila preta encontrada"
+                                class="catalog-card-image"
+                                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                                alt="Imagem ilustrativa de uma mochila"
                                 loading="lazy"
                             >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
+                            <span class="catalog-status found"><span class="catalog-status-dot"></span> Encontrado</span>
                         </div>
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Mochilas
+                        <div class="catalog-card-body">
+                            <span class="catalog-card-category">Mochilas e bolsas</span>
+                            <h3 class="catalog-card-title">Mochila Swisswin</h3>
+                            <p class="catalog-card-description">Mochila localizada na biblioteca do campus.</p>
+                            <div class="catalog-card-details">
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">⌖</span><span>Biblioteca</span></div>
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">◷</span><span>22 set. 2026</span></div>
                             </div>
-
-                            <h3>
-                                Mochila Swisswin
-                            </h3>
-
-                            <div class="item-info">
-
-                                <span>
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    Biblioteca
-                                </span>
-
-                                <span>
-                                    Hoje
-                                </span>
-
+                            <div class="catalog-card-footer">
+                                <span class="catalog-card-date">Registro de demonstração</span>
+                                <button class="catalog-card-view" type="button" data-open-object>Ver detalhes <span aria-hidden="true">→</span></button>
                             </div>
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Responsável verificado
-                                </span>
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver mochila"
-                                    data-view-object
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </article>
 
-
-                    <!-- ITEM 3 -->
-
                     <article
-                        class="item-card"
-                        tabindex="0"
-                        data-name="carteira preta"
+                        class="catalog-card"
+                        data-name="Carteira preta"
                         data-category="carteiras"
                         data-status="perdido"
                         data-location="bloco a"
                         data-date="2026-09-21"
-                        data-description="Carteira preta registrada como perdida no Bloco A. Caso seja encontrada, o responsável poderá ser contatado por meio do sistema."
+                        data-description="Carteira preta perdida nas proximidades do Bloco A. Se você encontrou um objeto com essas características, registre a informação ou entre em contato com o responsável."
                     >
-
-                        <div class="item-image">
-
+                        <div class="catalog-card-image-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1000&q=85"
-                                alt="Carteira preta"
+                                class="catalog-card-image"
+                                src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                                alt="Imagem ilustrativa de uma carteira"
                                 loading="lazy"
                             >
-
-                            <span class="item-status lost">
-                                Perdido
-                            </span>
-
+                            <span class="catalog-status lost"><span class="catalog-status-dot"></span> Perdido</span>
                         </div>
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Carteiras
+                        <div class="catalog-card-body">
+                            <span class="catalog-card-category">Carteiras</span>
+                            <h3 class="catalog-card-title">Carteira preta</h3>
+                            <p class="catalog-card-description">Carteira perdida nas proximidades do Bloco A.</p>
+                            <div class="catalog-card-details">
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">⌖</span><span>Bloco A</span></div>
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">◷</span><span>21 set. 2026</span></div>
                             </div>
-
-                            <h3>
-                                Carteira preta
-                            </h3>
-
-                            <div class="item-info">
-
-                                <span>
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    Bloco A
-                                </span>
-
-                                <span>
-                                    Ontem
-                                </span>
-
+                            <div class="catalog-card-footer">
+                                <span class="catalog-card-date">Registro de demonstração</span>
+                                <button class="catalog-card-view" type="button" data-open-object>Ver detalhes <span aria-hidden="true">→</span></button>
                             </div>
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Registro verificado
-                                </span>
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver carteira"
-                                    data-view-object
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </article>
 
-
-                    <!-- ITEM 4 -->
-
                     <article
-                        class="item-card"
-                        tabindex="0"
-                        data-name="fone jbl"
+                        class="catalog-card"
+                        data-name="Fone JBL"
                         data-category="eletronicos"
                         data-status="encontrado"
                         data-location="pátio"
                         data-date="2026-09-21"
-                        data-description="Fone JBL encontrado no pátio do campus. O objeto foi registrado para facilitar sua devolução ao responsável."
+                        data-description="Fone de ouvido encontrado no pátio do campus. A imagem é ilustrativa; confirme as características do objeto com a equipe responsável."
                     >
-
-                        <div class="item-image">
-
+                        <div class="catalog-card-image-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85"
-                                alt="Fone de ouvido JBL"
+                                class="catalog-card-image"
+                                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                                alt="Imagem ilustrativa de um acessório de áudio"
                                 loading="lazy"
                             >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
+                            <span class="catalog-status found"><span class="catalog-status-dot"></span> Encontrado</span>
                         </div>
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Eletrônicos
+                        <div class="catalog-card-body">
+                            <span class="catalog-card-category">Eletrônicos</span>
+                            <h3 class="catalog-card-title">Fone JBL</h3>
+                            <p class="catalog-card-description">Fone de ouvido encontrado no pátio do campus.</p>
+                            <div class="catalog-card-details">
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">⌖</span><span>Pátio</span></div>
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">◷</span><span>21 set. 2026</span></div>
                             </div>
-
-                            <h3>
-                                Fone JBL
-                            </h3>
-
-                            <div class="item-info">
-
-                                <span>
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    Pátio
-                                </span>
-
-                                <span>
-                                    Ontem
-                                </span>
-
+                            <div class="catalog-card-footer">
+                                <span class="catalog-card-date">Registro de demonstração</span>
+                                <button class="catalog-card-view" type="button" data-open-object>Ver detalhes <span aria-hidden="true">→</span></button>
                             </div>
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Responsável verificado
-                                </span>
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver fone JBL"
-                                    data-view-object
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </article>
 
-
-                    <!-- ITEM 5 -->
-
                     <article
-                        class="item-card"
-                        tabindex="0"
-                        data-name="chaves"
+                        class="catalog-card"
+                        data-name="Chaves"
                         data-category="outros"
                         data-status="encontrado"
                         data-location="cantina"
                         data-date="2026-09-20"
-                        data-description="Chaves encontradas na cantina. O registro permite que o responsável pelo objeto identifique o local e entre em contato."
+                        data-description="Chaves encontradas na região da cantina. Para evitar a entrega à pessoa errada, informe características que permitam confirmar a propriedade."
                     >
-
-                        <div class="item-image">
-
+                        <div class="catalog-card-image-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1000&q=85"
-                                alt="Chaves encontradas"
+                                class="catalog-card-image"
+                                src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                                alt="Imagem ilustrativa de chaves"
                                 loading="lazy"
                             >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
+                            <span class="catalog-status found"><span class="catalog-status-dot"></span> Encontrado</span>
                         </div>
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Outros
+                        <div class="catalog-card-body">
+                            <span class="catalog-card-category">Outros objetos</span>
+                            <h3 class="catalog-card-title">Chaves</h3>
+                            <p class="catalog-card-description">Chaves encontradas nas proximidades da cantina.</p>
+                            <div class="catalog-card-details">
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">⌖</span><span>Cantina</span></div>
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">◷</span><span>20 set. 2026</span></div>
                             </div>
-
-                            <h3>
-                                Chaves
-                            </h3>
-
-                            <div class="item-info">
-
-                                <span>
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    Cantina
-                                </span>
-
-                                <span>
-                                    2 dias
-                                </span>
-
+                            <div class="catalog-card-footer">
+                                <span class="catalog-card-date">Registro de demonstração</span>
+                                <button class="catalog-card-view" type="button" data-open-object>Ver detalhes <span aria-hidden="true">→</span></button>
                             </div>
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Responsável verificado
-                                </span>
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver chaves"
-                                    data-view-object
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </article>
 
-
-                    <!-- ITEM 6 -->
-
                     <article
-                        class="item-card"
-                        tabindex="0"
-                        data-name="caderno"
+                        class="catalog-card"
+                        data-name="Caderno"
                         data-category="materiais"
                         data-status="encontrado"
                         data-location="bloco b"
                         data-date="2026-09-20"
-                        data-description="Caderno encontrado no Bloco B. O objeto foi cadastrado pela comunidade acadêmica para facilitar sua devolução."
+                        data-description="Caderno encontrado no Bloco B. A descrição e a fotografia são exemplos para demonstração do funcionamento do catálogo."
                     >
-
-                        <div class="item-image">
-
+                        <div class="catalog-card-image-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=1000&q=85"
-                                alt="Caderno encontrado"
+                                class="catalog-card-image"
+                                src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&amp;fit=crop&amp;w=1000&amp;q=85"
+                                alt="Imagem ilustrativa de material escolar"
                                 loading="lazy"
                             >
-
-                            <span class="item-status found">
-                                Encontrado
-                            </span>
-
+                            <span class="catalog-status found"><span class="catalog-status-dot"></span> Encontrado</span>
                         </div>
-
-                        <div class="item-content">
-
-                            <div class="item-category">
-                                Materiais
+                        <div class="catalog-card-body">
+                            <span class="catalog-card-category">Materiais escolares</span>
+                            <h3 class="catalog-card-title">Caderno</h3>
+                            <p class="catalog-card-description">Caderno encontrado nas dependências do Bloco B.</p>
+                            <div class="catalog-card-details">
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">⌖</span><span>Bloco B</span></div>
+                                <div class="catalog-card-detail"><span class="catalog-card-detail-icon" aria-hidden="true">◷</span><span>20 set. 2026</span></div>
                             </div>
-
-                            <h3>
-                                Caderno
-                            </h3>
-
-                            <div class="item-info">
-
-                                <span>
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    Bloco B
-                                </span>
-
-                                <span>
-                                    2 dias
-                                </span>
-
+                            <div class="catalog-card-footer">
+                                <span class="catalog-card-date">Registro de demonstração</span>
+                                <button class="catalog-card-view" type="button" data-open-object>Ver detalhes <span aria-hidden="true">→</span></button>
                             </div>
-
-                            <div class="item-footer">
-
-                                <span class="verified">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Registro verificado
-                                </span>
-
-                                <button
-                                    class="item-action"
-                                    type="button"
-                                    aria-label="Ver caderno"
-                                    data-view-object
-                                >
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </article>
-
                 </div>
 
-
-                <!-- SEM RESULTADOS -->
-
-                <div
-                    class="empty-state"
-                    id="emptyState"
-                >
-
-                    <i class="fa-solid fa-box-open"></i>
-
-                    <h3>
-                        Nenhum objeto encontrado
-                    </h3>
-
-                    <p>
-                        Tente buscar por outro nome, categoria ou localização.
-                    </p>
-
-                    <button
-                        type="button"
-                        class="empty-reset"
-                        id="emptyReset"
-                    >
-                        Limpar pesquisa
-                    </button>
-
+                <div class="catalog-empty" id="emptyState" role="status">
+                    <div class="catalog-empty-icon" aria-hidden="true">⌕</div>
+                    <h3>Nenhum objeto encontrado</h3>
+                    <p>Não encontramos objetos com esses critérios. Tente mudar a pesquisa ou remover algum filtro.</p>
+                    <button class="catalog-button catalog-button-primary" type="button" id="emptyReset">Limpar filtros</button>
                 </div>
-
             </section>
 
-
-            <!-- =================================================
-                 CTA
-            ================================================== -->
-
-            <section class="welcome compact-welcome">
-
-                <div class="welcome-content">
-
-                    <div class="welcome-label">
-                        NÃO ENCONTROU O QUE PROCURA?
-                    </div>
-
-                    <h2>
-                        Registre uma ocorrência.
-                    </h2>
-
-                    <p>
-                        Informe os detalhes do objeto perdido ou encontrado
-                        e ajude a comunidade acadêmica.
-                    </p>
-
-                    <div class="welcome-actions">
-
-                        <a
-                            href="registrar.html?tipo=perdido"
-                            class="btn btn-primary"
-                        >
-
-                            <i class="fa-solid fa-magnifying-glass"></i>
-
-                            Perdi um objeto
-
-                        </a>
-
-
-                        <a
-                            href="registrar.html?tipo=encontrado"
-                            class="btn btn-light"
-                        >
-
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-
-                            Encontrei um objeto
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 FOOTER
-            ================================================== -->
-
-            <footer class="footer">
-
+            <section class="catalog-cta">
                 <div>
-
-                    <strong>
-                        ACHADOS IFPI
-                    </strong>
-
-                    <span>
-                        Plataforma em desenvolvimento · IFPI Campus Paulistana
-                    </span>
-
+                    <h2>Ajude alguém a recuperar um objeto</h2>
+                    <p>Perdeu alguma coisa ou encontrou um item no campus? Registre a ocorrência para facilitar a devolução.</p>
                 </div>
-
-
-                <div class="footer-right">
-
-                    <span>
-
-                        <i class="fa-solid fa-shield-halved"></i>
-
-                        Comunidade segura
-
-                    </span>
-
-
-                    <span>
-
-                        <i class="fa-solid fa-circle-check"></i>
-
-                        Sistema online
-
-                    </span>
-
+                <div class="catalog-cta-actions">
+                    <a class="catalog-button catalog-button-primary" href="/registrar/?tipo=encontrado">Registrar encontrado</a>
+                    <a class="catalog-button catalog-button-secondary" href="/registrar/?tipo=perdido">Informar perda</a>
                 </div>
+            </section>
 
+            <footer class="catalog-footer">
+                Achados IFPI · Sistema de Achados e Perdidos · Campus Paulistana
             </footer>
-
-        </div>
-
-    </main>
-
-</div>
-
-
-<!-- =====================================================
-     MODAL DE DETALHES
-====================================================== -->
-
-<div
-    class="object-modal"
-    id="objectModal"
-    aria-hidden="true"
->
-
-    <div
-        class="object-modal-box"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalObjectName"
-    >
-
-
-        <div class="object-modal-image">
-
-            <span
-                class="modal-status"
-                id="modalStatus"
-            >
-                Encontrado
-            </span>
-
-            <img
-                id="modalImage"
-                src=""
-                alt="Objeto"
-            >
-
-        </div>
-
-
-        <div class="object-modal-info">
-
-            <button
-                class="modal-close"
-                id="closeObjectModal"
-                type="button"
-                aria-label="Fechar detalhes"
-            >
-
-                <i class="fa-solid fa-xmark"></i>
-
-            </button>
-
-
-            <div
-                class="modal-category"
-                id="modalCategory"
-            >
-                ELETRÔNICOS
-            </div>
-
-
-            <h2 id="modalObjectName">
-                iPhone 13
-            </h2>
-
-
-            <p
-                class="modal-description"
-                id="modalDescription"
-            >
-                Descrição do objeto.
-            </p>
-
-
-            <div class="modal-detail-list">
-
-
-                <div class="modal-detail">
-
-                    <div class="modal-detail-icon">
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Localização
-                        </span>
-
-                        <strong id="modalLocation">
-                            Laboratório 03
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="modal-detail">
-
-                    <div class="modal-detail-icon">
-
-                        <i class="fa-regular fa-calendar"></i>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Registrado em
-                        </span>
-
-                        <strong id="modalDate">
-                            Hoje
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="modal-detail">
-
-                    <div class="modal-detail-icon">
-
-                        <i class="fa-solid fa-tag"></i>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Situação
-                        </span>
-
-                        <strong id="modalSituation">
-                            Objeto encontrado
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="modal-detail">
-
-                    <div class="modal-detail-icon">
-
-                        <i class="fa-solid fa-shield-halved"></i>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Verificação
-                        </span>
-
-                        <strong>
-                            Registro verificado pela plataforma
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <div class="modal-verified">
-
-                    <i class="fa-solid fa-circle-check"></i>
-
-                    Comunidade acadêmica
-
-                </div>
-
-
-                <div class="modal-footer-actions">
-
-                    <button
-                        class="modal-copy-button"
-                        id="modalCopyButton"
-                        type="button"
-                        title="Copiar informações"
-                        aria-label="Copiar informações do objeto"
-                    >
-
-                        <i class="fa-regular fa-copy"></i>
-
-                    </button>
-
-
-                    <button
-                        class="modal-contact-button"
-                        id="modalContactButton"
-                        type="button"
-                    >
-
-                        <i class="fa-regular fa-message"></i>
-
-                        Entrar em contato
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
+        </main>
     </div>
 
-</div>
+    <div class="catalog-modal" id="objectModal" role="dialog" aria-modal="true" aria-labelledby="modalObjectName" aria-hidden="true">
+        <div class="catalog-modal-dialog">
+            <img class="catalog-modal-image" id="modalImage" src="" alt="">
+            <div class="catalog-modal-content">
+                <div class="catalog-modal-top">
+                    <span class="catalog-card-category" id="modalCategory">Categoria</span>
+                    <button class="catalog-modal-close" type="button" id="closeObjectModal" aria-label="Fechar detalhes">×</button>
+                </div>
 
+                <span class="catalog-status found" id="modalStatus"><span class="catalog-status-dot"></span> Encontrado</span>
+                <h2 class="catalog-modal-title" id="modalObjectName">Nome do objeto</h2>
+                <p class="catalog-modal-description" id="modalDescription"></p>
 
-<!-- =====================================================
-     TOAST
-====================================================== -->
+                <div class="catalog-modal-details">
+                    <div class="catalog-modal-detail">
+                        <span>Local</span>
+                        <strong id="modalLocation">Não informado</strong>
+                    </div>
+                    <div class="catalog-modal-detail">
+                        <span>Data do registro</span>
+                        <strong id="modalDate">Não informada</strong>
+                    </div>
+                    <div class="catalog-modal-detail">
+                        <span>Situação</span>
+                        <strong id="modalSituation">Encontrado</strong>
+                    </div>
+                    <div class="catalog-modal-detail">
+                        <span>Campus</span>
+                        <strong>IFPI — Paulistana</strong>
+                    </div>
+                </div>
 
-<div
-    class="toast"
-    id="toast"
-    role="status"
-    aria-live="polite"
->
-
-    <div class="toast-icon">
-
-        <i class="fa-solid fa-check"></i>
-
+                <div class="catalog-modal-actions">
+                    <button class="catalog-button catalog-button-secondary" type="button" id="modalCopyButton">Copiar informações</button>
+                    <a class="catalog-button catalog-button-primary" id="modalContactButton" href="/mensagens/">Ir para mensagens</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
-
-        <strong id="toastTitle">
-            Pronto
-        </strong>
-
-        <span id="toastMessage">
-            Operação realizada.
-        </span>
-
+    <div class="catalog-toast" id="toast" role="status" aria-live="polite">
+        <div class="catalog-toast-icon" aria-hidden="true">✓</div>
+        <div>
+            <strong id="toastTitle">Tudo certo!</strong>
+            <p id="toastMessage">Ação realizada.</p>
+        </div>
     </div>
-
 </div>
-
-
-<!-- =====================================================
-     SCRIPT ORIGINAL
-====================================================== -->
-
-<script src="script.js"></script>
-
-
-<!-- =====================================================
-     FUNCIONALIDADES EXCLUSIVAS DE OBJETOS
-====================================================== -->
 
 <script>
+(function () {
+    "use strict";
 
-document.addEventListener("DOMContentLoaded", function () {
+    function initializeCatalog() {
+        const root = document.querySelector(".catalog-page");
+        if (!root || root.dataset.initialized === "true") return;
+        root.dataset.initialized = "true";
 
+        const searchInput = root.querySelector("#objectSearch");
+        const statusFilter = root.querySelector("#statusFilter");
+        const categoryFilter = root.querySelector("#categoryFilter");
+        const sortFilter = root.querySelector("#sortFilter");
+        const itemsGrid = root.querySelector("#itemsGrid");
+        const emptyState = root.querySelector("#emptyState");
+        const clearFiltersButton = root.querySelector("#clearFilters");
+        const emptyResetButton = root.querySelector("#emptyReset");
+        const searchButton = root.querySelector("#searchButton");
+        const activeFilters = root.querySelector("#activeFilters");
+        const resultsCount = root.querySelector("#resultsCount");
+        const quickButtons = Array.from(root.querySelectorAll("[data-quick]"));
+        const modal = root.querySelector("#objectModal");
+        const closeModalButton = root.querySelector("#closeObjectModal");
+        const toast = root.querySelector("#toast");
 
-    /* =====================================================
-       ELEMENTOS
-    ====================================================== */
+        const totalObjects = root.querySelector("#totalObjects");
+        const foundObjects = root.querySelector("#foundObjects");
+        const lostObjects = root.querySelector("#lostObjects");
+        const quickTotal = root.querySelector("#quickTotal");
+        const quickFound = root.querySelector("#quickFound");
+        const quickLost = root.querySelector("#quickLost");
 
-    const searchInput =
-        document.getElementById("objectSearch");
+        const cards = Array.from(root.querySelectorAll(".catalog-card"));
+        let toastTimeout = null;
+        let lastFocusedElement = null;
+        let currentModalCard = null;
 
-    const globalSearch =
-        document.getElementById("globalSearch");
+        const categoryNames = {
+            eletronicos: "Eletrônicos",
+            mochilas: "Mochilas e bolsas",
+            carteiras: "Carteiras",
+            materiais: "Materiais escolares",
+            outros: "Outros objetos"
+        };
 
-    const statusFilter =
-        document.getElementById("statusFilter");
+        function normalize(value) {
+            return String(value || "")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLocaleLowerCase("pt-BR")
+                .trim();
+        }
 
-    const categoryFilter =
-        document.getElementById("categoryFilter");
+        function getCardTitle(card) {
+            const title = card.querySelector(".catalog-card-title");
+            return title ? title.textContent.trim() : "";
+        }
 
-    const clearFilters =
-        document.getElementById("clearFilters");
+        function formatDate(dateValue) {
+            if (!dateValue) return "Não informada";
+            const date = new Date(dateValue + "T12:00:00");
+            if (Number.isNaN(date.getTime())) return "Não informada";
 
-    const sortFilter =
-        document.getElementById("sortFilter");
+            return new Intl.DateTimeFormat("pt-BR", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }).format(date).replace(".", "");
+        }
 
-    const itemsGrid =
-        document.getElementById("itemsGrid");
+        function getVisibleCards() {
+            return cards.filter(function (card) {
+                return !card.hidden;
+            });
+        }
 
-    const emptyState =
-        document.getElementById("emptyState");
+        function showToast(title, message) {
+            if (!toast) return;
 
-    const emptyReset =
-        document.getElementById("emptyReset");
+            root.querySelector("#toastTitle").textContent = title;
+            root.querySelector("#toastMessage").textContent = message;
+            toast.classList.add("is-visible");
 
-    const resultCount =
-        document.getElementById("resultCount");
+            window.clearTimeout(toastTimeout);
+            toastTimeout = window.setTimeout(function () {
+                toast.classList.remove("is-visible");
+            }, 3200);
+        }
 
-    const activeFilters =
-        document.getElementById("activeFilters");
+        function updateQuickButtons() {
+            const status = statusFilter.value;
 
-    const quickFilters =
-        document.querySelectorAll(".quick-filter");
+            quickButtons.forEach(function (button) {
+                const value = button.dataset.quick;
+                const active = value === "all"
+                    ? status === ""
+                    : value === status;
 
-    const cards =
-        Array.from(
-            itemsGrid.querySelectorAll(".item-card")
-        );
+                button.classList.toggle("is-active", active);
+                button.setAttribute("aria-pressed", String(active));
+            });
+        }
 
+        function renderActiveFilters() {
+            activeFilters.replaceChildren();
 
-    /* =====================================================
-       CONTADORES
-    ====================================================== */
+            const filters = [];
 
-    const totalObjects =
-        document.getElementById("totalObjects");
-
-    const foundObjects =
-        document.getElementById("foundObjects");
-
-    const lostObjects =
-        document.getElementById("lostObjects");
-
-
-    totalObjects.textContent =
-        cards.length;
-
-    foundObjects.textContent =
-        cards.filter(
-            card => card.dataset.status === "encontrado"
-        ).length;
-
-    lostObjects.textContent =
-        cards.filter(
-            card => card.dataset.status === "perdido"
-        ).length;
-
-
-    /* =====================================================
-       NORMALIZAR TEXTO
-    ====================================================== */
-
-    function normalizar(texto) {
-
-        return texto
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-
-    }
-
-
-    /* =====================================================
-       FILTRAGEM
-    ====================================================== */
-
-    function aplicarFiltros() {
-
-        const busca =
-            normalizar(
-                searchInput.value.trim()
-            );
-
-        const status =
-            statusFilter.value;
-
-        const categoria =
-            categoryFilter.value;
-
-
-        let encontrados = 0;
-
-
-        cards.forEach(function (card) {
-
-            const nome =
-                normalizar(
-                    card.dataset.name || ""
-                );
-
-            const categoriaCard =
-                normalizar(
-                    card.dataset.category || ""
-                );
-
-            const statusCard =
-                normalizar(
-                    card.dataset.status || ""
-                );
-
-            const local =
-                normalizar(
-                    card.dataset.location || ""
-                );
-
-
-            const correspondeBusca =
-                !busca ||
-                nome.includes(busca) ||
-                categoriaCard.includes(busca) ||
-                local.includes(busca);
-
-
-            const correspondeStatus =
-                status === "todos" ||
-                statusCard === normalizar(status);
-
-
-            const correspondeCategoria =
-                categoria === "todas" ||
-                categoriaCard === normalizar(categoria);
-
-
-            const mostrar =
-                correspondeBusca &&
-                correspondeStatus &&
-                correspondeCategoria;
-
-
-            if (mostrar) {
-
-                card.style.display = "";
-
-                encontrados++;
-
-            } else {
-
-                card.style.display = "none";
-
+            if (searchInput.value.trim()) {
+                filters.push({
+                    label: "Pesquisa: " + searchInput.value.trim(),
+                    clear: function () {
+                        searchInput.value = "";
+                    }
+                });
             }
 
+            if (statusFilter.value) {
+                filters.push({
+                    label: "Situação: " + (statusFilter.value === "encontrado" ? "Encontrado" : "Perdido"),
+                    clear: function () {
+                        statusFilter.value = "";
+                    }
+                });
+            }
+
+            if (categoryFilter.value) {
+                filters.push({
+                    label: "Categoria: " + (categoryNames[categoryFilter.value] || categoryFilter.value),
+                    clear: function () {
+                        categoryFilter.value = "";
+                    }
+                });
+            }
+
+            filters.forEach(function (filter) {
+                const chip = document.createElement("span");
+                chip.className = "catalog-active-chip";
+
+                const text = document.createElement("span");
+                text.textContent = filter.label;
+
+                const remove = document.createElement("button");
+                remove.type = "button";
+                remove.textContent = "×";
+                remove.setAttribute("aria-label", "Remover filtro: " + filter.label);
+                remove.addEventListener("click", function () {
+                    filter.clear();
+                    applyFilters();
+                });
+
+                chip.append(text, remove);
+                activeFilters.appendChild(chip);
+            });
+        }
+
+        function updateStatistics() {
+            const total = cards.length;
+            const found = cards.filter(function (card) {
+                return card.dataset.status === "encontrado";
+            }).length;
+            const lost = cards.filter(function (card) {
+                return card.dataset.status === "perdido";
+            }).length;
+
+            totalObjects.textContent = String(total);
+            foundObjects.textContent = String(found);
+            lostObjects.textContent = String(lost);
+
+            quickTotal.textContent = String(total);
+            quickFound.textContent = String(found);
+            quickLost.textContent = String(lost);
+        }
+
+        function applyFilters() {
+            const query = normalize(searchInput.value);
+            const status = statusFilter.value;
+            const category = categoryFilter.value;
+
+            cards.forEach(function (card) {
+                const searchableText = normalize([
+                    card.dataset.name,
+                    card.dataset.category,
+                    categoryNames[card.dataset.category],
+                    card.dataset.status,
+                    card.dataset.location,
+                    card.dataset.description,
+                    getCardTitle(card)
+                ].join(" "));
+
+                const matchesSearch = !query || searchableText.includes(query);
+                const matchesStatus = !status || card.dataset.status === status;
+                const matchesCategory = !category || card.dataset.category === category;
+
+                card.hidden = !(matchesSearch && matchesStatus && matchesCategory);
+            });
+
+            const sort = sortFilter.value;
+            const visibleCards = getVisibleCards();
+
+            visibleCards.sort(function (a, b) {
+                if (sort === "name") {
+                    return getCardTitle(a).localeCompare(getCardTitle(b), "pt-BR");
+                }
+
+                const dateA = new Date(a.dataset.date || "1970-01-01").getTime();
+                const dateB = new Date(b.dataset.date || "1970-01-01").getTime();
+
+                return sort === "oldest" ? dateA - dateB : dateB - dateA;
+            });
+
+            visibleCards.forEach(function (card) {
+                itemsGrid.appendChild(card);
+            });
+
+            const visibleCount = visibleCards.length;
+            resultsCount.textContent = visibleCount === 1
+                ? "Exibindo 1 objeto"
+                : "Exibindo " + visibleCount + " objetos";
+
+            emptyState.classList.toggle("is-visible", visibleCount === 0);
+            itemsGrid.style.display = visibleCount === 0 ? "none" : "grid";
+
+            renderActiveFilters();
+            updateQuickButtons();
+        }
+
+        function resetFilters() {
+            searchInput.value = "";
+            statusFilter.value = "";
+            categoryFilter.value = "";
+            sortFilter.value = "recent";
+            applyFilters();
+            searchInput.focus();
+        }
+
+        function openModal(card) {
+            currentModalCard = card;
+            lastFocusedElement = document.activeElement;
+
+            const image = card.querySelector(".catalog-card-image");
+            const status = card.dataset.status;
+            const title = getCardTitle(card);
+            const category = categoryNames[card.dataset.category] || "Outros objetos";
+            const location = card.dataset.location || "Não informado";
+            const date = formatDate(card.dataset.date);
+            const description = card.dataset.description || "Sem descrição adicional.";
+
+            root.querySelector("#modalImage").src = image ? image.src : "";
+            root.querySelector("#modalImage").alt = image ? image.alt : "";
+            root.querySelector("#modalCategory").textContent = category;
+            root.querySelector("#modalObjectName").textContent = title;
+            root.querySelector("#modalDescription").textContent = description;
+            root.querySelector("#modalLocation").textContent = location;
+            root.querySelector("#modalDate").textContent = date;
+            root.querySelector("#modalSituation").textContent =
+                status === "perdido" ? "Perdido" : "Encontrado";
+
+            const modalStatus = root.querySelector("#modalStatus");
+            modalStatus.className = "catalog-status " + status;
+            modalStatus.replaceChildren();
+
+            const dot = document.createElement("span");
+            dot.className = "catalog-status-dot";
+            modalStatus.append(dot, document.createTextNode(
+                status === "perdido" ? " Perdido" : " Encontrado"
+            ));
+
+            const contactLink = root.querySelector("#modalContactButton");
+            contactLink.href = "/mensagens/?objeto=" + encodeURIComponent(title);
+
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            closeModalButton.focus();
+        }
+
+        function closeModal() {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+                lastFocusedElement.focus();
+            }
+
+            currentModalCard = null;
+        }
+
+        async function copyObjectInformation() {
+            if (!currentModalCard) return;
+
+            const card = currentModalCard;
+            const text = [
+                "Objeto: " + getCardTitle(card),
+                "Categoria: " + (categoryNames[card.dataset.category] || card.dataset.category),
+                "Situação: " + (card.dataset.status === "perdido" ? "Perdido" : "Encontrado"),
+                "Local: " + (card.dataset.location || "Não informado"),
+                "Data: " + formatDate(card.dataset.date),
+                "Descrição: " + (card.dataset.description || "Sem descrição.")
+            ].join("\n");
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const temporaryInput = document.createElement("textarea");
+                    temporaryInput.value = text;
+                    temporaryInput.setAttribute("readonly", "");
+                    temporaryInput.style.position = "fixed";
+                    temporaryInput.style.opacity = "0";
+                    document.body.appendChild(temporaryInput);
+                    temporaryInput.select();
+
+                    const copied = document.execCommand("copy");
+                    temporaryInput.remove();
+
+                    if (!copied) throw new Error("Não foi possível copiar.");
+                }
+
+                showToast("Informações copiadas", "Os dados do objeto foram copiados.");
+            } catch (error) {
+                showToast("Não foi possível copiar", "Seu navegador bloqueou a cópia automática. Tente novamente.");
+            }
+        }
+
+        searchInput.addEventListener("input", applyFilters);
+        statusFilter.addEventListener("change", applyFilters);
+        categoryFilter.addEventListener("change", applyFilters);
+        sortFilter.addEventListener("change", applyFilters);
+
+        searchButton.addEventListener("click", applyFilters);
+        clearFiltersButton.addEventListener("click", resetFilters);
+        emptyResetButton.addEventListener("click", resetFilters);
+
+        searchInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                applyFilters();
+            }
         });
 
-
-        atualizarResultado(encontrados);
-
-        atualizarFiltrosAtivos();
-
-    }
-
-
-    /* =====================================================
-       RESULTADOS
-    ====================================================== */
-
-    function atualizarResultado(total) {
-
-        if (total === 0) {
-
-            resultCount.innerHTML =
-                "Nenhum objeto corresponde aos filtros atuais.";
-
-            emptyState.classList.add("show");
-
-            return;
-
-        }
-
-
-        emptyState.classList.remove("show");
-
-
-        if (total === 1) {
-
-            resultCount.innerHTML =
-                '<span class="result-highlight">1</span> objeto encontrado no catálogo.';
-
-        } else {
-
-            resultCount.innerHTML =
-                `<span class="result-highlight">${total}</span> objetos encontrados no catálogo.`;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       FILTROS ATIVOS
-    ====================================================== */
-
-    function atualizarFiltrosAtivos() {
-
-        activeFilters.innerHTML = "";
-
-
-        const busca =
-            searchInput.value.trim();
-
-        const status =
-            statusFilter.value;
-
-        const categoria =
-            categoryFilter.value;
-
-
-        let possuiFiltro = false;
-
-
-        if (busca) {
-
-            adicionarFiltroAtivo(
-                `Busca: "${busca}"`
-            );
-
-            possuiFiltro = true;
-
-        }
-
-
-        if (status !== "todos") {
-
-            const texto =
-                status === "encontrado"
-                    ? "Encontrados"
-                    : status === "perdido"
-                        ? "Perdidos"
-                        : "Recuperados";
-
-            adicionarFiltroAtivo(texto);
-
-            possuiFiltro = true;
-
-        }
-
-
-        if (categoria !== "todas") {
-
-            const nomes = {
-
-                eletronicos: "Eletrônicos",
-
-                mochilas: "Mochilas",
-
-                carteiras: "Carteiras",
-
-                materiais: "Materiais",
-
-                outros: "Outros"
-
-            };
-
-            adicionarFiltroAtivo(
-                nomes[categoria]
-            );
-
-            possuiFiltro = true;
-
-        }
-
-
-        if (possuiFiltro) {
-
-            activeFilters.classList.add("show");
-
-        } else {
-
-            activeFilters.classList.remove("show");
-
-        }
-
-    }
-
-
-    function adicionarFiltroAtivo(texto) {
-
-        const elemento =
-            document.createElement("span");
-
-        elemento.className =
-            "active-filter";
-
-        elemento.innerHTML =
-            `<i class="fa-solid fa-filter"></i>${texto}`;
-
-        activeFilters.appendChild(
-            elemento
-        );
-
-    }
-
-
-    /* =====================================================
-       EVENTOS DE BUSCA
-    ====================================================== */
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            if (globalSearch) {
-
-                globalSearch.value =
-                    searchInput.value;
-
-            }
-
-            aplicarFiltros();
-
-        }
-    );
-
-
-    if (globalSearch) {
-
-        globalSearch.addEventListener(
-            "input",
-            function () {
-
-                searchInput.value =
-                    globalSearch.value;
-
-                aplicarFiltros();
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       STATUS / CATEGORIA
-    ====================================================== */
-
-    statusFilter.addEventListener(
-        "change",
-        function () {
-
-            sincronizarQuickFilters();
-
-            aplicarFiltros();
-
-        }
-    );
-
-
-    categoryFilter.addEventListener(
-        "change",
-        function () {
-
-            sincronizarQuickFilters();
-
-            aplicarFiltros();
-
-        }
-    );
-
-
-    /* =====================================================
-       FILTROS RÁPIDOS
-    ====================================================== */
-
-    quickFilters.forEach(
-        function (button) {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    const valor =
-                        button.dataset.quick;
-
-
-                    if (
-                        valor === "todos"
-                    ) {
-
-                        statusFilter.value =
-                            "todos";
-
-                        categoryFilter.value =
-                            "todas";
-
-                    }
-
-                    else if (
-                        valor === "encontrado" ||
-                        valor === "perdido"
-                    ) {
-
-                        statusFilter.value =
-                            valor;
-
-                        categoryFilter.value =
-                            "todas";
-
-                    }
-
-                    else {
-
-                        categoryFilter.value =
-                            valor;
-
-                        statusFilter.value =
-                            "todos";
-
-                    }
-
-
-                    sincronizarQuickFilters();
-
-                    aplicarFiltros();
-
-                }
-            );
-
-        }
-    );
-
-
-    function sincronizarQuickFilters() {
-
-        const status =
-            statusFilter.value;
-
-        const categoria =
-            categoryFilter.value;
-
-
-        quickFilters.forEach(
-            function (button) {
-
-                button.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-
-        let ativo =
-            document.querySelector(
-                `.quick-filter[data-quick="${status}"]`
-            );
-
-
-        if (
-            categoria !== "todas"
-        ) {
-
-            ativo =
-                document.querySelector(
-                    `.quick-filter[data-quick="${categoria}"]`
-                );
-
-        }
-
-
-        if (!ativo) {
-
-            ativo =
-                document.querySelector(
-                    '.quick-filter[data-quick="todos"]'
-                );
-
-        }
-
-
-        if (ativo) {
-
-            ativo.classList.add(
-                "active"
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       LIMPAR FILTROS
-    ====================================================== */
-
-    function limparFiltros() {
-
-        searchInput.value = "";
-
-        if (globalSearch) {
-            globalSearch.value = "";
-        }
-
-        statusFilter.value =
-            "todos";
-
-        categoryFilter.value =
-            "todas";
-
-        sortFilter.value =
-            "recentes";
-
-        sincronizarQuickFilters();
-
-        ordenarCards();
-
-        aplicarFiltros();
-
-        mostrarToast(
-            "Filtros limpos",
-            "Todos os objetos voltaram a aparecer."
-        );
-
-    }
-
-
-    clearFilters.addEventListener(
-        "click",
-        limparFiltros
-    );
-
-
-    emptyReset.addEventListener(
-        "click",
-        limparFiltros
-    );
-
-
-    /* =====================================================
-       ORDENAÇÃO
-    ====================================================== */
-
-    function ordenarCards() {
-
-        const ordem =
-            sortFilter.value;
-
-
-        const cardsOrdenados =
-            [...cards];
-
-
-        cardsOrdenados.sort(
-            function (a, b) {
-
-                if (
-                    ordem === "nome"
-                ) {
-
-                    return (
-                        a.dataset.name
-                            .localeCompare(
-                                b.dataset.name,
-                                "pt-BR"
-                            )
-                    );
-
-                }
-
-
-                const dataA =
-                    new Date(
-                        a.dataset.date
-                    );
-
-                const dataB =
-                    new Date(
-                        b.dataset.date
-                    );
-
-
-                if (
-                    ordem === "antigos"
-                ) {
-
-                    return dataA - dataB;
-
-                }
-
-
-                return dataB - dataA;
-
-            }
-        );
-
-
-        cardsOrdenados.forEach(
-            function (card) {
-
-                itemsGrid.appendChild(
-                    card
-                );
-
-            }
-        );
-
-    }
-
-
-    sortFilter.addEventListener(
-        "change",
-        function () {
-
-            ordenarCards();
-
-            aplicarFiltros();
-
-        }
-    );
-
-
-    /* =====================================================
-       MODAL
-    ====================================================== */
-
-    const modal =
-        document.getElementById(
-            "objectModal"
-        );
-
-    const closeModal =
-        document.getElementById(
-            "closeObjectModal"
-        );
-
-    const modalImage =
-        document.getElementById(
-            "modalImage"
-        );
-
-    const modalStatus =
-        document.getElementById(
-            "modalStatus"
-        );
-
-    const modalCategory =
-        document.getElementById(
-            "modalCategory"
-        );
-
-    const modalObjectName =
-        document.getElementById(
-            "modalObjectName"
-        );
-
-    const modalDescription =
-        document.getElementById(
-            "modalDescription"
-        );
-
-    const modalLocation =
-        document.getElementById(
-            "modalLocation"
-        );
-
-    const modalDate =
-        document.getElementById(
-            "modalDate"
-        );
-
-    const modalSituation =
-        document.getElementById(
-            "modalSituation"
-        );
-
-    let objetoAtual = null;
-
-
-    /* =====================================================
-       ABRIR MODAL
-    ====================================================== */
-
-    function abrirDetalhes(card) {
-
-        objetoAtual = card;
-
-
-        const imagem =
-            card.querySelector(
-                ".item-image img"
-            );
-
-        const nome =
-            card.querySelector(
-                ".item-content h3"
-            );
-
-        const categoria =
-            card.querySelector(
-                ".item-category"
-            );
-
-        const status =
-            card.querySelector(
-                ".item-status"
-            );
-
-        const local =
-            card.querySelector(
-                ".item-info span:first-child"
-            );
-
-        const data =
-            card.querySelector(
-                ".item-info span:last-child"
-            );
-
-
-        modalImage.src =
-            imagem.src;
-
-        modalImage.alt =
-            nome.textContent.trim();
-
-
-        modalObjectName.textContent =
-            nome.textContent.trim();
-
-
-        modalCategory.textContent =
-            categoria.textContent
-                .trim()
-                .toUpperCase();
-
-
-        modalDescription.textContent =
-            card.dataset.description ||
-            "Este objeto foi registrado pela comunidade acadêmica do IFPI.";
-
-
-        modalLocation.textContent =
-            local.textContent
-                .trim();
-
-
-        modalDate.textContent =
-            data.textContent.trim();
-
-
-        const statusTexto =
-            status.textContent.trim();
-
-
-        modalStatus.textContent =
-            statusTexto;
-
-
-        if (
-            card.dataset.status ===
-            "perdido"
-        ) {
-
-            modalSituation.textContent =
-                "Objeto perdido";
-
-            modalStatus.classList.add(
-                "lost-modal"
-            );
-
-        }
-
-        else if (
-            card.dataset.status ===
-            "recuperado"
-        ) {
-
-            modalSituation.textContent =
-                "Objeto recuperado";
-
-            modalStatus.classList.remove(
-                "lost-modal"
-            );
-
-        }
-
-        else {
-
-            modalSituation.textContent =
-                "Objeto encontrado";
-
-            modalStatus.classList.remove(
-                "lost-modal"
-            );
-
-        }
-
-
-        modal.classList.add(
-            "show"
-        );
-
-        modal.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-
-    /* =====================================================
-       CLIQUE NOS BOTÕES
-    ====================================================== */
-
-    document.querySelectorAll(
-        "[data-view-object]"
-    ).forEach(
-        function (button) {
-
-            button.addEventListener(
-                "click",
-                function (event) {
-
-                    event.stopPropagation();
-
-                    const card =
-                        button.closest(
-                            ".item-card"
-                        );
-
-                    abrirDetalhes(card);
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       CLIQUE NO CARD
-    ====================================================== */
-
-    cards.forEach(
-        function (card) {
-
-            card.addEventListener(
-                "click",
-                function (event) {
-
-                    if (
-                        event.target.closest(
-                            "button"
-                        )
-                    ) {
-                        return;
-                    }
-
-                    abrirDetalhes(card);
-
-                }
-            );
-
-
-            card.addEventListener(
-                "keydown",
-                function (event) {
-
-                    if (
-                        event.key === "Enter" ||
-                        event.key === " "
-                    ) {
-
-                        event.preventDefault();
-
-                        abrirDetalhes(card);
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       FECHAR MODAL
-    ====================================================== */
-
-    function fecharModal() {
-
-        modal.classList.remove(
-            "show"
-        );
-
-        modal.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-        document.body.style.overflow =
-            "";
-
-        objetoAtual = null;
-
-    }
-
-
-    closeModal.addEventListener(
-        "click",
-        fecharModal
-    );
-
-
-    modal.addEventListener(
-        "click",
-        function (event) {
-
-            if (
-                event.target === modal
-            ) {
-
-                fecharModal();
-
-            }
-
-        }
-    );
-
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key === "Escape" &&
-                modal.classList.contains(
-                    "show"
-                )
-            ) {
-
-                fecharModal();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       COPIAR INFORMAÇÕES
-    ====================================================== */
-
-    const modalCopyButton =
-        document.getElementById(
-            "modalCopyButton"
-        );
-
-
-    modalCopyButton.addEventListener(
-        "click",
-        async function () {
-
-            if (!objetoAtual) {
+        quickButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                const value = button.dataset.quick;
+
+                statusFilter.value = value === "all" ? "" : value;
+                applyFilters();
+            });
+        });
+
+        itemsGrid.addEventListener("click", function (event) {
+            const button = event.target.closest("[data-open-object]");
+            if (!button) return;
+
+            const card = button.closest(".catalog-card");
+            if (card) openModal(card);
+        });
+
+        closeModalButton.addEventListener("click", closeModal);
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && modal.classList.contains("is-open")) {
+                closeModal();
                 return;
             }
 
-
-            const nome =
-                objetoAtual.dataset.name;
-
-            const local =
-                objetoAtual.dataset.location;
-
-            const status =
-                objetoAtual.dataset.status;
-
-            const textoStatus =
-                status === "perdido"
-                    ? "Perdido"
-                    : status === "recuperado"
-                        ? "Recuperado"
-                        : "Encontrado";
-
-
-            const texto =
-                `Objeto: ${nome}\n` +
-                `Situação: ${textoStatus}\n` +
-                `Localização: ${local}`;
-
-
-            try {
-
-                await navigator.clipboard.writeText(
-                    texto
+            if (event.key === "/" && !modal.classList.contains("is-open")) {
+                const target = event.target;
+                const typing = target instanceof HTMLElement && (
+                    target.isContentEditable ||
+                    ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)
                 );
 
-                mostrarToast(
-                    "Informações copiadas",
-                    "Os dados do objeto foram copiados."
-                );
-
-            } catch (erro) {
-
-                mostrarToast(
-                    "Não foi possível copiar",
-                    "Tente novamente."
-                );
-
+                if (!typing) {
+                    event.preventDefault();
+                    searchInput.focus();
+                }
             }
+        });
 
-        }
-    );
+        root.querySelector("#modalCopyButton").addEventListener("click", copyObjectInformation);
 
+        cards.forEach(function (card) {
+            const dateElement = card.querySelector(".catalog-card-details .catalog-card-detail:last-child span:last-child");
+            if (dateElement) dateElement.textContent = formatDate(card.dataset.date);
 
-    /* =====================================================
-       CONTATO
-    ====================================================== */
-
-    document.getElementById(
-        "modalContactButton"
-    ).addEventListener(
-        "click",
-        function () {
-
-            window.location.href =
-                "mensagens.html";
-
-        }
-    );
-
-
-    /* =====================================================
-       ATALHO "/"
-    ====================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            const elemento =
-                event.target.tagName
-                    .toLowerCase();
-
-
-            if (
-                event.key === "/" &&
-                elemento !== "input" &&
-                elemento !== "textarea" &&
-                elemento !== "select"
-            ) {
-
-                event.preventDefault();
-
-                searchInput.focus();
-
+            const image = card.querySelector(".catalog-card-image");
+            if (image) {
+                image.addEventListener("error", function () {
+                    image.style.visibility = "hidden";
+                    image.parentElement.style.background = "#edf3ee";
+                }, { once: true });
             }
+        });
 
-        }
-    );
-
-
-    /* =====================================================
-       TOAST
-    ====================================================== */
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-    const toastTitle =
-        document.getElementById(
-            "toastTitle"
-        );
-
-    const toastMessage =
-        document.getElementById(
-            "toastMessage"
-        );
-
-
-    let toastTimer;
-
-
-    function mostrarToast(
-        titulo,
-        mensagem
-    ) {
-
-        toastTitle.textContent =
-            titulo;
-
-        toastMessage.textContent =
-            mensagem;
-
-
-        toast.classList.add(
-            "show"
-        );
-
-
-        clearTimeout(
-            toastTimer
-        );
-
-
-        toastTimer =
-            setTimeout(
-                function () {
-
-                    toast.classList.remove(
-                        "show"
-                    );
-
-                },
-                3000
-            );
-
+        updateStatistics();
+        applyFilters();
     }
 
-
-    /* =====================================================
-       ESTADO INICIAL
-    ====================================================== */
-
-    ordenarCards();
-
-    sincronizarQuickFilters();
-
-    aplicarFiltros();
-
-});
-
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeCatalog, { once: true });
+    } else {
+        initializeCatalog();
+    }
+})();
 </script>
-
-
-</body>
-
-</html>
+{% endblock %}

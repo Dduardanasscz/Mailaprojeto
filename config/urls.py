@@ -1,22 +1,18 @@
-"""
-URL configuration for config project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import render
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', lambda request: render(request, 'cadastrar.html'), name='cadastrar'),
+    path('login/', lambda request: render(request, 'login.html'), name='login'),
+    path('index/', lambda request: render(request, 'index.html'), name='index'),
+    path('mapa/', lambda request: render(request, 'mapa.html'), name='mapa'),
+    path('mensagens/', lambda request: render(request, 'mensagens.html'), name='mensagens'),
+    path('objetos/', lambda request: render(request, 'objetos.html'), name='objetos'),
+    path('registrar/', lambda request: render(request, 'registrar.html'), name='registrar'),
+    path('configuracoes/', lambda request: render(request, 'configuracoes.html'), name='configuracoes'),
+    path('base/', lambda request: render(request, 'base.html'), name='configuracoes'),
 ]
+
