@@ -1,160 +1,596 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="Achados IFPI — Configurações da conta"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Achados IFPI — Configurações da conta">
 
     <title>Achados IFPI | Configurações</title>
 
-
     <!-- FONTES -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-
-    <!-- CSS PRINCIPAL -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-
-    <!-- =====================================================
-         ESTILO EXCLUSIVO DA PÁGINA DE CONFIGURAÇÕES
-    ====================================================== -->
+    <!-- CSS ORIGINAL DO PROJETO -->
+    <link rel="stylesheet" href="style.css">
 
     <style>
+        /* =====================================================
+           CONFIGURAÇÕES GERAIS
+        ===================================================== */
 
-        /* =================================================
-           ESTRUTURA
-        ================================================== */
+        :root {
+            --primary: #16834d;
+            --primary-dark: #116b3e;
+            --primary-light: #eaf7ef;
+            --page-bg: #f6f8f7;
+            --surface: #ffffff;
+            --surface-soft: #f8faf9;
+            --text-primary: #172033;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border: #e5e9e7;
+            --border-light: #edf0ee;
+            --danger: #dc2626;
+            --sidebar-width: 258px;
+            --header-height: 82px;
+            --radius: 13px;
+            --shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--page-bg);
+            color: var(--text-primary);
+            font-family: "Inter", sans-serif;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button,
+        a,
+        input,
+        select {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid rgba(22, 131, 77, 0.22);
+            outline-offset: 3px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* =====================================================
+           SIDEBAR — PADRÃO DO ACHADOS IFPI
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            width: var(--sidebar-width);
+            height: 100vh;
+            height: 100dvh;
+            padding: 25px 17px 16px;
+            overflow-y: auto;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            transition: transform 0.25s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 8px;
+            margin-bottom: 37px;
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 42px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            color: #ffffff;
+            background: var(--primary);
+            box-shadow: 0 4px 10px rgba(22, 131, 77, 0.14);
+            font-size: 19px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            gap: 4px;
+        }
+
+        .logo-text strong {
+            color: #172033;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+
+        .logo-text span {
+            color: #94a3b8;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .menu-title {
+            padding: 0 12px;
+            margin: 0 0 11px;
+            color: #9aa5b4;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 29px;
+        }
+
+        .menu a {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-height: 44px;
+            padding: 0 13px;
+            border-radius: 9px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .menu a i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            font-size: 15px;
+        }
+
+        .menu a:hover {
+            background: #f5f8f6;
+            color: var(--primary);
+        }
+
+        .menu a.active {
+            background: #eaf7ef;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .menu a.active::before {
+            position: absolute;
+            top: 9px;
+            bottom: 9px;
+            left: 0;
+            width: 3px;
+            border-radius: 0 4px 4px 0;
+            background: var(--primary);
+            content: "";
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            padding: 7px 3px;
+        }
+
+        .avatar,
+        .header-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #eaf7ef;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .profile-info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            min-width: 0;
+            gap: 4px;
+        }
+
+        .profile-info strong {
+            overflow: hidden;
+            color: #172033;
+            font-size: 12px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .profile-info span {
+            color: #16834d;
+            font-size: 10px;
+        }
+
+        .logout-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .logout-button:hover {
+            background: #fef2f2;
+            color: var(--danger);
+        }
+
+        /* =====================================================
+           ÁREA PRINCIPAL E CABEÇALHO
+        ===================================================== */
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+            margin-left: var(--sidebar-width);
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: var(--header-height);
+            padding: 15px 32px;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+        }
+
+        .header-left,
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .header-title {
+            margin: 0;
+            color: #172033;
+            font-size: 19px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            margin: 5px 0 0;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .header-right {
+            gap: 17px;
+        }
+
+        .global-search {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            width: 235px;
+            height: 39px;
+            padding: 0 10px;
+            border: 1px solid #e5e9e7;
+            border-radius: 9px;
+            background: #ffffff;
+            color: #94a3b8;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .global-search:focus-within {
+            border-color: #86c9a3;
+            box-shadow: 0 0 0 3px rgba(22, 131, 77, 0.07);
+        }
+
+        .global-search > i {
+            font-size: 12px;
+        }
+
+        .global-search input {
+            width: 100%;
+            min-width: 0;
+            padding: 0;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: #334155;
+            font-size: 11px;
+        }
+
+        .global-search input:focus {
+            outline: none;
+        }
+
+        .global-search input::placeholder {
+            color: #a0a9b6;
+        }
+
+        .search-shortcut {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 21px;
+            flex-shrink: 0;
+            border: 1px solid #e5e9e7;
+            border-radius: 4px;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #64748b;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .online-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .notification-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #ffffff;
+            color: #64748b;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .notification-button:hover {
+            border-color: #b7ddc6;
+            color: var(--primary);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .header-avatar {
+            width: 35px;
+            height: 35px;
+            border: 0;
+        }
+
+        .mobile-menu-button {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #ffffff;
+            color: #475569;
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           CONTEÚDO
+        ===================================================== */
+
+        .content {
+            flex: 1;
+            width: 100%;
+            padding: 31px 32px 22px;
+        }
 
         .settings-page {
-            max-width: 1080px;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-
         .settings-intro {
-            margin-bottom: 26px;
+            margin-bottom: 27px;
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            margin-bottom: 9px;
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
         }
 
         .settings-intro h2 {
-            margin: 6px 0 6px;
+            margin: 0 0 8px;
+            color: #172033;
+            font-size: 25px;
+            font-weight: 750;
+            letter-spacing: -0.8px;
         }
 
         .settings-intro p {
+            max-width: 650px;
             margin: 0;
-            color: #64748b;
-            font-size: 14px;
+            color: #718096;
+            font-size: 12px;
+            line-height: 1.7;
         }
 
-
-        /* =================================================
-           LAYOUT
-        ================================================== */
+        /* =====================================================
+           LAYOUT DAS CONFIGURAÇÕES
+        ===================================================== */
 
         .settings-layout {
             display: grid;
-            grid-template-columns: 220px minmax(0, 1fr);
-            gap: 24px;
+            grid-template-columns: 205px minmax(0, 1fr);
             align-items: start;
+            gap: 22px;
         }
 
-
-        /* =================================================
-           MENU LATERAL
-        ================================================== */
-
         .settings-nav {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 8px;
             position: sticky;
-            top: 20px;
+            top: calc(var(--header-height) + 20px);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow);
         }
 
         .settings-nav-title {
-            padding: 12px 12px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: .08em;
+            padding: 12px 10px 10px;
             color: #94a3b8;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .settings-nav button {
-            width: 100%;
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 10px;
+            width: 100%;
+            min-height: 41px;
+            padding: 10px;
             border: 0;
+            border-radius: 8px;
             background: transparent;
-            padding: 11px 12px;
-            border-radius: 9px;
             color: #64748b;
-            font: inherit;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 500;
-            cursor: pointer;
             text-align: left;
-            transition: .2s;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
         }
 
         .settings-nav button i {
             width: 17px;
+            flex-shrink: 0;
+            font-size: 13px;
             text-align: center;
-            font-size: 14px;
         }
 
         .settings-nav button:hover {
-            background: #f8fafc;
-            color: #166534;
+            background: #f5f8f6;
+            color: var(--primary);
         }
 
         .settings-nav button.active {
-            background: #f0fdf4;
-            color: #15803d;
-            font-weight: 600;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 700;
         }
-
-
-        /* =================================================
-           ÁREA DOS CARDS
-        ================================================== */
 
         .settings-content {
             min-width: 0;
@@ -162,58 +598,76 @@
 
         .settings-section {
             display: none;
+            min-width: 0;
+            animation: sectionAppear 0.2s ease;
         }
 
         .settings-section.active {
             display: block;
         }
 
+        @keyframes sectionAppear {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
 
-        /* =================================================
-           CARD
-        ================================================== */
-
-        .settings-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            margin-bottom: 18px;
-            overflow: hidden;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
+        /* =====================================================
+           CARDS E CABEÇALHOS
+        ===================================================== */
+
+        .settings-card {
+            min-width: 0;
+            margin-bottom: 18px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
 
         .settings-card-header {
             display: flex;
             align-items: flex-start;
             gap: 13px;
-            padding: 20px 22px;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 21px 23px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .settings-card-header > div {
+            min-width: 0;
         }
 
         .settings-card-header h3 {
-            margin: 0 0 4px;
-            font-size: 15px;
+            margin: 1px 0 6px;
             color: #172033;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .settings-card-header p {
             margin: 0;
-            color: #64748b;
-            font-size: 12px;
-            line-height: 1.5;
+            color: #8290a2;
+            font-size: 11px;
+            line-height: 1.65;
         }
 
-
         .settings-icon {
-            width: 34px;
-            height: 34px;
-            min-width: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 9px;
-            background: #f0fdf4;
-            color: #15803d;
+            flex: 0 0 36px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eaf7ef;
+            color: #16834d;
             font-size: 14px;
         }
 
@@ -223,163 +677,223 @@
         }
 
         .settings-icon.purple {
-            background: #faf5ff;
-            color: #9333ea;
+            background: #f5f0ff;
+            color: #7c3aed;
         }
 
         .settings-icon.yellow {
-            background: #fffbeb;
+            background: #fff8e8;
             color: #d97706;
         }
 
-
-        /* =================================================
+        /* =====================================================
            PERFIL
-        ================================================== */
+        ===================================================== */
 
         .profile-preview {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 20px 22px;
-            background: #fafafa;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 21px 23px;
+            background: #fafcfb;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .settings-big-avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #166534;
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
+            flex: 0 0 54px;
+            width: 54px;
+            height: 54px;
+            border: 3px solid #e4f4ea;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
         }
 
         .profile-preview-info {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 6px;
+            min-width: 0;
         }
 
         .profile-preview-info strong {
+            overflow-wrap: anywhere;
             color: #172033;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .profile-preview-info span {
             color: #64748b;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .verified-label {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            color: #15803d !important;
+            gap: 5px;
+            color: #16834d !important;
         }
 
+        .verified-label i {
+            font-size: 11px;
+        }
 
-        /* =================================================
-           FORMULÁRIO
-        ================================================== */
+        /* =====================================================
+           FORMULÁRIOS
+        ===================================================== */
 
         .settings-body {
-            padding: 22px;
+            padding: 23px;
         }
 
         .settings-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 21px 17px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            min-width: 0;
+            gap: 8px;
         }
 
         .form-group label {
-            font-size: 12px;
-            font-weight: 600;
             color: #334155;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .form-group input,
         .form-group select {
+            display: block;
             width: 100%;
+            min-width: 0;
             height: 42px;
             padding: 0 12px;
-            border: 1px solid #dbe1e8;
+            border: 1px solid #dfe5e2;
             border-radius: 8px;
-            background: #fff;
-            color: #1e293b;
-            font-family: inherit;
-            font-size: 13px;
             outline: none;
-            transition: .2s;
-            box-sizing: border-box;
+            background: #ffffff;
+            color: #334155;
+            font-family: inherit;
+            font-size: 11px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group select {
+            padding-right: 30px;
+            cursor: pointer;
         }
 
         .form-group input:focus,
         .form-group select:focus {
-            border-color: #22c55e;
-            box-shadow: 0 0 0 3px rgba(34,197,94,.08);
+            border-color: #6ac08c;
+            box-shadow: 0 0 0 3px rgba(22, 131, 77, 0.08);
         }
 
         .form-group input:disabled {
-            background: #f8fafc;
-            color: #94a3b8;
+            border-color: #e9eeeb;
+            background: #f6f8f7;
+            color: #8995a4;
             cursor: not-allowed;
         }
 
-
-        /* =================================================
-           RODAPÉ DO CARD
-        ================================================== */
+        /* =====================================================
+           RODAPÉ DOS CARDS
+        ===================================================== */
 
         .settings-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
-            padding: 16px 22px;
-            background: #fafafa;
-            border-top: 1px solid #f1f5f9;
+            gap: 14px;
+            padding: 16px 23px;
+            border-top: 1px solid var(--border-light);
+            background: #fafcfb;
         }
 
         .settings-footer-info {
             display: flex;
             align-items: center;
-            gap: 7px;
-            color: #64748b;
-            font-size: 11px;
+            gap: 8px;
+            color: #7b8796;
+            font-size: 10px;
+            line-height: 1.5;
         }
 
         .settings-footer-info i {
-            color: #22c55e;
+            flex-shrink: 0;
+            color: var(--primary);
         }
 
+        /* =====================================================
+           BOTÕES
+        ===================================================== */
 
-        /* =================================================
-           OPÇÕES / TOGGLES
-        ================================================== */
+        .settings-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 37px;
+            padding: 0 13px;
+            border: 1px solid #dce4df;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #475569;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .settings-button:hover {
+            border-color: #8ac9a2;
+            background: #f0faf3;
+            color: #16834d;
+        }
+
+        .settings-button.primary {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .settings-button.primary:hover {
+            border-color: var(--primary-dark);
+            background: var(--primary-dark);
+            color: #ffffff;
+        }
+
+        .settings-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* =====================================================
+           OPÇÕES E ALTERNÂNCIAS
+        ===================================================== */
 
         .settings-options {
-            padding: 5px 22px;
+            padding: 4px 23px;
         }
 
         .settings-option {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            padding: 17px 0;
-            border-bottom: 1px solid #f1f5f9;
+            gap: 18px;
+            padding: 19px 0;
+            border-bottom: 1px solid var(--border-light);
             cursor: pointer;
         }
 
@@ -389,122 +903,151 @@
 
         .settings-option-text {
             display: flex;
+            flex: 1;
             flex-direction: column;
-            gap: 4px;
+            min-width: 0;
+            gap: 6px;
         }
 
         .settings-option-text strong {
             color: #334155;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .settings-option-text span {
-            color: #94a3b8;
-            font-size: 11px;
-            line-height: 1.5;
+            color: #8b97a6;
+            font-size: 10px;
+            line-height: 1.65;
         }
 
-
         .toggle-input {
-            display: none;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
         }
 
         .toggle {
-            width: 40px;
-            height: 22px;
-            background: #cbd5e1;
-            border-radius: 20px;
             position: relative;
-            flex-shrink: 0;
-            transition: .2s;
+            display: inline-block;
+            flex: 0 0 40px;
+            width: 40px;
+            height: 23px;
+            border-radius: 20px;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
         .toggle::after {
-            content: "";
             position: absolute;
-            width: 16px;
-            height: 16px;
-            background: #ffffff;
-            border-radius: 50%;
             top: 3px;
             left: 3px;
-            box-shadow: 0 1px 3px rgba(0,0,0,.15);
-            transition: .2s;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+            content: "";
+            transition: transform 0.2s;
         }
 
         .toggle-input:checked + .toggle {
-            background: #16a34a;
+            background: var(--primary);
         }
 
         .toggle-input:checked + .toggle::after {
-            transform: translateX(18px);
+            transform: translateX(17px);
         }
 
+        .toggle-input:focus-visible + .toggle {
+            outline: 3px solid rgba(22, 131, 77, 0.25);
+            outline-offset: 3px;
+        }
 
-        /* =================================================
+        /* =====================================================
            APARÊNCIA
-        ================================================== */
+        ===================================================== */
 
         .theme-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 13px;
         }
 
         .theme-option {
-            border: 1px solid #e2e8f0;
-            background: #fff;
-            border-radius: 10px;
+            min-width: 0;
             padding: 10px;
-            cursor: pointer;
+            border: 1px solid #e0e7e3;
+            border-radius: 10px;
+            background: #ffffff;
             text-align: left;
-            transition: .2s;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .theme-option:hover {
-            border-color: #86efac;
+            border-color: #8ac9a2;
         }
 
         .theme-option.active {
-            border-color: #22c55e;
-            box-shadow: 0 0 0 2px rgba(34,197,94,.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(22, 131, 77, 0.08);
         }
 
         .theme-preview {
-            height: 74px;
-            border-radius: 7px;
-            overflow: hidden;
             display: flex;
-            margin-bottom: 10px;
-            border: 1px solid #e2e8f0;
+            height: 83px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border: 1px solid #e0e7e3;
+            border-radius: 7px;
         }
 
         .theme-sidebar {
-            width: 24%;
+            width: 25%;
+            flex-shrink: 0;
         }
 
         .theme-main {
             flex: 1;
-            padding: 9px;
+            min-width: 0;
+            padding: 10px 8px;
         }
 
         .theme-line {
-            height: 7px;
+            height: 6px;
+            margin-bottom: 7px;
             border-radius: 4px;
-            margin-bottom: 6px;
+        }
+
+        .theme-line:first-child {
+            width: 85%;
+        }
+
+        .theme-line:nth-child(2) {
+            width: 65%;
+        }
+
+        .theme-line:nth-child(3) {
+            width: 75%;
         }
 
         .theme-light .theme-sidebar {
-            background: #f1f5f9;
+            background: #eaf1ec;
         }
 
         .theme-light .theme-main {
-            background: #fff;
+            background: #ffffff;
         }
 
         .theme-light .theme-line {
-            background: #e2e8f0;
+            background: #dfe7e2;
         }
 
         .theme-dark .theme-sidebar {
@@ -520,11 +1063,11 @@
         }
 
         .theme-system .theme-sidebar {
-            background: linear-gradient(#f1f5f9 50%, #172033 50%);
+            background: linear-gradient(to bottom, #eaf1ec 50%, #172033 50%);
         }
 
         .theme-system .theme-main {
-            background: linear-gradient(#fff 50%, #0f172a 50%);
+            background: linear-gradient(to bottom, #ffffff 50%, #0f172a 50%);
         }
 
         .theme-system .theme-line {
@@ -533,28 +1076,28 @@
 
         .theme-option strong {
             display: block;
+            margin-bottom: 5px;
             color: #334155;
-            font-size: 12px;
-            margin-bottom: 3px;
+            font-size: 11px;
         }
 
-        .theme-option span {
+        .theme-option > span {
             display: block;
             color: #94a3b8;
-            font-size: 10px;
+            font-size: 9px;
+            line-height: 1.5;
         }
 
-
-        /* =================================================
+        /* =====================================================
            SEGURANÇA
-        ================================================== */
+        ===================================================== */
 
         .security-row {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 18px 22px;
-            border-bottom: 1px solid #f1f5f9;
+            gap: 13px;
+            padding: 19px 23px;
+            border-bottom: 1px solid var(--border-light);
         }
 
         .security-row:last-child {
@@ -562,84 +1105,112 @@
         }
 
         .security-row-icon {
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            border-radius: 9px;
-            background: #f8fafc;
-            color: #64748b;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #f4f7f5;
+            color: #64748b;
             font-size: 14px;
         }
 
         .security-row-content {
             flex: 1;
+            min-width: 0;
         }
 
         .security-row-content strong {
             display: block;
+            margin-bottom: 5px;
             color: #334155;
-            font-size: 13px;
-            margin-bottom: 3px;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .security-row-content span {
-            color: #94a3b8;
-            font-size: 11px;
+            display: block;
+            color: #8b97a6;
+            font-size: 10px;
+            line-height: 1.65;
         }
 
+        .security-status {
+            flex-shrink: 0;
+            color: #16834d;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
 
-        /* =================================================
-           BOTÕES
-        ================================================== */
+        /* =====================================================
+           RODAPÉ PRINCIPAL
+        ===================================================== */
 
-        .settings-button {
-            border: 1px solid #dbe1e8;
-            background: #fff;
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 22px 0 5px;
+            margin-top: 13px;
+            border-top: 1px solid #e5e9e7;
+        }
+
+        .footer > div:first-child {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .footer > div:first-child strong {
             color: #475569;
-            border-radius: 8px;
-            height: 36px;
-            padding: 0 13px;
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: .2s;
-            white-space: nowrap;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.6px;
         }
 
-        .settings-button:hover {
-            border-color: #22c55e;
-            color: #15803d;
-            background: #f0fdf4;
+        .footer > div:first-child span {
+            color: #94a3b8;
+            font-size: 9px;
+            line-height: 1.5;
         }
 
-        .settings-button.primary {
-            border-color: #16a34a;
-            background: #16a34a;
-            color: #fff;
+        .footer-right {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .settings-button.primary:hover {
-            background: #15803d;
+        .footer-right span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #8290a2;
+            font-size: 9px;
         }
 
+        .footer-right i {
+            color: var(--primary);
+        }
 
-        /* =================================================
-           MODAL
-        ================================================== */
+        /* =====================================================
+           MODAL DE SENHA
+        ===================================================== */
 
         .settings-modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15,23,42,.45);
+            z-index: 999;
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            z-index: 999;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(3px);
         }
 
         .settings-modal-overlay.active {
@@ -647,105 +1218,319 @@
         }
 
         .settings-modal {
-            width: 100%;
-            max-width: 430px;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 20px 60px rgba(15,23,42,.2);
-            padding: 24px;
             position: relative;
+            width: 100%;
+            max-width: 440px;
+            max-height: calc(100dvh - 36px);
+            padding: 27px;
+            overflow-y: auto;
+            border: 1px solid #e8eeea;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
+            animation: modalAppear 0.2s ease;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(0.99);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .settings-modal-close {
             position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 30px;
-            height: 30px;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
             border: 0;
-            background: #f8fafc;
-            border-radius: 7px;
+            border-radius: 8px;
+            background: #f3f6f4;
             color: #64748b;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .settings-modal-close:hover {
+            background: #e8efeb;
+            color: #334155;
         }
 
         .settings-modal h3 {
-            margin: 0 0 5px;
-            font-size: 17px;
+            margin: 0 38px 8px 0;
             color: #172033;
+            font-size: 17px;
+            font-weight: 750;
         }
 
         .settings-modal > p {
-            margin: 0 0 20px;
-            color: #64748b;
-            font-size: 12px;
-            line-height: 1.5;
+            margin: 0 0 23px;
+            color: #748195;
+            font-size: 11px;
+            line-height: 1.75;
+        }
+
+        .settings-modal .form-group {
+            margin-bottom: 17px;
         }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 8px;
-            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-light);
         }
 
-
-        /* =================================================
-           TOAST
-        ================================================== */
+        /* =====================================================
+           TOAST / MENSAGENS
+        ===================================================== */
 
         .settings-toast {
             position: fixed;
-            right: 24px;
-            bottom: 24px;
+            right: 25px;
+            bottom: 25px;
+            z-index: 1100;
             display: flex;
             align-items: center;
             gap: 11px;
+            width: min(370px, calc(100vw - 30px));
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 11px;
             background: #172033;
-            color: #fff;
-            padding: 12px 15px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(15,23,42,.18);
-            transform: translateY(20px);
+            color: #ffffff;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.2);
             opacity: 0;
             pointer-events: none;
-            transition: .25s;
-            z-index: 1000;
+            transform: translateY(12px);
+            transition: opacity 0.25s, transform 0.25s;
         }
 
         .settings-toast.show {
-            transform: translateY(0);
             opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .toast-check {
-            width: 27px;
-            height: 27px;
-            border-radius: 50%;
-            background: #16a34a;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex: 0 0 29px;
+            width: 29px;
+            height: 29px;
+            border-radius: 50%;
+            background: #16834d;
+            color: #ffffff;
             font-size: 11px;
         }
 
+        .toast-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            gap: 4px;
+        }
+
         .settings-toast strong {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 2px;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .settings-toast span {
             color: #cbd5e1;
             font-size: 10px;
+            line-height: 1.5;
         }
 
+        /* =====================================================
+           FUNDO DO MENU MOBILE
+        ===================================================== */
 
-        /* =================================================
-           RESPONSIVO
-        ================================================== */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            display: none;
+            background: rgba(15, 23, 42, 0.4);
+        }
 
-        @media (max-width: 900px) {
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* =====================================================
+           TEMA ESCURO
+        ===================================================== */
+
+        body.dark-theme {
+            --page-bg: #0f172a;
+            --surface: #172033;
+            --surface-soft: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a7b3c4;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --border-light: #2b394d;
+        }
+
+        body.dark-theme .sidebar,
+        body.dark-theme .header,
+        body.dark-theme .settings-card,
+        body.dark-theme .settings-nav {
+            background: #172033;
+            border-color: #334155;
+        }
+
+        body.dark-theme .logo-text strong,
+        body.dark-theme .header-title,
+        body.dark-theme .settings-intro h2,
+        body.dark-theme .settings-card-header h3,
+        body.dark-theme .profile-preview-info strong,
+        body.dark-theme .form-group label,
+        body.dark-theme .settings-option-text strong,
+        body.dark-theme .security-row-content strong,
+        body.dark-theme .theme-option strong,
+        body.dark-theme .footer > div:first-child strong {
+            color: #e2e8f0;
+        }
+
+        body.dark-theme .profile-info strong {
+            color: #e2e8f0;
+        }
+
+        body.dark-theme .menu a {
+            color: #a7b3c4;
+        }
+
+        body.dark-theme .menu a:hover,
+        body.dark-theme .settings-nav button:hover {
+            background: #223047;
+            color: #86d6a4;
+        }
+
+        body.dark-theme .menu a.active,
+        body.dark-theme .settings-nav button.active {
+            background: #153d2b;
+            color: #86d6a4;
+        }
+
+        body.dark-theme .settings-intro p,
+        body.dark-theme .settings-card-header p,
+        body.dark-theme .profile-preview-info span,
+        body.dark-theme .settings-option-text span,
+        body.dark-theme .security-row-content span,
+        body.dark-theme .footer > div:first-child span,
+        body.dark-theme .footer-right span {
+            color: #9aa9bc;
+        }
+
+        body.dark-theme .profile-preview,
+        body.dark-theme .settings-footer,
+        body.dark-theme .security-row-icon {
+            background: #1c293d;
+            border-color: #334155;
+        }
+
+        body.dark-theme .form-group input,
+        body.dark-theme .form-group select,
+        body.dark-theme .global-search,
+        body.dark-theme .notification-button,
+        body.dark-theme .header-avatar,
+        body.dark-theme .theme-option,
+        body.dark-theme .settings-button:not(.primary) {
+            background: #1e293b;
+            border-color: #3b4a60;
+            color: #e2e8f0;
+        }
+
+        body.dark-theme .form-group input:disabled {
+            background: #202d42;
+            color: #8998ac;
+        }
+
+        body.dark-theme .settings-button:not(.primary):hover {
+            background: #223a2e;
+            color: #86d6a4;
+        }
+
+        body.dark-theme .global-search input {
+            color: #e2e8f0;
+        }
+
+        body.dark-theme .theme-preview {
+            border-color: #3b4a60;
+        }
+
+        body.dark-theme .footer {
+            border-color: #334155;
+        }
+
+        body.dark-theme .sidebar-bottom {
+            border-color: #334155;
+        }
+
+        body.dark-theme .logo-text span,
+        body.dark-theme .menu-title,
+        body.dark-theme .settings-nav-title,
+        body.dark-theme .settings-footer-info {
+            color: #8493a8;
+        }
+
+        /* =====================================================
+           RESPONSIVIDADE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+            .header {
+                padding-right: 24px;
+                padding-left: 24px;
+            }
+
+            .content {
+                padding-right: 24px;
+                padding-left: 24px;
+            }
+
+            .header-right {
+                gap: 12px;
+            }
+
+            .global-search {
+                width: 195px;
+            }
+
+            .settings-layout {
+                grid-template-columns: 185px minmax(0, 1fr);
+                gap: 17px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            :root {
+                --sidebar-width: 230px;
+            }
+
+            .global-search {
+                width: 165px;
+            }
+
+            .system-status {
+                display: none;
+            }
 
             .settings-layout {
                 grid-template-columns: 1fr;
@@ -754,8 +1539,10 @@
             .settings-nav {
                 position: static;
                 display: flex;
-                overflow-x: auto;
-                gap: 3px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 5px;
+                padding: 9px;
             }
 
             .settings-nav-title {
@@ -764,80 +1551,319 @@
 
             .settings-nav button {
                 width: auto;
-                white-space: nowrap;
+                flex: 1 1 auto;
+                justify-content: center;
+                padding: 10px 12px;
             }
-
         }
 
+        @media (max-width: 760px) {
+            :root {
+                --header-height: 72px;
+            }
 
-        @media (max-width: 650px) {
+            .sidebar {
+                width: 270px;
+                max-width: calc(100vw - 45px);
+                transform: translateX(-105%);
+                box-shadow: none;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 15px 0 40px rgba(15, 23, 42, 0.12);
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .header {
+                min-height: var(--header-height);
+                padding: 13px 18px;
+            }
+
+            .mobile-menu-button {
+                display: flex;
+                flex-shrink: 0;
+            }
+
+            .header-title {
+                font-size: 16px;
+            }
+
+            .header-subtitle {
+                max-width: 250px;
+                font-size: 10px;
+            }
+
+            .header-right {
+                gap: 10px;
+            }
+
+            .global-search {
+                display: none;
+            }
+
+            .content {
+                padding: 25px 18px 20px;
+            }
+
+            .settings-intro h2 {
+                font-size: 23px;
+            }
+
+            .settings-nav {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .settings-nav button {
+                justify-content: flex-start;
+                min-width: 0;
+                padding: 10px 9px;
+                font-size: 10px;
+            }
+
+            .settings-nav button i {
+                width: 14px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .header {
+                gap: 9px;
+                padding-right: 13px;
+                padding-left: 13px;
+            }
+
+            .header-left {
+                gap: 9px;
+            }
+
+            .header-subtitle {
+                max-width: 190px;
+                line-height: 1.4;
+            }
+
+            .notification-button {
+                width: 33px;
+                height: 33px;
+            }
+
+            .header-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 10px;
+            }
+
+            .content {
+                padding: 22px 13px 18px;
+            }
+
+            .settings-intro {
+                margin-bottom: 21px;
+            }
+
+            .settings-intro h2 {
+                font-size: 22px;
+            }
+
+            .settings-intro p {
+                font-size: 11px;
+            }
+
+            .settings-layout {
+                gap: 13px;
+            }
+
+            .settings-nav {
+                gap: 4px;
+                padding: 7px;
+            }
+
+            .settings-nav button {
+                justify-content: center;
+                gap: 6px;
+                padding: 10px 5px;
+                font-size: 9px;
+            }
+
+            .settings-nav button i {
+                width: auto;
+            }
+
+            .settings-card-header {
+                gap: 11px;
+                padding: 17px;
+            }
+
+            .settings-card-header h3 {
+                font-size: 12px;
+            }
+
+            .settings-card-header p {
+                font-size: 10px;
+            }
+
+            .profile-preview {
+                padding: 17px;
+            }
+
+            .settings-body {
+                padding: 18px 17px;
+            }
 
             .settings-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 17px;
+            }
+
+            .settings-footer {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 16px 17px;
+            }
+
+            .settings-footer .settings-button {
+                width: 100%;
+            }
+
+            .settings-options {
+                padding-right: 17px;
+                padding-left: 17px;
+            }
+
+            .settings-option {
+                gap: 12px;
+                padding: 17px 0;
+            }
+
+            .settings-option-text strong {
+                font-size: 10px;
+            }
+
+            .settings-option-text span {
+                font-size: 9px;
             }
 
             .theme-grid {
                 grid-template-columns: 1fr;
+                gap: 10px;
             }
 
-            .settings-footer {
-                align-items: flex-start;
-                flex-direction: column;
+            .theme-option {
+                display: grid;
+                grid-template-columns: 100px minmax(0, 1fr);
+                grid-template-rows: auto auto;
+                align-items: center;
+                column-gap: 13px;
+                padding: 10px;
+            }
+
+            .theme-preview {
+                grid-row: 1 / 3;
+                height: 66px;
+                margin: 0;
+            }
+
+            .theme-option strong {
+                align-self: end;
+                margin-bottom: 3px;
+            }
+
+            .theme-option > span {
+                align-self: start;
             }
 
             .security-row {
+                gap: 10px;
+                padding: 16px 17px;
+            }
+
+            .security-row-icon {
+                flex-basis: 33px;
+                width: 33px;
+                height: 33px;
+                font-size: 12px;
+            }
+
+            .security-row-content strong {
+                font-size: 10px;
+            }
+
+            .security-row-content span {
+                font-size: 9px;
+            }
+
+            .security-row .settings-button {
+                min-height: 33px;
+                padding: 0 9px;
+                font-size: 9px;
+            }
+
+            .footer {
                 align-items: flex-start;
+                flex-direction: column;
+                gap: 13px;
+                padding-top: 18px;
+            }
+
+            .footer-right {
+                gap: 12px;
+            }
+
+            .settings-modal {
+                padding: 23px 19px;
             }
 
             .settings-toast {
-                left: 15px;
                 right: 15px;
                 bottom: 15px;
+                left: 15px;
+                width: auto;
             }
-
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app">
 
-
     <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
+         SIDEBAR PRINCIPAL
+    ===================================================== -->
 
     <aside class="sidebar" id="sidebar">
 
         <div class="logo">
-
             <div class="logo-icon">
                 <i class="fa-solid fa-location-dot"></i>
             </div>
 
             <div class="logo-text">
-
                 <strong>ACHADOS IFPI</strong>
-
                 <span>Comunidade acadêmica</span>
-
             </div>
-
         </div>
 
+        <div class="menu-title">Principal</div>
 
-        <div class="menu-title">
-            Principal
-        </div>
-
-
-        <nav class="menu">
-
+        <nav class="menu" aria-label="Navegação principal">
             <a href="index.html">
                 <i class="fa-solid fa-house"></i>
                 <span>Visão geral</span>
@@ -857,17 +1883,11 @@
                 <i class="fa-solid fa-map-location-dot"></i>
                 <span>Mapa do campus</span>
             </a>
-
         </nav>
 
+        <div class="menu-title">Minha conta</div>
 
-        <div class="menu-title">
-            Minha conta
-        </div>
-
-
-        <nav class="menu">
-
+        <nav class="menu" aria-label="Navegação da conta">
             <a href="registros.html">
                 <i class="fa-solid fa-clipboard-list"></i>
                 <span>Meus registros</span>
@@ -878,28 +1898,19 @@
                 <span>Mensagens</span>
             </a>
 
-            <a href="configuracoes.html" class="active">
+            <a href="configuracoes.html" class="active" aria-current="page">
                 <i class="fa-solid fa-gear"></i>
                 <span>Configurações</span>
             </a>
-
         </nav>
 
-
         <div class="sidebar-bottom">
-
             <div class="profile">
-
-                <div class="avatar">
-                    ED
-                </div>
+                <div class="avatar">ED</div>
 
                 <div class="profile-info">
-
                     <strong>Eduarda</strong>
-
                     <span>Conta verificada</span>
-
                 </div>
 
                 <button
@@ -907,26 +1918,24 @@
                     type="button"
                     id="logoutButton"
                     aria-label="Sair"
+                    title="Sair"
                 >
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </button>
-
             </div>
-
         </div>
 
     </aside>
 
-
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- =====================================================
-         MAIN
-    ====================================================== -->
+         ÁREA PRINCIPAL
+    ===================================================== -->
 
     <main class="main">
 
-
-        <!-- HEADER -->
+        <!-- CABEÇALHO -->
 
         <header class="header">
 
@@ -937,72 +1946,56 @@
                     id="mobileMenuButton"
                     type="button"
                     aria-label="Abrir menu"
+                    aria-expanded="false"
+                    aria-controls="sidebar"
                 >
                     <i class="fa-solid fa-bars"></i>
                 </button>
 
                 <div>
-
-                    <h2 class="header-title">
-                        Configurações
-                    </h2>
-
+                    <h1 class="header-title">Configurações</h1>
                     <p class="header-subtitle">
                         Gerencie sua conta e suas preferências.
                     </p>
-
                 </div>
 
             </div>
 
-
             <div class="header-right">
 
-                <div class="global-search">
-
+                <form class="global-search" id="globalSearchForm" role="search">
                     <i class="fa-solid fa-magnifying-glass"></i>
 
                     <input
                         type="search"
+                        id="globalSearchInput"
                         placeholder="Buscar objetos..."
                         aria-label="Buscar objetos"
                     >
 
-                    <span class="search-shortcut">
-                        /
-                    </span>
-
-                </div>
-
+                    <span class="search-shortcut">/</span>
+                </form>
 
                 <div class="system-status">
-
                     <span class="online-dot"></span>
-
                     Sistema online
-
                 </div>
-
 
                 <a
                     href="mensagens.html"
                     class="notification-button"
-                    aria-label="Notificações"
+                    aria-label="Notificações e mensagens"
+                    title="Notificações"
                 >
-
                     <i class="fa-regular fa-bell"></i>
-
-                    <span class="notification-count">
-                        3
-                    </span>
-
+                    <span class="notification-count">3</span>
                 </a>
-
 
                 <a
                     href="configuracoes.html"
                     class="header-avatar"
-                    aria-label="Perfil"
+                    aria-label="Perfil de Eduarda"
+                    title="Perfil"
                 >
                     ED
                 </a>
@@ -1011,57 +2004,43 @@
 
         </header>
 
-
-
         <!-- =====================================================
-             CONTEÚDO
-        ====================================================== -->
+             CONTEÚDO DA PÁGINA
+        ===================================================== -->
 
         <div class="content">
 
-
             <div class="settings-page">
-
 
                 <!-- INTRODUÇÃO -->
 
                 <div class="settings-intro">
+                    <span class="section-eyebrow">MINHA CONTA</span>
 
-                    <span class="section-eyebrow">
-                        MINHA CONTA
-                    </span>
-
-                    <h2>
-                        Configurações
-                    </h2>
+                    <h2>Configurações</h2>
 
                     <p>
-                        Controle suas informações, notificações e preferências do Achados IFPI.
+                        Controle suas informações, notificações e preferências
+                        do Achados IFPI em um só lugar.
                     </p>
-
                 </div>
 
-
-
-                <!-- =================================================
-                     LAYOUT
-                ================================================== -->
+                <!-- LAYOUT -->
 
                 <div class="settings-layout">
 
+                    <!-- MENU INTERNO -->
 
-                    <!-- MENU DE CONFIGURAÇÕES -->
+                    <aside class="settings-nav" aria-label="Seções das configurações">
 
-                    <aside class="settings-nav">
-
-                        <div class="settings-nav-title">
-                            Configurações
-                        </div>
+                        <div class="settings-nav-title">Configurações</div>
 
                         <button
                             class="active"
                             data-section="perfil"
                             type="button"
+                            aria-controls="perfil"
+                            aria-selected="true"
                         >
                             <i class="fa-regular fa-user"></i>
                             Perfil
@@ -1070,6 +2049,8 @@
                         <button
                             data-section="notificacoes"
                             type="button"
+                            aria-controls="notificacoes"
+                            aria-selected="false"
                         >
                             <i class="fa-regular fa-bell"></i>
                             Notificações
@@ -1078,6 +2059,8 @@
                         <button
                             data-section="privacidade"
                             type="button"
+                            aria-controls="privacidade"
+                            aria-selected="false"
                         >
                             <i class="fa-solid fa-shield-halved"></i>
                             Privacidade
@@ -1086,6 +2069,8 @@
                         <button
                             data-section="aparencia"
                             type="button"
+                            aria-controls="aparencia"
+                            aria-selected="false"
                         >
                             <i class="fa-solid fa-palette"></i>
                             Aparência
@@ -1094,6 +2079,8 @@
                         <button
                             data-section="seguranca"
                             type="button"
+                            aria-controls="seguranca"
+                            aria-selected="false"
                         >
                             <i class="fa-solid fa-lock"></i>
                             Segurança
@@ -1101,20 +2088,18 @@
 
                     </aside>
 
-
-
-                    <!-- CONTEÚDO DAS CONFIGURAÇÕES -->
+                    <!-- CONTEÚDO DAS SEÇÕES -->
 
                     <div class="settings-content">
 
-
                         <!-- =================================================
-                             PERFIL
+                             SEÇÃO: PERFIL
                         ================================================== -->
 
                         <section
                             class="settings-section active"
                             id="perfil"
+                            aria-labelledby="profileSectionTitle"
                         >
 
                             <div class="settings-card">
@@ -1122,29 +2107,24 @@
                                 <div class="settings-card-header">
 
                                     <span class="settings-icon">
-
                                         <i class="fa-regular fa-user"></i>
-
                                     </span>
 
                                     <div>
-
-                                        <h3>
+                                        <h3 id="profileSectionTitle">
                                             Informações do perfil
                                         </h3>
 
                                         <p>
                                             Atualize as informações básicas da sua conta.
                                         </p>
-
                                     </div>
 
                                 </div>
 
-
                                 <div class="profile-preview">
 
-                                    <div class="settings-big-avatar">
+                                    <div class="settings-big-avatar" id="profileAvatar">
                                         ED
                                     </div>
 
@@ -1163,128 +2143,118 @@
 
                                 </div>
 
+                                <form id="profileForm">
 
-                                <div class="settings-body">
+                                    <div class="settings-body">
 
-                                    <div class="settings-grid">
+                                        <div class="settings-grid">
 
-                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="fullName">
+                                                    Nome completo
+                                                </label>
 
-                                            <label for="fullName">
-                                                Nome completo
-                                            </label>
+                                                <input
+                                                    type="text"
+                                                    id="fullName"
+                                                    name="fullName"
+                                                    value="Eduarda Nascimento"
+                                                    autocomplete="name"
+                                                    minlength="2"
+                                                    maxlength="120"
+                                                    required
+                                                >
+                                            </div>
 
-                                            <input
-                                                type="text"
-                                                id="fullName"
-                                                value="Eduarda Nascimento"
-                                            >
+                                            <div class="form-group">
+                                                <label for="email">
+                                                    E-mail institucional
+                                                </label>
 
-                                        </div>
+                                                <input
+                                                    type="email"
+                                                    id="email"
+                                                    name="email"
+                                                    value="eduarda@edu.ifpi.edu.br"
+                                                    autocomplete="email"
+                                                    required
+                                                >
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label for="course">
+                                                    Curso
+                                                </label>
 
-                                        <div class="form-group">
+                                                <select id="course" name="course" required>
+                                                    <option value="Técnico em Informática para Internet" selected>
+                                                        Técnico em Informática para Internet
+                                                    </option>
 
-                                            <label for="email">
-                                                E-mail institucional
-                                            </label>
+                                                    <option value="Administração">
+                                                        Administração
+                                                    </option>
 
-                                            <input
-                                                type="email"
-                                                id="email"
-                                                value="eduarda@edu.ifpi.edu.br"
-                                            >
+                                                    <option value="Agricultura">
+                                                        Agricultura
+                                                    </option>
 
-                                        </div>
+                                                    <option value="Outro">
+                                                        Outro
+                                                    </option>
+                                                </select>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label for="campus">
+                                                    Campus
+                                                </label>
 
-                                        <div class="form-group">
-
-                                            <label for="course">
-                                                Curso
-                                            </label>
-
-                                            <select id="course">
-
-                                                <option selected>
-                                                    Técnico em Informática para Internet
-                                                </option>
-
-                                                <option>
-                                                    Administração
-                                                </option>
-
-                                                <option>
-                                                    Agricultura
-                                                </option>
-
-                                                <option>
-                                                    Outro
-                                                </option>
-
-                                            </select>
-
-                                        </div>
-
-
-                                        <div class="form-group">
-
-                                            <label for="campus">
-                                                Campus
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                id="campus"
-                                                value="IFPI Campus Paulistana"
-                                                disabled
-                                            >
+                                                <input
+                                                    type="text"
+                                                    id="campus"
+                                                    name="campus"
+                                                    value="IFPI Campus Paulistana"
+                                                    disabled
+                                                >
+                                            </div>
 
                                         </div>
 
                                     </div>
 
-                                </div>
+                                    <div class="settings-footer">
 
+                                        <div class="settings-footer-info">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                            Informações básicas da conta.
+                                        </div>
 
-                                <div class="settings-footer">
-
-                                    <div class="settings-footer-info">
-
-                                        <i class="fa-solid fa-circle-info"></i>
-
-                                        Informações básicas da conta.
+                                        <button
+                                            class="settings-button primary"
+                                            id="saveProfile"
+                                            type="submit"
+                                        >
+                                            <i class="fa-solid fa-check"></i>
+                                            Salvar alterações
+                                        </button>
 
                                     </div>
 
-
-                                    <button
-                                        class="settings-button primary"
-                                        id="saveProfile"
-                                        type="button"
-                                    >
-
-                                        <i class="fa-solid fa-check"></i>
-
-                                        Salvar alterações
-
-                                    </button>
-
-                                </div>
+                                </form>
 
                             </div>
 
                         </section>
 
-
-
                         <!-- =================================================
-                             NOTIFICAÇÕES
+                             SEÇÃO: NOTIFICAÇÕES
                         ================================================== -->
 
                         <section
                             class="settings-section"
                             id="notificacoes"
+                            aria-labelledby="notificationsSectionTitle"
                         >
 
                             <div class="settings-card">
@@ -1292,163 +2262,138 @@
                                 <div class="settings-card-header">
 
                                     <span class="settings-icon blue">
-
                                         <i class="fa-regular fa-bell"></i>
-
                                     </span>
 
                                     <div>
-
-                                        <h3>
+                                        <h3 id="notificationsSectionTitle">
                                             Notificações
                                         </h3>
 
                                         <p>
                                             Escolha quais acontecimentos devem gerar avisos.
                                         </p>
-
                                     </div>
 
                                 </div>
 
+                                <form id="notificationsForm">
 
-                                <div class="settings-options">
+                                    <div class="settings-options">
 
+                                        <label class="settings-option">
 
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Novas mensagens
-                                            </strong>
-
-                                            <span>
-                                                Receber avisos quando alguém enviar uma mensagem.
+                                            <span class="settings-option-text">
+                                                <strong>Novas mensagens</strong>
+                                                <span>
+                                                    Receber avisos quando alguém enviar uma mensagem.
+                                                </span>
                                             </span>
 
-                                        </div>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="newMessages"
+                                                checked
+                                            >
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                            checked
-                                        >
+                                            <span class="toggle" aria-hidden="true"></span>
 
-                                        <span class="toggle"></span>
+                                        </label>
 
-                                    </label>
+                                        <label class="settings-option">
 
-
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Atualizações dos registros
-                                            </strong>
-
-                                            <span>
-                                                Avisar quando o status de um registro for alterado.
+                                            <span class="settings-option-text">
+                                                <strong>Atualizações dos registros</strong>
+                                                <span>
+                                                    Avisar quando o status de um registro for alterado.
+                                                </span>
                                             </span>
 
-                                        </div>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="recordUpdates"
+                                                checked
+                                            >
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                            checked
-                                        >
+                                            <span class="toggle" aria-hidden="true"></span>
 
-                                        <span class="toggle"></span>
+                                        </label>
 
-                                    </label>
+                                        <label class="settings-option">
 
-
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Solicitações de propriedade
-                                            </strong>
-
-                                            <span>
-                                                Avisar quando alguém entrar em contato sobre um objeto.
+                                            <span class="settings-option-text">
+                                                <strong>Solicitações de propriedade</strong>
+                                                <span>
+                                                    Avisar quando alguém entrar em contato sobre um objeto.
+                                                </span>
                                             </span>
 
-                                        </div>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="ownershipRequests"
+                                                checked
+                                            >
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                            checked
-                                        >
+                                            <span class="toggle" aria-hidden="true"></span>
 
-                                        <span class="toggle"></span>
+                                        </label>
 
-                                    </label>
+                                        <label class="settings-option">
 
-
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Objetos compatíveis
-                                            </strong>
-
-                                            <span>
-                                                Receber avisos sobre possíveis correspondências.
+                                            <span class="settings-option-text">
+                                                <strong>Objetos compatíveis</strong>
+                                                <span>
+                                                    Receber avisos sobre possíveis correspondências.
+                                                </span>
                                             </span>
 
-                                        </div>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="matchingObjects"
+                                            >
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                        >
+                                            <span class="toggle" aria-hidden="true"></span>
 
-                                        <span class="toggle"></span>
-
-                                    </label>
-
-                                </div>
-
-
-                                <div class="settings-footer">
-
-                                    <div class="settings-footer-info">
-
-                                        <i class="fa-solid fa-bell"></i>
-
-                                        Você pode alterar essas opções quando quiser.
+                                        </label>
 
                                     </div>
 
-                                    <button
-                                        class="settings-button primary"
-                                        type="button"
-                                        id="saveNotifications"
-                                    >
-                                        Salvar preferências
-                                    </button>
+                                    <div class="settings-footer">
 
-                                </div>
+                                        <div class="settings-footer-info">
+                                            <i class="fa-solid fa-bell"></i>
+                                            Você pode alterar essas opções quando quiser.
+                                        </div>
+
+                                        <button
+                                            class="settings-button primary"
+                                            type="submit"
+                                            id="saveNotifications"
+                                        >
+                                            <i class="fa-solid fa-check"></i>
+                                            Salvar preferências
+                                        </button>
+
+                                    </div>
+
+                                </form>
 
                             </div>
 
                         </section>
 
-
-
                         <!-- =================================================
-                             PRIVACIDADE
+                             SEÇÃO: PRIVACIDADE
                         ================================================== -->
 
                         <section
                             class="settings-section"
                             id="privacidade"
+                            aria-labelledby="privacySectionTitle"
                         >
 
                             <div class="settings-card">
@@ -1456,118 +2401,119 @@
                                 <div class="settings-card-header">
 
                                     <span class="settings-icon purple">
-
                                         <i class="fa-solid fa-shield-halved"></i>
-
                                     </span>
 
                                     <div>
-
-                                        <h3>
+                                        <h3 id="privacySectionTitle">
                                             Privacidade
                                         </h3>
 
                                         <p>
                                             Escolha quais informações podem ser visualizadas por outros usuários.
                                         </p>
-
                                     </div>
 
                                 </div>
 
+                                <form id="privacyForm">
 
-                                <div class="settings-options">
+                                    <div class="settings-options">
 
+                                        <label class="settings-option">
 
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Perfil visível
-                                            </strong>
-
-                                            <span>
-                                                Permite que membros da comunidade encontrem seu perfil.
+                                            <span class="settings-option-text">
+                                                <strong>Perfil visível</strong>
+                                                <span>
+                                                    Permite que membros da comunidade encontrem seu perfil.
+                                                </span>
                                             </span>
 
-                                        </div>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="profileVisible"
+                                                checked
+                                            >
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                            checked
-                                        >
+                                            <span class="toggle" aria-hidden="true"></span>
 
-                                        <span class="toggle"></span>
+                                        </label>
 
-                                    </label>
+                                        <label class="settings-option">
 
-
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Mostrar meu nome nos registros
-                                            </strong>
-
-                                            <span>
-                                                Seu nome poderá aparecer como responsável por um registro.
+                                            <span class="settings-option-text">
+                                                <strong>Mostrar meu nome nos registros</strong>
+                                                <span>
+                                                    Seu nome poderá aparecer como responsável por um registro.
+                                                </span>
                                             </span>
 
-                                        </div>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="showName"
+                                                checked
+                                            >
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                            checked
-                                        >
+                                            <span class="toggle" aria-hidden="true"></span>
 
-                                        <span class="toggle"></span>
+                                        </label>
 
-                                    </label>
+                                        <label class="settings-option">
 
-
-                                    <label class="settings-option">
-
-                                        <div class="settings-option-text">
-
-                                            <strong>
-                                                Permitir novas mensagens
-                                            </strong>
-
-                                            <span>
-                                                Outros usuários poderão iniciar uma conversa com você.
+                                            <span class="settings-option-text">
+                                                <strong>Permitir novas mensagens</strong>
+                                                <span>
+                                                    Outros usuários poderão iniciar uma conversa com você.
+                                                </span>
                                             </span>
 
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                name="allowMessages"
+                                                checked
+                                            >
+
+                                            <span class="toggle" aria-hidden="true"></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="settings-footer">
+
+                                        <div class="settings-footer-info">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                            Gerencie como suas informações são exibidas.
                                         </div>
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
-                                            checked
+                                        <button
+                                            class="settings-button primary"
+                                            type="submit"
+                                            id="savePrivacy"
                                         >
+                                            <i class="fa-solid fa-check"></i>
+                                            Salvar preferências
+                                        </button>
 
-                                        <span class="toggle"></span>
+                                    </div>
 
-                                    </label>
-
-                                </div>
+                                </form>
 
                             </div>
 
                         </section>
 
-
-
                         <!-- =================================================
-                             APARÊNCIA
+                             SEÇÃO: APARÊNCIA
                         ================================================== -->
 
                         <section
                             class="settings-section"
                             id="aparencia"
+                            aria-labelledby="appearanceSectionTitle"
                         >
 
                             <div class="settings-card">
@@ -1575,120 +2521,88 @@
                                 <div class="settings-card-header">
 
                                     <span class="settings-icon yellow">
-
                                         <i class="fa-solid fa-palette"></i>
-
                                     </span>
 
                                     <div>
-
-                                        <h3>
+                                        <h3 id="appearanceSectionTitle">
                                             Aparência
                                         </h3>
 
                                         <p>
                                             Escolha como o Achados IFPI será exibido.
                                         </p>
-
                                     </div>
 
                                 </div>
-
 
                                 <div class="settings-body">
 
                                     <div class="theme-grid">
 
-
                                         <button
                                             class="theme-option active"
                                             type="button"
                                             data-theme="light"
+                                            aria-pressed="true"
                                         >
 
                                             <div class="theme-preview theme-light">
-
                                                 <div class="theme-sidebar"></div>
 
                                                 <div class="theme-main">
-
                                                     <div class="theme-line"></div>
                                                     <div class="theme-line"></div>
                                                     <div class="theme-line"></div>
-
                                                 </div>
-
                                             </div>
 
-                                            <strong>
-                                                Claro
-                                            </strong>
-
-                                            <span>
-                                                Aparência padrão
-                                            </span>
+                                            <strong>Claro</strong>
+                                            <span>Aparência padrão</span>
 
                                         </button>
-
 
                                         <button
                                             class="theme-option"
                                             type="button"
                                             data-theme="dark"
+                                            aria-pressed="false"
                                         >
 
                                             <div class="theme-preview theme-dark">
-
                                                 <div class="theme-sidebar"></div>
 
                                                 <div class="theme-main">
-
                                                     <div class="theme-line"></div>
                                                     <div class="theme-line"></div>
                                                     <div class="theme-line"></div>
-
                                                 </div>
-
                                             </div>
 
-                                            <strong>
-                                                Escuro
-                                            </strong>
-
-                                            <span>
-                                                Para ambientes escuros
-                                            </span>
+                                            <strong>Escuro</strong>
+                                            <span>Para ambientes escuros</span>
 
                                         </button>
-
 
                                         <button
                                             class="theme-option"
                                             type="button"
                                             data-theme="system"
+                                            aria-pressed="false"
                                         >
 
                                             <div class="theme-preview theme-system">
-
                                                 <div class="theme-sidebar"></div>
 
                                                 <div class="theme-main">
-
                                                     <div class="theme-line"></div>
                                                     <div class="theme-line"></div>
                                                     <div class="theme-line"></div>
-
                                                 </div>
-
                                             </div>
 
-                                            <strong>
-                                                Sistema
-                                            </strong>
-
-                                            <span>
-                                                Segue seu dispositivo
-                                            </span>
+                                            <strong>Sistema</strong>
+                                            <span>Segue seu dispositivo</span>
 
                                         </button>
 
@@ -1700,15 +2614,14 @@
 
                         </section>
 
-
-
                         <!-- =================================================
-                             SEGURANÇA
+                             SEÇÃO: SEGURANÇA
                         ================================================== -->
 
                         <section
                             class="settings-section"
                             id="seguranca"
+                            aria-labelledby="securitySectionTitle"
                         >
 
                             <div class="settings-card">
@@ -1716,25 +2629,20 @@
                                 <div class="settings-card-header">
 
                                     <span class="settings-icon">
-
                                         <i class="fa-solid fa-lock"></i>
-
                                     </span>
 
                                     <div>
-
-                                        <h3>
+                                        <h3 id="securitySectionTitle">
                                             Segurança da conta
                                         </h3>
 
                                         <p>
                                             Consulte e gerencie as opções básicas de segurança.
                                         </p>
-
                                     </div>
 
                                 </div>
-
 
                                 <div class="security-row">
 
@@ -1743,15 +2651,11 @@
                                     </div>
 
                                     <div class="security-row-content">
-
-                                        <strong>
-                                            Senha
-                                        </strong>
+                                        <strong>Senha</strong>
 
                                         <span>
                                             Recomendamos utilizar uma senha forte e exclusiva.
                                         </span>
-
                                     </div>
 
                                     <button
@@ -1764,115 +2668,103 @@
 
                                 </div>
 
+                                <form id="securityForm">
 
-                                <div class="security-row">
+                                    <div class="security-row">
 
-                                    <div class="security-row-icon">
-                                        <i class="fa-solid fa-shield"></i>
+                                        <div class="security-row-icon">
+                                            <i class="fa-solid fa-shield"></i>
+                                        </div>
+
+                                        <div class="security-row-content">
+                                            <strong>Verificação em duas etapas</strong>
+
+                                            <span>
+                                                Adicione uma camada extra de proteção à conta.
+                                            </span>
+                                        </div>
+
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                class="toggle-input"
+                                                id="twoFactorAuth"
+                                                name="twoFactorAuth"
+                                            >
+
+                                            <span class="toggle" aria-hidden="true"></span>
+                                        </label>
+
                                     </div>
 
-                                    <div class="security-row-content">
+                                    <div class="security-row">
 
-                                        <strong>
-                                            Verificação em duas etapas
-                                        </strong>
+                                        <div class="security-row-icon">
+                                            <i class="fa-solid fa-clock-rotate-left"></i>
+                                        </div>
 
-                                        <span>
-                                            Adicione uma camada extra de proteção à conta.
-                                        </span>
+                                        <div class="security-row-content">
+                                            <strong>Sessão atual</strong>
+
+                                            <span>
+                                                Navegador atual · dispositivo em uso
+                                            </span>
+                                        </div>
+
+                                        <span class="security-status">ATIVA</span>
 
                                     </div>
 
-                                    <label>
+                                    <div class="settings-footer">
 
-                                        <input
-                                            type="checkbox"
-                                            class="toggle-input"
+                                        <div class="settings-footer-info">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                            As opções de segurança dependem da integração com o sistema.
+                                        </div>
+
+                                        <button
+                                            class="settings-button primary"
+                                            type="submit"
+                                            id="saveSecurity"
                                         >
-
-                                        <span class="toggle"></span>
-
-                                    </label>
-
-                                </div>
-
-
-                                <div class="security-row">
-
-                                    <div class="security-row-icon">
-                                        <i class="fa-solid fa-clock-rotate-left"></i>
-                                    </div>
-
-                                    <div class="security-row-content">
-
-                                        <strong>
-                                            Sessão atual
-                                        </strong>
-
-                                        <span>
-                                            Chrome · Windows · acesso recente
-                                        </span>
+                                            <i class="fa-solid fa-check"></i>
+                                            Salvar opções
+                                        </button>
 
                                     </div>
 
-                                    <span
-                                        style="
-                                            font-size:10px;
-                                            font-weight:600;
-                                            color:#15803d;
-                                        "
-                                    >
-                                        ATIVA
-                                    </span>
-
-                                </div>
+                                </form>
 
                             </div>
 
                         </section>
 
-
                     </div>
 
                 </div>
 
-
-                <!-- =================================================
-                     RODAPÉ
-                ================================================== -->
+                <!-- RODAPÉ PRINCIPAL -->
 
                 <footer class="footer">
 
                     <div>
-
-                        <strong>
-                            ACHADOS IFPI
-                        </strong>
+                        <strong>ACHADOS IFPI</strong>
 
                         <span>
                             Plataforma em desenvolvimento · IFPI Campus Paulistana
                         </span>
-
                     </div>
-
 
                     <div class="footer-right">
 
                         <span>
-
                             <i class="fa-solid fa-shield-halved"></i>
-
                             Comunidade segura
-
                         </span>
 
-
                         <span>
-
                             <i class="fa-solid fa-circle-check"></i>
-
                             Sistema online
-
                         </span>
 
                     </div>
@@ -1887,39 +2779,39 @@
 
 </div>
 
-
-
 <!-- =====================================================
-     MODAL DE SENHA
-====================================================== -->
+     MODAL DE ALTERAÇÃO DE SENHA
+===================================================== -->
 
 <div
     class="settings-modal-overlay"
     id="passwordModal"
+    aria-hidden="true"
 >
-
-    <div class="settings-modal">
+    <div
+        class="settings-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="passwordModalTitle"
+        aria-describedby="passwordModalDescription"
+    >
 
         <button
             class="settings-modal-close"
             id="closePasswordModal"
             type="button"
-            aria-label="Fechar"
+            aria-label="Fechar janela"
         >
-
             <i class="fa-solid fa-xmark"></i>
-
         </button>
 
+        <h3 id="passwordModalTitle">Alterar senha</h3>
 
-        <h3>
-            Alterar senha
-        </h3>
-
-        <p>
-            Esta área está preparada para receber a autenticação do sistema quando o banco de dados for implementado.
+        <p id="passwordModalDescription">
+            Esta área está preparada para receber a autenticação do sistema
+            quando o banco de dados e o processo de alteração de senha forem
+            integrados.
         </p>
-
 
         <form id="passwordForm">
 
@@ -1932,15 +2824,13 @@
                 <input
                     type="password"
                     id="currentPassword"
+                    name="currentPassword"
                     placeholder="Digite sua senha atual"
+                    autocomplete="current-password"
                     required
                 >
 
             </div>
-
-
-            <br>
-
 
             <div class="form-group">
 
@@ -1951,16 +2841,14 @@
                 <input
                     type="password"
                     id="newPassword"
+                    name="newPassword"
                     placeholder="Digite a nova senha"
+                    autocomplete="new-password"
                     minlength="8"
                     required
                 >
 
             </div>
-
-
-            <br>
-
 
             <div class="form-group">
 
@@ -1971,13 +2859,14 @@
                 <input
                     type="password"
                     id="confirmPassword"
-                    placeholder="Digite novamente"
+                    name="confirmPassword"
+                    placeholder="Digite novamente a nova senha"
+                    autocomplete="new-password"
                     minlength="8"
                     required
                 >
 
             </div>
-
 
             <div class="modal-actions">
 
@@ -1989,11 +2878,11 @@
                     Cancelar
                 </button>
 
-
                 <button
                     type="submit"
                     class="settings-button primary"
                 >
+                    <i class="fa-solid fa-lock"></i>
                     Atualizar senha
                 </button>
 
@@ -2002,366 +2891,562 @@
         </form>
 
     </div>
-
 </div>
 
-
-
 <!-- =====================================================
-     TOAST
-====================================================== -->
+     TOAST DE CONFIRMAÇÃO
+===================================================== -->
 
 <div
     class="settings-toast"
     id="settingsToast"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
 >
 
     <div class="toast-check">
-
         <i class="fa-solid fa-check"></i>
-
     </div>
 
-    <div>
-
-        <strong id="toastTitle">
-            Alterações salvas
-        </strong>
-
-        <span id="toastMessage">
-            Suas preferências foram atualizadas.
-        </span>
-
+    <div class="toast-text">
+        <strong id="toastTitle">Alterações salvas</strong>
+        <span id="toastMessage">Suas preferências foram atualizadas.</span>
     </div>
 
 </div>
 
-
-
 <!-- =====================================================
      JAVASCRIPT
-====================================================== -->
+===================================================== -->
 
 <script>
+    "use strict";
 
     /* =====================================================
-       MENU DE CONFIGURAÇÕES
-    ====================================================== */
+       UTILITÁRIOS
+    ===================================================== */
 
-    const settingsButtons =
-        document.querySelectorAll(".settings-nav button");
+    const $ = (selector, parent = document) =>
+        parent.querySelector(selector);
 
-    const settingsSections =
-        document.querySelectorAll(".settings-section");
-
-
-    settingsButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const target =
-                button.dataset.section;
-
-
-            settingsButtons.forEach(item => {
-                item.classList.remove("active");
-            });
-
-
-            settingsSections.forEach(section => {
-                section.classList.remove("active");
-            });
-
-
-            button.classList.add("active");
-
-
-            document
-                .getElementById(target)
-                .classList.add("active");
-
-        });
-
-    });
-
-
+    const $$ = (selector, parent = document) =>
+        Array.from(parent.querySelectorAll(selector));
 
     /* =====================================================
-       PREVIEW DO NOME
-    ====================================================== */
+       TOAST / MENSAGENS DE CONFIRMAÇÃO
+    ===================================================== */
 
-    const fullName =
-        document.getElementById("fullName");
-
-    const profilePreviewName =
-        document.getElementById("profilePreviewName");
-
-
-    fullName.addEventListener("input", () => {
-
-        profilePreviewName.textContent =
-            fullName.value.trim() || "Seu nome";
-
-    });
-
-
-
-    /* =====================================================
-       TOAST
-    ====================================================== */
-
-    const toast =
-        document.getElementById("settingsToast");
-
+    const toast = $("#settingsToast");
+    let toastTimer = null;
 
     function showToast(
         title = "Alterações salvas",
         message = "Suas preferências foram atualizadas."
     ) {
-
-        document.getElementById("toastTitle").textContent =
-            title;
-
-        document.getElementById("toastMessage").textContent =
-            message;
-
+        $("#toastTitle").textContent = title;
+        $("#toastMessage").textContent = message;
 
         toast.classList.add("show");
 
+        if (toastTimer) {
+            clearTimeout(toastTimer);
+        }
 
-        setTimeout(() => {
-
+        toastTimer = setTimeout(() => {
             toast.classList.remove("show");
-
-        }, 2800);
-
+            toastTimer = null;
+        }, 3200);
     }
 
+    /* =====================================================
+       MENU DE CONFIGURAÇÕES
+    ===================================================== */
 
+    const settingsButtons = $$(".settings-nav button");
+    const settingsSections = $$(".settings-section");
+
+    function activateSection(sectionId, moveFocus = false) {
+        const targetSection = document.getElementById(sectionId);
+
+        if (!targetSection) {
+            return;
+        }
+
+        settingsButtons.forEach(button => {
+            const isActive = button.dataset.section === sectionId;
+
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-selected", String(isActive));
+        });
+
+        settingsSections.forEach(section => {
+            const isActive = section.id === sectionId;
+
+            section.classList.toggle("active", isActive);
+            section.setAttribute("aria-hidden", String(!isActive));
+        });
+
+        if (moveFocus) {
+            targetSection.setAttribute("tabindex", "-1");
+            targetSection.focus({ preventScroll: true });
+        }
+    }
+
+    settingsButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            activateSection(button.dataset.section);
+        });
+    });
+
+    activateSection("perfil");
+
+    /* =====================================================
+       PREVIEW DO NOME E INICIAIS
+    ===================================================== */
+
+    const fullNameInput = $("#fullName");
+    const profilePreviewName = $("#profilePreviewName");
+    const profileAvatar = $("#profileAvatar");
+    const sidebarAvatar = $(".avatar");
+    const headerAvatar = $(".header-avatar");
+
+    function getInitials(name) {
+        const words = name.trim().split(/\s+/).filter(Boolean);
+
+        if (words.length === 0) {
+            return "ED";
+        }
+
+        if (words.length === 1) {
+            return words[0].slice(0, 2).toUpperCase();
+        }
+
+        return (
+            words[0][0] + words[words.length - 1][0]
+        ).toUpperCase();
+    }
+
+    function updateProfilePreview() {
+        const name = fullNameInput.value.trim();
+
+        profilePreviewName.textContent = name || "Seu nome";
+
+        const initials = getInitials(name || "Eduarda");
+
+        profileAvatar.textContent = initials;
+        sidebarAvatar.textContent = initials;
+        headerAvatar.textContent = initials;
+    }
+
+    fullNameInput.addEventListener("input", updateProfilePreview);
 
     /* =====================================================
        SALVAR PERFIL
-    ====================================================== */
+    ===================================================== */
 
-    document
-        .getElementById("saveProfile")
-        .addEventListener("click", () => {
+    $("#profileForm").addEventListener("submit", event => {
+        event.preventDefault();
 
-            showToast(
-                "Perfil atualizado",
-                "As alterações foram aplicadas nesta página."
-            );
+        const form = event.currentTarget;
 
-        });
+        if (!form.reportValidity()) {
+            return;
+        }
 
+        updateProfilePreview();
 
+        showToast(
+            "Perfil atualizado",
+            "As alterações foram aplicadas nesta página."
+        );
+    });
 
     /* =====================================================
        SALVAR NOTIFICAÇÕES
-    ====================================================== */
+    ===================================================== */
 
-    document
-        .getElementById("saveNotifications")
-        .addEventListener("click", () => {
+    $("#notificationsForm").addEventListener("submit", event => {
+        event.preventDefault();
 
-            showToast(
-                "Notificações atualizadas",
-                "Suas preferências foram alteradas."
-            );
+        const preferences = {};
 
+        $$("#notificationsForm input[type='checkbox']").forEach(input => {
+            preferences[input.name] = input.checked;
         });
 
+        showToast(
+            "Notificações atualizadas",
+            "Suas preferências foram alteradas."
+        );
 
+        // As preferências estão disponíveis em "preferences".
+        // A persistência definitiva depende da integração com o Django.
+    });
 
     /* =====================================================
-       TEMA
-    ====================================================== */
+       SALVAR PRIVACIDADE
+    ===================================================== */
 
-    const themeOptions =
-        document.querySelectorAll(".theme-option");
+    $("#privacyForm").addEventListener("submit", event => {
+        event.preventDefault();
 
+        const preferences = {};
+
+        $$("#privacyForm input[type='checkbox']").forEach(input => {
+            preferences[input.name] = input.checked;
+        });
+
+        showToast(
+            "Privacidade atualizada",
+            "Suas preferências foram aplicadas nesta página."
+        );
+
+        // A persistência definitiva depende da integração com o Django.
+    });
+
+    /* =====================================================
+       TEMA: CLARO, ESCURO E SISTEMA
+    ===================================================== */
+
+    const themeOptions = $$(".theme-option");
+    const systemThemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function applyTheme(theme) {
+        const isDark = theme === "dark" ||
+            (theme === "system" && systemThemeQuery.matches);
+
+        document.body.classList.toggle("dark-theme", isDark);
+
+        themeOptions.forEach(option => {
+            const isActive = option.dataset.theme === theme;
+
+            option.classList.toggle("active", isActive);
+            option.setAttribute("aria-pressed", String(isActive));
+        });
+    }
+
+    function getSavedTheme() {
+        try {
+            return localStorage.getItem("achadosIFPITheme") || "light";
+        } catch (error) {
+            return "light";
+        }
+    }
+
+    function saveTheme(theme) {
+        try {
+            localStorage.setItem("achadosIFPITheme", theme);
+        } catch (error) {
+            // O tema continua funcionando mesmo se o armazenamento
+            // do navegador estiver indisponível.
+        }
+    }
 
     themeOptions.forEach(option => {
-
         option.addEventListener("click", () => {
+            const theme = option.dataset.theme;
 
-            themeOptions.forEach(item => {
-                item.classList.remove("active");
-            });
+            applyTheme(theme);
+            saveTheme(theme);
 
-
-            option.classList.add("active");
-
-
-            const theme =
-                option.dataset.theme;
-
-
-            if (theme === "dark") {
-
-                document.body.style.background =
-                    "#0f172a";
-
-            } else {
-
-                document.body.style.background =
-                    "";
-
-            }
-
+            const themeNames = {
+                light: "clara",
+                dark: "escura",
+                system: "do sistema"
+            };
 
             showToast(
                 "Aparência atualizada",
-                "A preferência visual foi selecionada."
+                `A aparência ${themeNames[theme]} foi selecionada.`
             );
-
         });
-
     });
 
+    systemThemeQuery.addEventListener("change", () => {
+        if (getSavedTheme() === "system") {
+            applyTheme("system");
+        }
+    });
 
+    applyTheme(getSavedTheme());
 
     /* =====================================================
-       MODAL DE SENHA
-    ====================================================== */
+       VERIFICAÇÃO EM DUAS ETAPAS
+    ===================================================== */
 
-    const passwordModal =
-        document.getElementById("passwordModal");
+    $("#twoFactorAuth").addEventListener("change", event => {
+        const enabled = event.target.checked;
 
-    const changePassword =
-        document.getElementById("changePassword");
-
-    const closePasswordModal =
-        document.getElementById("closePasswordModal");
-
-    const cancelPassword =
-        document.getElementById("cancelPassword");
-
-
-    changePassword.addEventListener("click", () => {
-
-        passwordModal.classList.add("active");
-
+        showToast(
+            enabled
+                ? "Opção selecionada"
+                : "Opção desativada",
+            enabled
+                ? "A verificação em duas etapas foi selecionada."
+                : "A verificação em duas etapas foi desmarcada."
+        );
     });
 
+    /* =====================================================
+       SALVAR CONFIGURAÇÕES DE SEGURANÇA
+    ===================================================== */
 
-    function closePassword() {
+    $("#securityForm").addEventListener("submit", event => {
+        event.preventDefault();
 
-        passwordModal.classList.remove("active");
+        const twoFactorEnabled = $("#twoFactorAuth").checked;
 
-        document
-            .getElementById("passwordForm")
-            .reset();
+        showToast(
+            "Opções de segurança",
+            twoFactorEnabled
+                ? "A preferência de verificação foi selecionada."
+                : "As preferências foram atualizadas nesta página."
+        );
 
+        // A ativação real da autenticação em duas etapas exige
+        // implementação no backend e não é feita apenas pelo HTML.
+    });
+
+    /* =====================================================
+       MODAL DE ALTERAÇÃO DE SENHA
+    ===================================================== */
+
+    const passwordModal = $("#passwordModal");
+    const changePasswordButton = $("#changePassword");
+    const closePasswordModalButton = $("#closePasswordModal");
+    const cancelPasswordButton = $("#cancelPassword");
+    const passwordForm = $("#passwordForm");
+
+    let previousFocusedElement = null;
+
+    function openPasswordModal() {
+        previousFocusedElement = document.activeElement;
+
+        passwordModal.classList.add("active");
+        passwordModal.setAttribute("aria-hidden", "false");
+
+        document.body.style.overflow = "hidden";
+
+        $("#currentPassword").focus();
     }
 
+    function closePassword() {
+        passwordModal.classList.remove("active");
+        passwordModal.setAttribute("aria-hidden", "true");
 
-    closePasswordModal.addEventListener(
-        "click",
-        closePassword
-    );
+        document.body.style.overflow = "";
 
+        passwordForm.reset();
 
-    cancelPassword.addEventListener(
-        "click",
-        closePassword
-    );
+        if (
+            previousFocusedElement &&
+            typeof previousFocusedElement.focus === "function"
+        ) {
+            previousFocusedElement.focus();
+        }
+    }
 
+    changePasswordButton.addEventListener("click", openPasswordModal);
+
+    closePasswordModalButton.addEventListener("click", closePassword);
+
+    cancelPasswordButton.addEventListener("click", closePassword);
 
     passwordModal.addEventListener("click", event => {
-
         if (event.target === passwordModal) {
             closePassword();
         }
-
     });
 
-
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && passwordModal.classList.contains("active")) {
+            closePassword();
+        }
+    });
 
     /* =====================================================
        FORMULÁRIO DE SENHA
-    ====================================================== */
+    ===================================================== */
 
-    document
-        .getElementById("passwordForm")
-        .addEventListener("submit", event => {
+    passwordForm.addEventListener("submit", event => {
+        event.preventDefault();
 
-            event.preventDefault();
+        if (!passwordForm.reportValidity()) {
+            return;
+        }
 
+        const currentPassword = $("#currentPassword").value;
+        const newPassword = $("#newPassword").value;
+        const confirmPassword = $("#confirmPassword").value;
 
-            const newPassword =
-                document.getElementById("newPassword").value;
-
-            const confirmPassword =
-                document.getElementById("confirmPassword").value;
-
-
-            if (newPassword !== confirmPassword) {
-
-                showToast(
-                    "Senhas diferentes",
-                    "Confira a confirmação da nova senha."
-                );
-
-                return;
-
-            }
-
-
-            closePassword();
-
-
+        if (!currentPassword) {
             showToast(
-                "Senha pronta para atualização",
-                "A integração com o banco poderá ser adicionada depois."
+                "Campo obrigatório",
+                "Digite sua senha atual."
             );
 
-        });
+            $("#currentPassword").focus();
+            return;
+        }
 
+        if (newPassword.length < 8) {
+            showToast(
+                "Senha muito curta",
+                "A nova senha deve ter pelo menos 8 caracteres."
+            );
 
+            $("#newPassword").focus();
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            showToast(
+                "Senhas diferentes",
+                "Confira a confirmação da nova senha."
+            );
+
+            $("#confirmPassword").focus();
+            return;
+        }
+
+        if (currentPassword === newPassword) {
+            showToast(
+                "Escolha outra senha",
+                "A nova senha deve ser diferente da senha atual."
+            );
+
+            $("#newPassword").focus();
+            return;
+        }
+
+        closePassword();
+
+        showToast(
+            "Formulário validado",
+            "A alteração real da senha exige integração com o sistema de autenticação."
+        );
+    });
 
     /* =====================================================
        MENU MOBILE
-    ====================================================== */
+    ===================================================== */
 
-    const mobileMenuButton =
-        document.getElementById("mobileMenuButton");
+    const mobileMenuButton = $("#mobileMenuButton");
+    const sidebar = $("#sidebar");
+    const sidebarOverlay = $("#sidebarOverlay");
 
-    const sidebar =
-        document.getElementById("sidebar");
+    function openMobileMenu() {
+        sidebar.classList.add("open");
+        sidebarOverlay.classList.add("active");
 
+        mobileMenuButton.setAttribute("aria-expanded", "true");
+        mobileMenuButton.setAttribute("aria-label", "Fechar menu");
 
-    if (mobileMenuButton) {
+        const icon = $("i", mobileMenuButton);
 
-        mobileMenuButton.addEventListener("click", () => {
-
-            sidebar.classList.toggle("open");
-
-        });
-
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-xmark");
     }
 
+    function closeMobileMenu() {
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("active");
 
+        mobileMenuButton.setAttribute("aria-expanded", "false");
+        mobileMenuButton.setAttribute("aria-label", "Abrir menu");
+
+        const icon = $("i", mobileMenuButton);
+
+        icon.classList.remove("fa-xmark");
+        icon.classList.add("fa-bars");
+    }
+
+    mobileMenuButton.addEventListener("click", () => {
+        if (sidebar.classList.contains("open")) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
+    });
+
+    sidebarOverlay.addEventListener("click", closeMobileMenu);
+
+    $$(".menu a", sidebar).forEach(link => {
+        link.addEventListener("click", () => {
+            if (window.innerWidth <= 760) {
+                closeMobileMenu();
+            }
+        });
+    });
+
+    document.addEventListener("keydown", event => {
+        if (
+            event.key === "Escape" &&
+            sidebar.classList.contains("open")
+        ) {
+            closeMobileMenu();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 760) {
+            closeMobileMenu();
+        }
+    });
 
     /* =====================================================
-       LOGOUT VISUAL
-    ====================================================== */
+       BUSCA GLOBAL
+    ===================================================== */
 
-    document
-        .getElementById("logoutButton")
-        .addEventListener("click", () => {
+    $("#globalSearchForm").addEventListener("submit", event => {
+        event.preventDefault();
 
-            showToast(
-                "Sessão",
-                "A autenticação será integrada posteriormente."
-            );
+        const query = $("#globalSearchInput").value.trim();
 
-        });
+        if (!query) {
+            $("#globalSearchInput").focus();
+            return;
+        }
+
+        const searchUrl = new URL("objetos.html", window.location.href);
+
+        searchUrl.searchParams.set("q", query);
+
+        window.location.href = searchUrl.toString();
+    });
+
+    document.addEventListener("keydown", event => {
+        const target = event.target;
+
+        const isTyping =
+            target instanceof HTMLInputElement ||
+            target instanceof HTMLTextAreaElement ||
+            target instanceof HTMLSelectElement ||
+            target.isContentEditable;
+
+        if (
+            event.key === "/" &&
+            !isTyping &&
+            window.innerWidth > 760
+        ) {
+            event.preventDefault();
+            $("#globalSearchInput").focus();
+        }
+    });
+
+    /* =====================================================
+       SAIR DA CONTA
+    ===================================================== */
+
+    $("#logoutButton").addEventListener("click", () => {
+        showToast(
+            "Sessão",
+            "A autenticação e a saída da conta serão integradas posteriormente."
+        );
+    });
 
 </script>
 
-
 </body>
-
 </html>
-```
